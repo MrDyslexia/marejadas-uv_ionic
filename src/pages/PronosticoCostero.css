@@ -1,0 +1,173 @@
+.loading-content {
+  --background: #f5f5f5;
+}
+
+.centrado {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.texto-indicador {
+  margin-top: 16px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.header-toolbar {
+  --background: var(--ion-color-primary);
+}
+
+.header-content {
+  text-align: left;
+}
+
+.header-title {
+  font-size: 1.375rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.header-subtitle {
+  font-size: 0.875rem;
+  margin: 4px 0 0 0;
+  opacity: 0.8;
+}
+
+.header-button {
+  margin: 0;
+  --background: rgba(255, 255, 255, 0.2);
+  --border-radius: 8px;
+}
+
+.header-button-text {
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-left: 4px;
+}
+
+.pronostico-content {
+  --background: #f5f5f5;
+}
+
+.lista-container {
+  padding: 16px;
+}
+
+.tarjeta {
+  border-radius: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.card-header {
+  padding: 20px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.title-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.tarjeta-titulo {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin: 0 0 0 12px;
+  flex: 1;
+}
+
+.info-grid {
+  padding: 0;
+}
+
+.info-card {
+  background-color: #f8fafc;
+  padding: 16px;
+  border-radius: 12px;
+  text-align: center;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.info-label {
+  font-size: 0.75rem;
+  margin: 4px 0 2px 0;
+}
+
+.info-value {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.sectores-preview {
+  padding: 20px;
+  padding-top: 16px;
+}
+
+.sectores-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin: 0 0 12px 0;
+}
+
+.sectores-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.sector-chip {
+  margin: 0;
+}
+
+.sector-nombre {
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+.mas-texto {
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #f8fafc;
+  border-top: 1px solid #f1f5f9;
+}
+
+.card-footer-text {
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header-content {
+    text-align: center;
+  }
+  
+  .lista-container {
+    padding: 12px;
+  }
+  
+  .card-header {
+    padding: 16px;
+  }
+  
+  .sectores-preview {
+    padding: 16px;
+  }
+}

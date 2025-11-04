@@ -1,0 +1,144 @@
+.home-content {
+  --background: #f5f5f5;
+}
+
+.header-subtitle {
+  font-size: 0.8rem;
+  opacity: 0.8;
+  margin-right: 16px;
+}
+
+/* Banner de login */
+.login-banner {
+  margin: 16px;
+  border-radius: 16px;
+}
+
+.banner-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.banner-icon {
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.banner-text {
+  flex: 1;
+}
+
+.banner-text p {
+  margin: 0;
+  line-height: 1.4;
+  color: var(--ion-color-dark);
+}
+
+.banner-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.banner-button {
+  margin: 0;
+}
+
+/* Sección de servicios */
+.featured-section {
+  padding: 16px;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin: 0 0 8px 0;
+  color: var(--ion-color-dark);
+}
+
+.section-description {
+  font-size: 0.9rem;
+  margin: 0 0 16px 0;
+  color: var(--ion-color-medium);
+}
+
+/* Sección de información */
+.info-section {
+  margin: 16px;
+  border-radius: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.info-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 0 0 12px 0;
+}
+
+.divider {
+  height: 1px;
+  background-color: var(--ion-color-light-shade);
+  margin: 12px 0;
+}
+
+.info-item {
+  --padding-start: 0;
+  --inner-padding-end: 0;
+  --border-color: var(--ion-color-light-shade);
+  --min-height: 72px;
+}
+
+.info-item:last-child {
+  --border-width: 0;
+}
+
+.info-item-title {
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0 0 4px 0;
+  color: var(--ion-color-dark);
+}
+
+.info-item-description {
+  font-size: 0.85rem;
+  margin: 0;
+  color: var(--ion-color-medium);
+}
+
+/* Footer */
+.footer {
+  padding: 16px;
+  text-align: center;
+}
+
+.footer-text {
+  font-size: 0.8rem;
+  margin: 0 0 4px 0;
+}
+
+/* Responsive design */
+@media (min-width: 768px) {
+  .featured-section {
+    padding: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .info-section {
+    max-width: calc(100% - 48px);
+    margin: 16px auto;
+  }
+
+  .banner-content {
+    align-items: center;
+  }
+}
+
+/* Efectos hover para dispositivos con mouse */
+@media (hover: hover) {
+  .info-item:hover {
+    --background: var(--ion-color-light);
+  }
+}
