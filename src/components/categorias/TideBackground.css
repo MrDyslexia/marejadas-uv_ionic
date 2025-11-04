@@ -1,0 +1,24 @@
+.tide-background {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.tide-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.waves-group {
+  opacity: 0.6;
+}
+
+.wave-middle {
+  opacity: 0.4;
+}
+
+.wave-bottom {
+  opacity: 0.35;
+}

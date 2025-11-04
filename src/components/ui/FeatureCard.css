@@ -1,0 +1,55 @@
+.feature-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.card-icon {
+  margin-right: 12px;
+}
+
+.card-title {
+  font-weight: bold;
+  margin: 0;
+  flex: 1;
+}
+
+.image-container {
+  height: 150px;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 12px;
+  background-color: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.placeholder-image {
+  text-align: center;
+}
+
+.placeholder-image p {
+  margin: 0;
+  opacity: 0.8;
+}
+
+.card-description {
+  margin-bottom: 16px;
+  line-height: 1.4;
+  opacity: 0.9;
+}
+
+.card-button {
+  --border-radius: 8px;
+  margin-top: 8px;
+}
