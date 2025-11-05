@@ -2,7 +2,6 @@ import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import {
   IonApp,
-  IonIcon,
   IonLabel,
   IonRouterOutlet,
   IonTabBar,
@@ -12,7 +11,7 @@ import {
 } from '@ionic/react';
 import { ChartSpline, FolderOpen, HomeIcon, Waves} from 'lucide-react';
 import { IonReactRouter } from '@ionic/react-router';
-import LoginScreen from './pages/Login';
+import LoginScreen from './pages/LoginScreen';
 import Home from './pages/Home';
 import PronosticoCostero from './pages/PronosticoCostero';
 //import PronosticoOceánico from './pages/PronosticoOceánico';
