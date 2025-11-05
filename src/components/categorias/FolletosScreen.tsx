@@ -168,9 +168,10 @@ const FolletosScreen: React.FC<FolletosScreenProps> = ({ onBack }) => {
           {folletos.map((folleto) => (
             <IonCard key={folleto.id} className="folder-container">
               <IonCardContent>
-                <div 
+                <button 
                   className="folder-header" 
                   onClick={() => toggleFolder(folleto.id)}
+                  type="button"
                 >
                   <div className="folder-info">
                     {renderFolderPreview(folleto.imagenes)}
@@ -192,9 +193,10 @@ const FolletosScreen: React.FC<FolletosScreenProps> = ({ onBack }) => {
                     <IonIcon
                       icon={expandedFolders[folleto.id] ? chevronUp : chevronDown}
                       color="medium"
+                      size="small"
                     />
                   </div>
-                </div>
+                </button>
 
                 {expandedFolders[folleto.id] && (
                   <div className="expanded-content">
@@ -203,7 +205,7 @@ const FolletosScreen: React.FC<FolletosScreenProps> = ({ onBack }) => {
                         {folleto.imagenes.map((img, imageIndex) => (
                           <IonCol size="6" key={img.id}>
                             <div className="image-wrapper">
-                              <div 
+                              <button 
                                 className="image-container"
                                 onClick={() => expandImage(folleto, imageIndex)}
                               >
@@ -220,7 +222,7 @@ const FolletosScreen: React.FC<FolletosScreenProps> = ({ onBack }) => {
                                     <IonSpinner color="primary" />
                                   </div>
                                 )}
-                              </div>
+                              </button>
                               <IonText color="medium">
                                 <p className="image-description">{img.descripcion}</p>
                               </IonText>

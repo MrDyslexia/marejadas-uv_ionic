@@ -2,15 +2,15 @@ import React from 'react';
 import {
   IonCard,
   IonCardContent,
-  IonIcon,
   IonText,
   IonButton,
 } from '@ionic/react';
-
+import { LucideIcon } from 'lucide-react';
+import './FeatureCard.css';
 interface FeatureCardProps {
   title: string;
   description: string;
-  icon: string;
+  icon: LucideIcon;
   gradient: string[];
   onPress: () => void;
 }
@@ -18,7 +18,7 @@ interface FeatureCardProps {
 const FeatureCard: React.FC<FeatureCardProps> = ({
   title,
   description,
-  icon,
+  icon: Icon,
   gradient,
   onPress,
 }) => {
@@ -30,13 +30,12 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
   };
 
   return (
-    <IonCard style={cardStyle} className="feature-card">
+    <IonCard style={cardStyle} className="feature-card" >
       <IonCardContent>
         <div className="card-header">
-          <IonIcon 
-            icon={icon} 
-            color="light" 
-            size="large" 
+          <Icon 
+            color="white" 
+            size={32} 
             className="card-icon"
           />
           <IonText color="light">
@@ -45,11 +44,10 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
         </div>
 
         <div className="image-container">
-          <div className="placeholder-image">
-            <IonText color="light">
-              <p>Imagen ilustrativa</p>
-            </IonText>
-          </div>
+          <Icon 
+            color="white" 
+            size={64} 
+          />
         </div>
 
         <IonText color="light">
