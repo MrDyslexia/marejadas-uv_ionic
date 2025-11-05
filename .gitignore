@@ -7,7 +7,7 @@
 /android
 # testing
 /coverage
-
+/src/environments/
 # production
 /build
 
