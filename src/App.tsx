@@ -11,7 +11,7 @@ import {
 } from '@ionic/react';
 import { ChartSpline, FolderOpen, HomeIcon, Waves} from 'lucide-react';
 import { IonReactRouter } from '@ionic/react-router';
-import LoginScreen from './pages/LoginScreen';
+
 import Home from './pages/Home';
 import PronosticoCostero from './pages/PronosticoCostero';
 //import PronosticoOceánico from './pages/PronosticoOceánico';
@@ -42,9 +42,7 @@ const App: React.FC = () => (
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
-          <Route exact path="/login">
-            <LoginScreen />
-          </Route>
+
           <Route exact path="/home">
             <Home />
           </Route>
@@ -57,11 +55,8 @@ const App: React.FC = () => (
           <Route exact path="/categorias">
             <CategoriesView />
           </Route>
-          <Route exact path="/home">
-            <Home />
-          </Route>
           <Route exact path="/">
-            <Redirect to="/login" />
+            <Redirect to="/home" />
           </Route>
         </IonRouterOutlet>
         <IonTabBar slot="bottom">

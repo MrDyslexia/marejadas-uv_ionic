@@ -20,19 +20,17 @@ import {
   helpCircleOutline,
   mailOutline,
   chevronForward,
-  saveOutline,
-  statsChartOutline,
-  folderOpenOutline,
 } from "ionicons/icons";
+import { Waves,FolderOpen, ChartSpline} from "lucide-react";
 import { useHistory } from "react-router-dom";
 import FeatureCard from "../components/ui/FeatureCard";
 import "./Home.css";
 
 const Home: React.FC = () => {
-  const [bannerVisible, setBannerVisible] = useState(true);
+  const [bannerVisible, setBannerVisible] = useState(false);
   const [showLoginAlert, setShowLoginAlert] = useState(false);
   const history = useHistory();
-
+  
   const handleBannerLogin = () => {
     history.push("/login");
   };
@@ -51,10 +49,10 @@ const Home: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar color="primary">
+      <IonHeader >
+        <IonToolbar color="primary" className="toolbar">
           <IonTitle>Marejadas UV</IonTitle>
-          <IonText slot="end" className="header-subtitle">
+          <IonText className="header-subtitle">
             Información oceánica de Chile
           </IonText>
         </IonToolbar>
@@ -117,23 +115,23 @@ const Home: React.FC = () => {
           <FeatureCard
             title="Pronóstico Costero"
             description="Acá encontrarás el pronóstico de oleaje para los próximos 7 días en el Océano Pacífico y las principales ciudades costeras de Chile. Este pronóstico indica el comportamiento esperado en la zona oceánica (lejos de la costa), y puede dar una idea del oleaje esperado en la costa, que dependerá de la orientación de ésta y la dirección de llegada del oleaje."
-            icon={saveOutline}
+            icon={Waves}
             gradient={["#4A90E2", "#5C6BC0"]}
-            onPress={() => handleFeaturePress("/pc")}
+            onPress={() => handleFeaturePress("/pronostico-costero")}
           />
 
           <FeatureCard
             title="Pronóstico Oceánico"
             description="Aquí encontrarás el pronóstico de oleaje para los próximos 7 días en las principales bahías. Este pronóstico, calculado a una profundidad de 20 metros, indica cómo será el comportamiento del oleaje en la costa."
-            icon={statsChartOutline}
+            icon={ChartSpline}
             gradient={["#26A69A", "#00796B"]}
-            onPress={() => handleFeaturePress("/po")}
+            onPress={() => handleFeaturePress("/pronostico-oceanico")}
           />
 
           <FeatureCard
             title="Categorías"
             description="Explora material educativo como folletos y videos animados diseñados para mejorar tu comprensión del pronóstico marítimo."
-            icon={folderOpenOutline}
+            icon={FolderOpen}
             gradient={["#8E24AA", "#6A1B9A"]}
             onPress={() => handleFeaturePress("/categorias")}
           />

@@ -5,9 +5,18 @@
 .header-subtitle {
   font-size: 0.8rem;
   opacity: 0.8;
-  margin-right: 16px;
 }
-
+.toolbar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 0 16px;
+  box-sizing: border-box;
+  text-align: center;
+}
 /* Banner de login */
 .login-banner {
   margin: 16px;
