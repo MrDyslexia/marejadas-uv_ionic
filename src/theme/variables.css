@@ -234,3 +234,106 @@ http://ionicframework.com/docs/theming/ */
     --ion-card-background: #1e1e1e;
   }
 }
+/* Asegurar que la app use toda la pantalla */
+/* Variables CSS para modo claro (por defecto) */
+:root {
+  /* Colores de fondo */
+  --ion-background-color: #ffffff;
+  --ion-background-color-rgb: 255,255,255;
+  
+  /* Colores de texto */
+  --ion-text-color: #000000;
+  --ion-text-color-rgb: 0,0,0;
+  
+  /* Colores para componentes */
+  --ion-color-step-50: #f2f2f2;
+  --ion-color-step-100: #e6e6e6;
+  --ion-color-step-150: #d9d9d9;
+  --ion-color-step-200: #cccccc;
+  --ion-color-step-250: #bfbfbf;
+  --ion-color-step-300: #b3b3b3;
+  --ion-color-step-350: #a6a6a6;
+  --ion-color-step-400: #999999;
+  --ion-color-step-450: #8c8c8c;
+  --ion-color-step-500: #808080;
+  
+  /* Colores específicos de Ionic */
+  --ion-item-background: #ffffff;
+  --ion-card-background: #f8f9fa;
+  --ion-toolbar-background: #f8f9fa;
+  --ion-tab-bar-background: #ffffff;
+}
+
+/* Variables CSS para modo oscuro */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Colores de fondo */
+    --ion-background-color: #121212;
+    --ion-background-color-rgb: 18,18,18;
+    
+    /* Colores de texto */
+    --ion-text-color: #ffffff;
+    --ion-text-color-rgb: 255,255,255;
+    
+    /* Colores para componentes */
+    --ion-color-step-50: #1e1e1e;
+    --ion-color-step-100: #2a2a2a;
+    --ion-color-step-150: #363636;
+    --ion-color-step-200: #414141;
+    --ion-color-step-250: #4d4d4d;
+    --ion-color-step-300: #595959;
+    --ion-color-step-350: #656565;
+    --ion-color-step-400: #717171;
+    --ion-color-step-450: #7d7d7d;
+    --ion-color-step-500: #898989;
+    
+    /* Colores específicos de Ionic */
+    --ion-item-background: #1e1e1e;
+    --ion-card-background: #1e1e1e;
+    --ion-toolbar-background: #1f1f1f;
+    --ion-tab-bar-background: #1f1f1f;
+  }
+}
+
+/* Clase dark para cuando se activa manualmente */
+body.dark {
+  /* Colores de fondo */
+  --ion-background-color: #121212;
+  --ion-background-color-rgb: 18,18,18;
+  
+  /* Colores de texto */
+  --ion-text-color: #ffffff;
+  --ion-text-color-rgb: 255,255,255;
+  
+  /* Colores para componentes */
+  --ion-color-step-50: #1e1e1e;
+  --ion-color-step-100: #2a2a2a;
+  --ion-color-step-150: #363636;
+  --ion-color-step-200: #414141;
+  --ion-color-step-250: #4d4d4d;
+  --ion-color-step-300: #595959;
+  --ion-color-step-350: #656565;
+  --ion-color-step-400: #717171;
+  --ion-color-step-450: #7d7d7d;
+  --ion-color-step-500: #898989;
+  
+  /* Colores específicos de Ionic */
+  --ion-item-background: #1e1e1e;
+  --ion-card-background: #1e1e1e;
+  --ion-toolbar-background: #1f1f1f;
+  --ion-tab-bar-background: #1f1f1f;
+}
+
+/* Para el modo inmersivo */
+ion-app {
+  background: var(--ion-background-color) !important;
+}
+
+ion-content {
+  --padding-top: 0px !important;
+  --padding-bottom: 0px !important;
+  --padding-start: 0px !important;
+  --padding-end: 0px !important;
+  --offset-top: 0px !important;
+  --offset-bottom: 0px !important;
+}
