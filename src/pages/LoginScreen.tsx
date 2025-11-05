@@ -1,4 +1,3 @@
-import React from "react";
 import { useState } from "react";
 import {
   IonContent,
@@ -14,6 +13,8 @@ import {
   IonCol,
   IonCard,
   IonCardContent,
+  useIonAlert,
+  useIonToast,
 } from "@ionic/react";
 import {
   logoGoogle,
@@ -22,7 +23,6 @@ import {
   mail,
 } from "ionicons/icons";
 import { useHistory } from "react-router-dom";
-import { useIonAlert, useIonToast } from "@ionic/react";
 import "./LoginScreen.css";
 
 // Componente temporal para el fondo (reemplaza con tu TideBackground)
