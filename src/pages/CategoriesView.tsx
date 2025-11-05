@@ -47,7 +47,7 @@ const CategoriesView: React.FC = () => {
 
   // Vista principal
   return (
-    <IonPage>
+    <IonPage className="content">
       <IonContent fullscreen className="categories-content">
         {/* Fondo SVG */}
         <div className="background-container">
