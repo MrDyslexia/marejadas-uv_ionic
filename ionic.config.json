@@ -1,5 +1,7 @@
 {
   "name": "MarejadasUV",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "react"
 }
