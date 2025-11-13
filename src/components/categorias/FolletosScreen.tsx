@@ -27,7 +27,6 @@ import {
   chevronForward,
   chevronBackOutline
 } from "ionicons/icons";
-import { useHistory } from "react-router-dom";
 import data from "../../data/data.json";
 import "./FolletosScreen.css";
 
@@ -50,7 +49,6 @@ const FolletosScreen: React.FC<FolletosScreenProps> = ({ onBack }) => {
   const [expandedFolders, setExpandedFolders] = useState<{ [key: string]: boolean }>({});
   const [selectedImage, setSelectedImage] = useState<{urls: string[], index: number} | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const history = useHistory();
 
   // Manejar carga de imágenes con IonImg
   const handleImageLoad = (id: string) => {

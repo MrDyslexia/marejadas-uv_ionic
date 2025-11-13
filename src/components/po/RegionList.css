@@ -1,0 +1,257 @@
+.region-list-container {
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
+  margin: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.region-list-header {
+  margin-bottom: 20px;
+}
+
+.title-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-title {
+  font-size: 22px;
+  font-weight: bold;
+  color: var(--ion-color-dark);
+  margin: 0;
+}
+
+.regions-grid {
+  padding: 0;
+}
+
+.region-card {
+  margin: 8px 0;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.region-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.region-card.active {
+  border: 2px solid var(--ion-color-primary);
+}
+
+.region-card-content {
+  padding: 0;
+}
+
+.card-gradient {
+  background: linear-gradient(135deg, #34b1fd 0%, #1863b5 100%);
+  padding: 20px;
+  border-radius: 16px;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.icon-container {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.region-info {
+  flex: 1;
+}
+
+.region-name {
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  margin: 0 0 4px 0;
+}
+
+.region-coords {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+}
+
+.divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.3);
+  margin: 12px 0;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ocean-data-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.data-preview-text {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 4px 0 0 0;
+  text-align: center;
+}
+
+.view-details-button {
+  --background: rgba(255, 255, 255, 0.2);
+  --border-radius: 20px;
+  --color: white;
+  --border-color: rgba(255, 255, 255, 0.3);
+  --border-width: 1px;
+  --border-style: solid;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 8px;
+  --padding-bottom: 8px;
+  margin: 0;
+}
+
+.view-details-text {
+  font-size: 12px;
+  font-weight: 500;
+  margin-right: 4px;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 16px;
+  gap: 8px;
+}
+
+.pagination-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background-color: var(--ion-color-medium);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pagination-dot.active {
+  width: 16px;
+  background-color: var(--ion-color-primary);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .region-list-container {
+    margin: 8px;
+    padding: 12px;
+  }
+
+  .section-title {
+    font-size: 20px;
+  }
+
+  .card-gradient {
+    padding: 16px;
+  }
+
+  .region-name {
+    font-size: 16px;
+  }
+
+  .card-footer {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+
+  .ocean-data-preview {
+    flex-direction: row;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .data-preview-text {
+    margin: 0;
+    font-size: 14px;
+  }
+
+  .view-details-button {
+    --padding-start: 12px;
+    --padding-end: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .region-list-container {
+    margin: 4px;
+    padding: 8px;
+  }
+
+  .section-title {
+    font-size: 18px;
+  }
+
+  .card-gradient {
+    padding: 12px;
+  }
+
+  .card-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
+  }
+
+  .icon-container {
+    margin-right: 0;
+  }
+
+  .region-name {
+    font-size: 16px;
+  }
+
+  .region-coords {
+    font-size: 11px;
+  }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.region-card {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Efectos de hover mejorados */
+.region-card:hover .card-gradient {
+  background: linear-gradient(135deg, #34b1fd 0%, #1a4d8c 100%);
+}
+
+.view-details-button:hover {
+  --background: rgba(255, 255, 255, 0.3);
+}

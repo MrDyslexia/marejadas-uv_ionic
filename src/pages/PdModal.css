@@ -1,0 +1,300 @@
+/* Enhanced modal styles with modern ocean-inspired design */
+
+.modal-content {
+  --background: linear-gradient(180deg, #f0f9ff 0%, #e0f2fe 100%);
+}
+
+.subtitle-toolbar {
+  --min-height: 40px;
+  opacity: 0.9;
+}
+
+/* Loading & Error States */
+.loading-container {
+  height: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border-radius: 16px;
+}
+
+.error-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 24px;
+}
+
+/* Enhanced Card Styles */
+.forecast-card {
+  margin: 16px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(14, 116, 144, 0.1);
+  background: white;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.forecast-card:hover {
+  box-shadow: 0 8px 24px rgba(14, 116, 144, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Card Title with Icon */
+.card-title-enhanced {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #0e7490;
+}
+
+.title-icon-wrapper {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(6, 182, 212, 0.2);
+}
+
+.card-icon-enhanced {
+  font-size: 22px;
+  color: white;
+}
+
+.badge-enhanced {
+  margin-left: auto;
+  font-weight: 600;
+  height: 28px;
+  --background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+  box-shadow: 0 2px 6px rgba(6, 182, 212, 0.2);
+}
+
+/* Enhanced Image Container */
+.image-container.enhanced {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  margin: 12px 0;
+  box-shadow: inset 0 2px 8px rgba(14, 116, 144, 0.08);
+}
+
+.expand-button-enhanced {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 1;
+  --background: rgba(6, 182, 212, 0.95);
+  --background-hover: rgba(6, 182, 212, 1);
+  --border-radius: 12px;
+  width: 44px;
+  height: 44px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.expand-button-enhanced:hover {
+  transform: scale(1.1);
+}
+
+.map-image {
+  width: 100%;
+  height: 220px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.map-image:hover {
+  transform: scale(1.02);
+}
+
+.data-image {
+  width: 100%;
+  height: 250px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.data-image:hover {
+  transform: scale(1.02);
+}
+
+/* Enhanced Marker Cards */
+.marker-card-enhanced {
+  background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 100%);
+  padding: 16px;
+  border-radius: 12px;
+  border-left: 4px solid #06b6d4;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(14, 116, 144, 0.08);
+  transition: all 0.3s ease;
+}
+
+.marker-card-enhanced:hover {
+  box-shadow: 0 4px 16px rgba(14, 116, 144, 0.12);
+  transform: translateX(4px);
+}
+
+.marker-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.marker-icon-wrapper {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 18px;
+}
+
+.marker-name {
+  font-weight: 600;
+  font-size: 16px;
+  color: #0e7490;
+  margin: 0;
+}
+
+.marker-coords {
+  font-size: 14px;
+  color: #64748b;
+  font-family: "Courier New", monospace;
+  margin: 0;
+  padding-left: 44px;
+}
+
+/* Enhanced Sector Selection */
+.sector-scroll-container-enhanced {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 8px 4px;
+  margin-bottom: 20px;
+  scrollbar-width: thin;
+  scrollbar-color: #06b6d4 #e0f2fe;
+}
+
+.sector-scroll-container-enhanced::-webkit-scrollbar {
+  height: 6px;
+}
+
+.sector-scroll-container-enhanced::-webkit-scrollbar-track {
+  background: #e0f2fe;
+  border-radius: 3px;
+}
+
+.sector-scroll-container-enhanced::-webkit-scrollbar-thumb {
+  background: #06b6d4;
+  border-radius: 3px;
+}
+
+.sector-chip-enhanced {
+  cursor: pointer;
+  flex-shrink: 0;
+  font-weight: 500;
+  height: 36px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(14, 116, 144, 0.1);
+}
+
+.sector-chip-enhanced:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(14, 116, 144, 0.15);
+}
+
+.divider-enhanced {
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, #06b6d4 50%, transparent 100%);
+  margin: 24px 0;
+  opacity: 0.3;
+}
+
+/* Selected Sector Section */
+.selected-sector-container {
+  text-align: center;
+}
+
+.selected-sector-title-enhanced {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #0e7490;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Enhanced Segment/Tabs */
+.segment-enhanced {
+  margin-bottom: 20px;
+  background: #f0f9ff;
+  border-radius: 12px;
+  padding: 4px;
+}
+
+.segment-button-enhanced {
+  --indicator-color: #06b6d4;
+  --indicator-height: 3px;
+  transition: all 0.3s ease;
+}
+
+.tab-content-enhanced {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 0;
+}
+
+.tab-emoji {
+  font-size: 20px;
+  margin-bottom: 2px;
+}
+
+.tab-label {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Tab Content Container */
+.tab-content-container-enhanced {
+  width: 100%;
+  min-height: 280px;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-top: 20px;
+  background: white;
+  box-shadow: 0 2px 12px rgba(14, 116, 144, 0.08);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .forecast-card {
+    margin: 12px 8px;
+  }
+
+  .selected-sector-title-enhanced {
+    font-size: 18px;
+  }
+
+  .card-title-enhanced {
+    font-size: 16px;
+  }
+
+  .tab-label {
+    font-size: 11px;
+  }
+}

@@ -1,3 +1,4 @@
+import './FeatureCard.css';
 import React from 'react';
 import {
   IonCard,
@@ -6,7 +7,7 @@ import {
   IonButton,
 } from '@ionic/react';
 import { LucideIcon } from 'lucide-react';
-import './FeatureCard.css';
+
 interface FeatureCardProps {
   title: string;
   description: string;
@@ -46,7 +47,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
         <div className="image-container">
           <Icon 
             color="white" 
-            size={64} 
+            size={64}
           />
         </div>
 
