@@ -1,0 +1,298 @@
+.animated-map-container {
+  margin: 16px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--ion-color-dark);
+  margin: 0 0 16px 0;
+  text-align: center;
+}
+
+/* Contenedor del loader */
+.loader-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  background-color: var(--ion-color-light);
+  border-radius: 12px;
+}
+
+.loader-container p {
+  margin: 16px 0 8px 0;
+  color: var(--ion-color-medium);
+  font-size: 14px;
+}
+
+.progress-bar-container {
+  width: 80%;
+  height: 8px;
+  background-color: var(--ion-color-light-shade);
+  border-radius: 4px;
+  margin-top: 12px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: var(--ion-color-primary);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+/* Contenedor del mapa */
+.map-frame-container {
+  position: relative;
+  height: 300px;
+  background-color: var(--ion-color-light);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.image-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.expand-button {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 10;
+  --background: rgba(0, 0, 0, 0.6);
+  --border-radius: 20px;
+  width: 36px;
+  height: 36px;
+}
+
+.map-frame {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background-color: white;
+}
+
+.frame-counter {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Barra de progreso */
+.slider-track {
+  width: 100%;
+  height: 6px;
+  background-color: var(--ion-color-light-shade);
+  border-radius: 3px;
+  margin: 16px 0;
+  overflow: hidden;
+}
+
+.slider-fill {
+  height: 100%;
+  background-color: var(--ion-color-primary);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+/* Controles de animación */
+.controls-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.control-button {
+  --border-radius: 20px;
+  --padding-start: 12px;
+  --padding-end: 12px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  width: 48px;
+  height: 48px;
+}
+
+.play-pause-button {
+  --border-radius: 24px;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 16px;
+  --padding-bottom: 16px;
+  width: 56px;
+  height: 56px;
+  --background: var(--ion-color-primary);
+  --color: white;
+}
+
+/* Control de velocidad */
+.speed-control-container {
+  margin-top: 16px;
+}
+
+.speed-control-container ion-segment {
+  --background: var(--ion-color-light);
+}
+
+.speed-control-container ion-segment-button {
+  --color: var(--ion-color-medium);
+  --color-checked: var(--ion-color-primary);
+  --indicator-color: var(--ion-color-primary);
+  min-height: 36px;
+}
+
+/* Estados de hover y active */
+.control-button:hover {
+  --background: var(--ion-color-light-shade);
+}
+
+.play-pause-button:hover {
+  --background: var(--ion-color-primary-shade);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .animated-map-container {
+    margin: 8px;
+  }
+
+  .section-title {
+    font-size: 18px;
+  }
+
+  .map-frame-container {
+    height: 250px;
+  }
+
+  .controls-container {
+    gap: 12px;
+  }
+
+  .control-button {
+    width: 44px;
+    height: 44px;
+    --padding-start: 10px;
+    --padding-end: 10px;
+  }
+
+  .play-pause-button {
+    width: 52px;
+    height: 52px;
+  }
+
+  .frame-counter {
+    font-size: 11px;
+    padding: 3px 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .animated-map-container {
+    margin: 4px;
+  }
+
+  .section-title {
+    font-size: 16px;
+  }
+
+  .map-frame-container {
+    height: 200px;
+  }
+
+  .controls-container {
+    gap: 8px;
+  }
+
+  .control-button {
+    width: 40px;
+    height: 40px;
+    --padding-start: 8px;
+    --padding-end: 8px;
+  }
+
+  .play-pause-button {
+    width: 48px;
+    height: 48px;
+  }
+
+  .loader-container {
+    padding: 30px 15px;
+  }
+
+  .progress-bar-container {
+    width: 90%;
+  }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animated-map-container {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Efectos de transición para la imagen */
+.map-frame {
+  transition: opacity 0.3s ease;
+}
+
+/* Mejoras de accesibilidad */
+.control-button:focus,
+.play-pause-button:focus,
+.expand-button:focus {
+  outline: 2px solid var(--ion-color-primary);
+  outline-offset: 2px;
+}
+
+/* Estados de carga mejorados */
+.loader-container ion-spinner {
+  --color: var(--ion-color-primary);
+}
+
+/* Modo oscuro compatible */
+@media (prefers-color-scheme: dark) {
+  .animated-map-container {
+    background: var(--ion-card-background, var(--ion-background-color));
+  }
+
+  .map-frame-container {
+    background-color: var(--ion-color-step-100, #1e1e1e);
+  }
+
+  .loader-container {
+    background-color: var(--ion-color-step-50, #2a2a2a);
+  }
+
+  .progress-bar-container {
+    background-color: var(--ion-color-step-200, #3a3a3a);
+  }
+
+  .frame-counter {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--ion-text-color);
+  }
+}

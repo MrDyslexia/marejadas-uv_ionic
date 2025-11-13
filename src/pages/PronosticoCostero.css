@@ -1,5 +1,36 @@
+/* Agregando animaciones y mejorando el diseño general */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
 .loading-content {
-  --background: #f5f5f5;
+  --background: linear-gradient(135deg, #0c4a6e 0%, #0369a1 100%);
 }
 
 .centrado {
@@ -14,160 +45,507 @@
   margin-top: 16px;
   font-size: 16px;
   text-align: center;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
 }
 
 .header-toolbar {
   --background: var(--ion-color-primary);
+  --min-height: 72px;
+  padding: 0;
+}
+
+.header-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  width: 100%;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+}
+
+.header-icon-badge {
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header-icon-badge ion-icon {
+  font-size: 24px;
+  color: white;
 }
 
 .header-content {
   text-align: left;
 }
 
+.header-info {
+  flex: 1;
+}
+
 .header-title {
   font-size: 1.375rem;
   font-weight: bold;
   margin: 0;
+  color: white;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 .header-subtitle {
   font-size: 0.875rem;
   margin: 4px 0 0 0;
   opacity: 0.8;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+  line-height: 1.2;
 }
-
-.header-button {
+.map-button {
+  --background: rgba(255, 255, 255, 0.1);
+  --background-hover: rgba(255, 255, 255, 0.2);
+  --background-activated: rgba(255, 255, 255, 0.15);
+  --border-radius: 12px;
+  --padding-start: 0;
+  --padding-end: 0;
+  width: 44px;
+  height: 44px;
   margin: 0;
-  --background: rgba(255, 255, 255, 0.2);
-  --border-radius: 8px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1),
+              inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
 }
 
-.header-button-text {
-  font-size: 0.75rem;
-  font-weight: 600;
-  margin-left: 4px;
+.map-button ion-icon {
+  font-size: 32px;
+  color: white;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
+.map-button:hover {
+  transform: scale(1.05);
+  backdrop-filter: blur(25px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15),
+              inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+/* Eliminando estilos obsoletos del header anterior */
+
+/* Fondo con gradiente sutil */
 .pronostico-content {
-  --background: #f5f5f5;
+  --background: linear-gradient(180deg, #f0f9ff 0%, #e0f2fe 100%);
 }
 
 .lista-container {
-  padding: 16px;
-}
-
-.tarjeta {
-  border-radius: 16px;
-  margin-bottom: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-}
-
-.card-header {
   padding: 20px;
-  border-bottom: 1px solid #f1f5f9;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Tarjetas completamente rediseñadas */
+.tarjeta {
+  border-radius: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 20px rgba(8, 145, 178, 0.08);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.5s ease forwards;
+  opacity: 0;
+  background: white;
+  border: 1px solid rgba(8, 145, 178, 0.1);
+}
+
+.tarjeta:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(8, 145, 178, 0.15);
+}
+
+.card-content-wrapper {
+  padding: 0 !important;
+}
+
+/* Header de tarjeta con gradiente sutil */
+.card-header {
+  padding: 24px;
+  background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 100%);
+  border-bottom: 1px solid rgba(8, 145, 178, 0.08);
 }
 
 .title-row {
   display: flex;
   align-items: center;
-  margin-bottom: 16px;
+  gap: 16px;
 }
 
-.tarjeta-titulo {
-  font-size: 1.25rem;
-  font-weight: bold;
-  margin: 0 0 0 12px;
+.icon-badge {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(8, 145, 178, 0.25);
+}
+
+.icon-badge ion-icon {
+  font-size: 28px;
+  color: white;
+}
+
+.title-content {
   flex: 1;
 }
 
+.tarjeta-titulo {
+  font-size: 1.375rem;
+  font-weight: 700;
+  margin: 0;
+  color: #0c4a6e;
+  letter-spacing: -0.02em;
+}
+
+.tarjeta-descripcion {
+  font-size: 0.875rem;
+  margin: 4px 0 0 0;
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* Grid de información completamente rediseñado */
 .info-grid {
-  padding: 0;
+  padding: 24px;
 }
 
 .info-card {
-  background-color: #f8fafc;
-  padding: 16px;
-  border-radius: 12px;
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+  padding: 20px;
+  border-radius: 16px;
   text-align: center;
+  border: 1px solid rgba(8, 145, 178, 0.08);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.info-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
   height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(8, 145, 178, 0.05), transparent);
+  transition: left 0.5s ease;
+}
+
+.info-card:hover::before {
+  left: 100%;
+}
+
+.info-icon-wrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin: 0 auto 12px;
+}
+
+.info-icon-wrapper ion-icon {
+  font-size: 24px;
+  color: white;
+}
+
+.info-icon-success {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.info-icon-warning {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
 }
 
 .info-label {
   font-size: 0.75rem;
-  margin: 4px 0 2px 0;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 8px 0;
+  color: #64748b;
 }
 
 .info-value {
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 1.75rem;
+  font-weight: 700;
   margin: 0;
+  color: #0c4a6e;
+  line-height: 1;
 }
 
+.info-sublabel {
+  font-size: 0.6875rem;
+  margin: 4px 0 0 0;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+/* Sección de sectores completamente rediseñada */
 .sectores-preview {
-  padding: 20px;
-  padding-top: 16px;
+  padding: 24px;
+  background: #ffffff;
+}
+
+.sectores-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
 }
 
 .sectores-title {
   font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+  color: #0c4a6e;
+}
+
+.sectores-count {
+  font-size: 0.75rem;
   font-weight: 600;
-  margin: 0 0 12px 0;
+  color: #64748b;
+  background: #f1f5f9;
+  padding: 4px 12px;
+  border-radius: 20px;
 }
 
 .sectores-container {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .sector-chip {
-  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: 1px solid rgba(8, 145, 178, 0.15);
+  transition: all 0.3s ease;
+}
+
+.sector-chip:hover {
+  background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+  transform: translateX(4px);
+  border-color: rgba(8, 145, 178, 0.3);
+}
+
+.sector-dot {
+  width: 10px;
+  height: 10px;
+  background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 8px rgba(8, 145, 178, 0.4);
 }
 
 .sector-nombre {
-  font-size: 0.8125rem;
-  font-weight: 500;
-}
-
-.mas-texto {
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-weight: 600;
+  color: #0c4a6e;
+  flex: 1;
 }
 
+.sector-more {
+  background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+  border-color: transparent;
+  justify-content: center;
+}
+
+.sector-more .sector-nombre {
+  color: white;
+}
+
+/* Footer de tarjeta mejorado con gradiente y animación */
 .card-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px;
-  background-color: #f8fafc;
-  border-top: 1px solid #f1f5f9;
+  padding: 20px 24px;
+  background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.tarjeta:hover .card-footer::before {
+  left: 100%;
 }
 
 .card-footer-text {
-  font-size: 0.9375rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 700;
+  color: white;
+  letter-spacing: -0.01em;
 }
 
-/* Responsive */
+.card-footer-icon {
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.card-footer-icon ion-icon {
+  font-size: 20px;
+  color: white;
+}
+
+.tarjeta:hover .card-footer-icon {
+  transform: translateX(4px);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Responsive mejorado */
 @media (max-width: 768px) {
+  .header-toolbar {
+    --min-height: 68px;
+  }
+
+  .header-wrapper {
+    padding: 10px 16px;
+  }
+
+  .header-icon-badge {
+    width: 40px;
+    height: 40px;
+  }
+
+  .header-icon-badge ion-icon {
+    font-size: 20px;
+  }
+
+  .header-title {
+    font-size: 1.125rem;
+  }
+
+  .header-subtitle {
+    font-size: 0.75rem;
+  }
+
+  .map-button {
+    width: 40px;
+    height: 40px;
+  }
+
+  .map-button ion-icon {
+    font-size: 20px;
+  }
+
+  .lista-container {
+    padding: 16px;
+  }
+
+  .card-header {
+    padding: 20px;
+  }
+
+  .icon-badge {
+    width: 48px;
+    height: 48px;
+  }
+
+  .icon-badge ion-icon {
+    font-size: 24px;
+  }
+
+  .tarjeta-titulo {
+    font-size: 1.125rem;
+  }
+
+  .info-grid {
+    padding: 20px;
+  }
+
+  .info-card {
+    padding: 16px;
+  }
+
+  .info-icon-wrapper {
+    width: 40px;
+    height: 40px;
+  }
+
+  .info-icon-wrapper ion-icon {
+    font-size: 20px;
+  }
+
+  .info-value {
+    font-size: 1.5rem;
+  }
+
+  .sectores-preview {
+    padding: 20px;
+  }
+
+  .card-footer {
+    padding: 16px 20px;
+  }
+}
+
+@media (max-width: 480px) {
   .header-content {
     text-align: center;
+    align-items: center;
   }
-  
-  .lista-container {
-    padding: 12px;
+
+  .tarjeta-titulo {
+    font-size: 1rem;
   }
-  
-  .card-header {
-    padding: 16px;
+
+  .sector-chip {
+    padding: 12px 16px;
   }
-  
-  .sectores-preview {
-    padding: 16px;
+
+  .sector-nombre {
+    font-size: 0.8125rem;
   }
 }

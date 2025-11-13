@@ -1,5 +1,5 @@
 .home-content {
-  --background: #f5f5f5;
+  --background: transparent;
 }
 
 .header-subtitle {
@@ -93,15 +93,12 @@
 }
 
 .info-item {
-  --padding-start: 0;
+  --padding-start: 8px;
   --inner-padding-end: 0;
   --border-color: var(--ion-color-light-shade);
   --min-height: 72px;
 }
 
-.info-item:last-child {
-  --border-width: 0;
-}
 
 .info-item-title {
   font-size: 1rem;
@@ -115,7 +112,10 @@
   margin: 0;
   color: var(--ion-color-medium);
 }
-
+.info-icon{
+  font-size: 1.2rem;
+  margin-right: 20px;
+}
 /* Footer */
 .footer {
   padding: 16px;

@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+"use client"
+
+import type React from "react"
+import { useState, useEffect } from "react"
 import {
   IonContent,
   IonPage,
   IonHeader,
   IonToolbar,
-  IonTitle,
   IonButton,
   IonIcon,
   IonText,
@@ -14,59 +16,56 @@ import {
   IonRow,
   IonCol,
   IonSpinner,
-  IonChip,
-  IonAlert
-} from "@ionic/react";
-import {
-  chevronForward,
-  location,
-  navigate,
-  water,
-  planet
-} from "ionicons/icons";
-import { useHistory } from "react-router-dom";
-import data from "../data/data.json";
-import InteractiveMapModal from "../components/pc/InteractiveMapModal";
-import { Pronostico } from "../types/type";
-import "./PronosticoCostero.css";
+  IonTitle,
+} from "@ionic/react"
+import { chevronForward, location, navigate } from "ionicons/icons"
+import { useHistory } from "react-router-dom"
+import data from "../data/data.json"
+import InteractiveMapModal from "../components/pc/InteractiveMapModal"
+import type { Pronostico } from "../types/type"
+import "./PronosticoCostero.css"
+import { MapIcon, Pin } from "lucide-react"
 
 const datosEjemplo = {
   pronosticos: data.pronosticos.map((p: any) => ({
     ...p,
     markers: p.markers ?? [],
   })),
-};
+}
 
 const PronosticoCosteroScreen: React.FC = () => {
-  const [pronosticos, setPronosticos] = useState<Pronostico[]>([]);
-  const [cargando, setCargando] = useState(true);
-  const [modalVisible, setModalVisible] = useState(false);
-  const history = useHistory();
+  const [pronosticos, setPronosticos] = useState<Pronostico[]>([])
+  const [cargando, setCargando] = useState(true)
+  const [modalVisible, setModalVisible] = useState(false)
+  const history = useHistory()
 
   useEffect(() => {
     setTimeout(() => {
-      setPronosticos(datosEjemplo.pronosticos);
-      setCargando(false);
-    }, 1000);
-  }, []);
+      setPronosticos(datosEjemplo.pronosticos)
+      setCargando(false)
+    }, 1000)
+  }, [])
 
   const navegarADetalle = (pronostico: Pronostico) => {
+    console.log('🔍 Navegando a PdModal con datos:', pronostico)
+    
+    // ✅ Usar el objeto de location con state
     history.push({
-      pathname: "/pd-modal",
-      state: { pronostico }
-    });
-  };
+      pathname: '/pdmodal',
+      state: { 
+        pronosticoData: pronostico 
+      }
+    })
+  }
 
   const calcularCoordenadasDisponibles = (sectores: any[]) => {
-    const sectoresConCoordenadas = sectores.filter(
-      (sector) => sector.coordenadas
-    );
-    return sectoresConCoordenadas.length;
-  };
+    const sectoresConCoordenadas = sectores.filter((sector) => sector.coordenadas)
+    return sectoresConCoordenadas.length
+  }
 
   const closeMapModal = () => {
-    setModalVisible(false);
-  };
+    setModalVisible(false)
+  }
 
   if (cargando) {
     return (
@@ -80,125 +79,113 @@ const PronosticoCosteroScreen: React.FC = () => {
           </div>
         </IonContent>
       </IonPage>
-    );
+    )
   }
 
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar color="primary" className="header-toolbar">
+        <IonToolbar color="primary">
           <IonTitle>
             <div className="header-content">
               <IonText color="light">
                 <h1 className="header-title">Pronóstico costero</h1>
               </IonText>
               <IonText color="light">
-                <p className="header-subtitle">
-                  Selecciona un pronóstico para ver detalles
-                </p>
+                <p className="header-subtitle">Selecciona un pronóstico para ver detalles</p>
               </IonText>
             </div>
           </IonTitle>
-          
-          <IonButton 
-            slot="end" 
-            fill="clear" 
+
+          <IonButton
+            slot="end"
+            fill="clear"
             color="light"
-            className="header-button"
+            className="map-button"
             onClick={() => setModalVisible(true)}
           >
-            <IonIcon icon={planet} slot="start" />
-            <span className="header-button-text">Ver mapa costero</span>
+            <MapIcon size={32}/>
           </IonButton>
         </IonToolbar>
       </IonHeader>
 
       <IonContent fullscreen className="pronostico-content">
         <div className="lista-container">
-          {pronosticos.map((item) => (
-            <IonCard 
-              key={item.id} 
+          {pronosticos.map((item, index) => (
+            <IonCard
+              key={item.id}
               className="tarjeta"
               button
               onClick={() => navegarADetalle(item)}
+              style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <IonCardContent>
+              <IonCardContent className="card-content-wrapper">
                 <div className="card-header">
                   <div className="title-row">
-                    <IonIcon icon={water} color="primary" />
-                    <IonText color="dark">
+                    <div className="icon-badge">
+                      <Pin size={32} color="white"/>
+                    </div>
+                    <div className="title-content">
                       <h2 className="tarjeta-titulo">{item.nombre}</h2>
-                    </IonText>
+                      <p className="tarjeta-descripcion">Pronóstico disponible</p>
+                    </div>
                   </div>
-
-                  <IonGrid className="info-grid">
-                    <IonRow>
-                      <IonCol size="6">
-                        <div className="info-card">
-                          <IonIcon icon={location} color="success" />
-                          <IonText color="medium">
-                            <p className="info-label">Sectores disponibles</p>
-                          </IonText>
-                          <IonText color="dark">
-                            <p className="info-value">{item.sectores.length}</p>
-                          </IonText>
-                        </div>
-                      </IonCol>
-                      <IonCol size="6">
-                        <div className="info-card">
-                          <IonIcon icon={navigate} color="warning" />
-                          <IonText color="medium">
-                            <p className="info-label">Coordenadas</p>
-                          </IonText>
-                          <IonText color="dark">
-                            <p className="info-value">
-                              {calcularCoordenadasDisponibles(item.sectores) > 0
-                                ? `${calcularCoordenadasDisponibles(item.sectores)}/${
-                                    item.sectores.length
-                                  }`
-                                : "Próximamente"}
-                            </p>
-                          </IonText>
-                        </div>
-                      </IonCol>
-                    </IonRow>
-                  </IonGrid>
                 </div>
 
+                <IonGrid className="info-grid">
+                  <IonRow>
+                    <IonCol size="6">
+                      <div className="info-card">
+                        <div className="info-icon-wrapper info-icon-success">
+                          <IonIcon icon={location} />
+                        </div>
+                        <p className="info-label">Sectores</p>
+                        <p className="info-value">{item.sectores.length}</p>
+                        <p className="info-sublabel">disponibles</p>
+                      </div>
+                    </IonCol>
+                    <IonCol size="6">
+                      <div className="info-card">
+                        <div className="info-icon-wrapper info-icon-warning">
+                          <IonIcon icon={navigate} />
+                        </div>
+                        <p className="info-label">Coordenadas</p>
+                        <p className="info-value">
+                          {calcularCoordenadasDisponibles(item.sectores) > 0
+                            ? `${calcularCoordenadasDisponibles(item.sectores)}/${item.sectores.length}`
+                            : "Próx."}
+                        </p>
+                        <p className="info-sublabel">geo-referenciadas</p>
+                      </div>
+                    </IonCol>
+                  </IonRow>
+                </IonGrid>
+
                 <div className="sectores-preview">
-                  <IonText color="medium">
-                    <p className="sectores-title">Sectores disponibles:</p>
-                  </IonText>
+                  <div className="sectores-header">
+                    <p className="sectores-title">Sectores disponibles</p>
+                    <span className="sectores-count">{item.sectores.length} total</span>
+                  </div>
                   <div className="sectores-container">
-                    {item.sectores.slice(0, 4).map((sector) => (
-                      <IonChip 
-                        key={sector.id} 
-                        color="primary" 
-                        outline
-                        className="sector-chip"
-                      >
-                        <IonText color="primary">
-                          <span className="sector-nombre">{sector.nombre}</span>
-                        </IonText>
-                      </IonChip>
+                    {item.sectores.slice(0, 3).map((sector) => (
+                      <div key={sector.id} className="sector-chip">
+                        <div className="sector-dot"></div>
+                        <span className="sector-nombre">{sector.nombre}</span>
+                      </div>
                     ))}
-                    {item.sectores.length > 4 && (
-                      <IonChip color="primary" outline className="sector-chip">
-                        <IonText color="primary">
-                          <span className="mas-texto">
-                            +{item.sectores.length - 4}
-                          </span>
-                        </IonText>
-                      </IonChip>
+                    {item.sectores.length > 3 && (
+                      <div className="sector-chip sector-more">
+                        <span className="sector-nombre">+{item.sectores.length - 3} más</span>
+                      </div>
                     )}
                   </div>
                 </div>
 
                 <div className="card-footer">
-                  <IonText color="primary">
-                    <span className="card-footer-text">Ver pronóstico completo</span>
-                  </IonText>
-                  <IonIcon icon={chevronForward} color="primary" />
+                  <span className="card-footer-text">Ver detalles completos</span>
+                  <div className="card-footer-icon">
+                    <IonIcon icon={chevronForward} />
+                  </div>
                 </div>
               </IonCardContent>
             </IonCard>
@@ -206,12 +193,9 @@ const PronosticoCosteroScreen: React.FC = () => {
         </div>
       </IonContent>
 
-      <InteractiveMapModal 
-        isOpen={modalVisible} 
-        onClose={closeMapModal} 
-      />
+      <InteractiveMapModal isOpen={modalVisible} onClose={closeMapModal} />
     </IonPage>
-  );
-};
+  )
+}
 
-export default PronosticoCosteroScreen;
+export default PronosticoCosteroScreen

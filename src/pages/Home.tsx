@@ -25,7 +25,6 @@ import { Waves,FolderOpen, ChartSpline} from "lucide-react";
 import { useHistory } from "react-router-dom";
 import FeatureCard from "../components/ui/FeatureCard";
 import "./Home.css";
-
 const Home: React.FC = () => {
   const [bannerVisible, setBannerVisible] = useState(false);
   const [showLoginAlert, setShowLoginAlert] = useState(false);
@@ -49,6 +48,7 @@ const Home: React.FC = () => {
 
   return (
     <IonPage>
+      
       <IonHeader >
         <IonToolbar color="primary" className="toolbar">
           <IonTitle>Marejadas UV</IonTitle>
@@ -57,8 +57,9 @@ const Home: React.FC = () => {
           </IonText>
         </IonToolbar>
       </IonHeader>
-
+      
       <IonContent fullscreen className="home-content">
+        
         {/* Banner de login */}
         {bannerVisible && (
           <IonCard className="login-banner">
@@ -147,33 +148,37 @@ const Home: React.FC = () => {
             <div className="divider"></div>
 
             <IonItem 
-              className="info-item" 
+              className="info-item"
+              style={{borderTopLeftRadius: "12px", borderTopRightRadius: "12px", borderLeft: "1px solid var(--ion-color-light-shade)", borderRight: "1px solid var(--ion-color-light-shade)", borderTop: "1px solid var(--ion-color-light-shade)"}}
               button 
               onClick={() => handleInfoItemPress("about")}
             >
               <IonIcon 
-                icon={informationCircleOutline} 
-                color="primary" 
-                slot="start" 
+              icon={informationCircleOutline} 
+              color="primary" 
+              slot="start"
+              className="info-icon"
               />
               <IonLabel>
-                <h3 className="info-item-title">Acerca de los pronósticos</h3>
-                <p className="info-item-description">
-                  Conoce más sobre nuestros modelos de pronóstico
-                </p>
+              <h3 className="info-item-title">Acerca de los pronósticos</h3>
+              <p className="info-item-description">
+                Conoce más sobre nuestros modelos de pronóstico
+              </p>
               </IonLabel>
               <IonIcon icon={chevronForward} color="medium" slot="end" />
             </IonItem>
 
             <IonItem 
-              className="info-item" 
+              className="info-item"
+              style={{borderLeft: "1px solid var(--ion-color-light-shade)", borderRight: "1px solid var(--ion-color-light-shade)",}}
               button 
               onClick={() => handleInfoItemPress("faq")}
             >
               <IonIcon 
                 icon={helpCircleOutline} 
                 color="primary" 
-                slot="start" 
+                slot="start"
+                className="info-icon"
               />
               <IonLabel>
                 <h3 className="info-item-title">Preguntas frecuentes</h3>
@@ -181,18 +186,20 @@ const Home: React.FC = () => {
                   Respuestas a las dudas más comunes
                 </p>
               </IonLabel>
-              <IonIcon icon={chevronForward} color="medium" slot="end" />
+              <IonIcon icon={chevronForward} color="medium" slot="end"/>
             </IonItem>
 
             <IonItem 
-              className="info-item" 
+              className="info-item"
+              style={{borderLeft: "1px solid var(--ion-color-light-shade)", borderRight: "1px solid var(--ion-color-light-shade)", borderBottomLeftRadius: "12px", borderBottomRightRadius: "12px"}}
               button 
               onClick={() => handleInfoItemPress("contact")}
             >
               <IonIcon 
                 icon={mailOutline} 
                 color="primary" 
-                slot="start" 
+                slot="start"
+                className="info-icon"
               />
               <IonLabel>
                 <h3 className="info-item-title">Contacto</h3>
