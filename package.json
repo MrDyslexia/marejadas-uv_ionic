@@ -5,10 +5,13 @@
   "dependencies": {
     "@capacitor/android": "7.4.4",
     "@capacitor/app": "7.1.0",
+    "@capacitor/camera": "^8.0.0",
     "@capacitor/core": "7.4.4",
+    "@capacitor/filesystem": "^8.0.0",
     "@capacitor/google-maps": "^7.2.0",
     "@capacitor/haptics": "7.0.2",
     "@capacitor/keyboard": "7.0.3",
+    "@capacitor/preferences": "^8.0.0",
     "@capacitor/status-bar": "^7.0.3",
     "@ionic/react": "^7.0.0",
     "@ionic/react-router": "^7.0.0",
@@ -54,7 +57,7 @@
     "eslint-plugin-react": "^7.32.2"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "ionic serve",
     "build": "react-scripts build",
     "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!(@ionic/react|@ionic/react-router|@ionic/core|@stencil/core|ionicons)/)'",
     "eject": "react-scripts eject",
