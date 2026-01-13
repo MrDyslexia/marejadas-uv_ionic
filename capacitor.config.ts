@@ -1,10 +1,13 @@
 import type { CapacitorConfig } from "@capacitor/cli";
-
+import 'dotenv/config';
 const config: CapacitorConfig = {
   appId: "com.lowframes.app",
   appName: "MarejadasUV",
   webDir: "build",
   plugins: {
+    GoogleMaps: {
+    apiKey: process.env.GOOGLE_MAPS_API_KEY
+  },
     StatusBar: {
       style: "DARK",
       overlaysWebView: true,

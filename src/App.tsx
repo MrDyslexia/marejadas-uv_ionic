@@ -2,14 +2,13 @@ import React from "react";
 import { Redirect, Route } from "react-router-dom";
 import {
   IonApp,
-  IonLabel,
   IonRouterOutlet,
   IonTabBar,
   IonTabButton,
   IonTabs,
   setupIonicReact,
 } from "@ionic/react";
-import { ChartSpline, FolderOpen, HomeIcon, Waves } from "lucide-react";
+import { FolderOpen, HomeIcon, TrendingUpDown, Waves } from "lucide-react";
 import { IonReactRouter } from "@ionic/react-router";
 import Home from "./pages/Home";
 import PronosticoCostero from "./pages/PronosticoCostero";
@@ -64,7 +63,7 @@ const App: React.FC = () => {
               <FolderOpen size={32} aria-hidden="true" />
             </IonTabButton>
             <IonTabButton tab="Pronostico Oceánico" href="/pronostico-oceanico">
-              <ChartSpline aria-hidden="true" />
+              <TrendingUpDown size={32} aria-hidden="true" />
             </IonTabButton>
           </IonTabBar>
         </IonTabs>
