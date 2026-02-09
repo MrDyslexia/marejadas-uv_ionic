@@ -10,7 +10,7 @@ import {
   IonTabs,
   setupIonicReact,
 } from "@ionic/react";
-import { FolderOpen, HomeIcon, TrendingDown as TrendingUpDown, Waves } from "lucide-react";
+import { ChartSpline, FolderOpen, HomeIcon, TrendingDown as TrendingUpDown, Waves } from "lucide-react";
 import { IonReactRouter } from "@ionic/react-router";
 import Home from "./pages/Home";
 import PronosticoCostero from "./pages/PronosticoCostero";
@@ -81,14 +81,15 @@ const AppContent: React.FC<{ regionsData: Region[] }> = ({ regionsData }) => {
           <IonTabButton tab="home" href="/home">
             <HomeIcon size={24} color={getIconColor("home")} aria-hidden="true" />
           </IonTabButton>
-          <IonTabButton tab="Pronostico Costero" href="/pronostico-costero">
-            <Waves size={24} color={getIconColor("Pronostico Costero")} aria-hidden="true" />
-          </IonTabButton>
+          
           <IonTabButton tab="Categorias" href="/categorias">
             <FolderOpen size={24} color={getIconColor("Categorias")} aria-hidden="true" />
           </IonTabButton>
           <IonTabButton tab="Pronostico Oceánico" href="/pronostico-oceanico">
-            <TrendingUpDown size={24} color={getIconColor("Pronostico Oceánico")} aria-hidden="true" />
+            <ChartSpline size={24} color={getIconColor("Pronostico Oceánico")} aria-hidden="true" />
+          </IonTabButton>
+          <IonTabButton tab="Pronostico Costero" href="/pronostico-costero">
+            <Waves size={24} color={getIconColor("Pronostico Costero")} aria-hidden="true" />
           </IonTabButton>
         </IonTabBar>
       </IonTabs>

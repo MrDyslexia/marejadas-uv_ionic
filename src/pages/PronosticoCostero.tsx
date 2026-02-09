@@ -178,7 +178,7 @@ const PronosticoCosteroScreen: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="card-footer">
+                <div className="card-footer" style={{flexDirection:'row'}}>
                   <span className="card-footer-text">Ver detalles completos</span>
                   <div className="card-footer-icon">
                     <IonIcon icon={chevronForward} />

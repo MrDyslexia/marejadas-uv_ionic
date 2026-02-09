@@ -22,7 +22,7 @@ import {
 import {
   Waves,
   FolderOpen,
-  TrendingUpDown,
+  ChartSpline,
 } from "lucide-react";
 import { useHistory } from "react-router-dom";
 import FeatureCard from "../components/ui/FeatureCard";
@@ -107,7 +107,7 @@ const Home: React.FC = () => {
           <FeatureCard
             title="Pronóstico Oceánico"
             description="Pronóstico de oleaje para los próximos 7 días en las principales bahías, calculado a una profundidad de 20 metros."
-            icon={TrendingUpDown}
+            icon={ChartSpline}
             gradient={["#26A69A", "#00796B"]}
             onPress={() => handleFeaturePress("/pronostico-oceanico")}
           />

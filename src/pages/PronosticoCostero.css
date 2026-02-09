@@ -397,13 +397,10 @@
 /* Footer de tarjeta mejorado con gradiente y animación */
 .card-footer {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
   padding: 20px 24px;
   background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
   transition: all 0.3s ease;
   cursor: pointer;
-  position: relative;
   overflow: hidden;
 }
 
