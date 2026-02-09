@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from "react";
 import {
   IonPage,
   IonHeader,
@@ -10,13 +10,13 @@ import {
   IonContent,
   IonIcon,
   IonSpinner,
-} from '@ionic/react';
-import { useHistory } from 'react-router-dom';
-import { close, locate } from 'ionicons/icons';
-import maplibregl from 'maplibre-gl';
-import 'maplibre-gl/dist/maplibre-gl.css';
-import type { Marker, Sector } from '../types/type';
-import data from '../data/data.json';
+} from "@ionic/react";
+import { useHistory } from "react-router-dom";
+import { close } from "ionicons/icons";
+import maplibregl from "maplibre-gl";
+import "maplibre-gl/dist/maplibre-gl.css";
+import type { Marker, Sector } from "../types/type";
+import data from "../data/data.json";
 
 const PronosticoCosteroMap: React.FC = () => {
   const history = useHistory();
@@ -27,25 +27,29 @@ const PronosticoCosteroMap: React.FC = () => {
     pronostico: string;
     lat: number;
     lng: number;
+    sectorData?: any;
   } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [expandedImage, setExpandedImage] = useState<string | null>(null);
+  const [imageZoom, setImageZoom] = useState(1);
+  const initialDistanceRef = useRef<number>(0);
 
   useEffect(() => {
     if (!mapContainer.current) return;
 
     map.current = new maplibregl.Map({
       container: mapContainer.current,
-      style: 'https://demotiles.maplibre.org/style.json',
-      center: [-71.5, -30],
+      style: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
+      center: [-71.5, -30.0],
       zoom: 4,
       pitch: 0,
-      bearing: 0
+      bearing: 0,
     });
 
-    map.current.addControl(new maplibregl.NavigationControl(), 'top-right');
+    map.current.addControl(new maplibregl.NavigationControl(), "top-right");
 
     // Handle map load and resize
-    map.current.on('load', () => {
+    map.current.on("load", () => {
       // Trigger resize after map loads to ensure proper dimensions
       setTimeout(() => {
         map.current?.resize();
@@ -58,37 +62,38 @@ const PronosticoCosteroMap: React.FC = () => {
     pronosticos.forEach((pronostico: any) => {
       if (pronostico.markers && Array.isArray(pronostico.markers)) {
         pronostico.markers.forEach((marker: Marker) => {
-          const el = document.createElement('div');
-          el.style.width = '32px';
-          el.style.height = '32px';
-          el.style.background = 'linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%)';
-          el.style.borderRadius = '50%';
-          el.style.border = '3px solid white';
-          el.style.cursor = 'pointer';
-          el.style.display = 'flex';
-          el.style.alignItems = 'center';
-          el.style.justifyContent = 'center';
-          el.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.15)';
+          const el = document.createElement("div");
+          el.style.width = "32px";
+          el.style.height = "32px";
+          el.style.background =
+            "linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%)";
+          el.style.borderRadius = "50%";
+          el.style.border = "3px solid white";
+          el.style.cursor = "pointer";
+          el.style.display = "flex";
+          el.style.alignItems = "center";
+          el.style.justifyContent = "center";
+          el.style.boxShadow = "0 2px 8px rgba(0, 0, 0, 0.15)";
 
-          el.addEventListener('click', () => {
+          el.addEventListener("click", () => {
             setSelectedLocation({
-              nombre: marker.nombre || 'Sin nombre',
+              nombre: marker.nombre || "Sin nombre",
               pronostico: pronostico.nombre,
               lat: marker.lat,
               lng: marker.lng,
             });
           });
 
-          el.addEventListener('mouseenter', () => {
-            el.style.width = '40px';
-            el.style.height = '40px';
-            el.style.boxShadow = '0 4px 16px rgba(2, 132, 199, 0.4)';
+          el.addEventListener("mouseenter", () => {
+            el.style.width = "40px";
+            el.style.height = "40px";
+            el.style.boxShadow = "0 4px 16px rgba(2, 132, 199, 0.4)";
           });
 
-          el.addEventListener('mouseleave', () => {
-            el.style.width = '32px';
-            el.style.height = '32px';
-            el.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.15)';
+          el.addEventListener("mouseleave", () => {
+            el.style.width = "32px";
+            el.style.height = "32px";
+            el.style.boxShadow = "0 2px 8px rgba(0, 0, 0, 0.15)";
           });
 
           new maplibregl.Marker({ element: el })
@@ -99,38 +104,44 @@ const PronosticoCosteroMap: React.FC = () => {
 
       if (pronostico.sectores && Array.isArray(pronostico.sectores)) {
         pronostico.sectores.forEach((sector: Sector) => {
-          if (sector.coordenadas && sector.coordenadas.lat && sector.coordenadas.lng) {
-            const el = document.createElement('div');
-            el.style.width = '28px';
-            el.style.height = '28px';
-            el.style.background = 'linear-gradient(135deg, #10b981 0%, #34d399 100%)';
-            el.style.borderRadius = '50%';
-            el.style.border = '3px solid white';
-            el.style.cursor = 'pointer';
-            el.style.display = 'flex';
-            el.style.alignItems = 'center';
-            el.style.justifyContent = 'center';
-            el.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.15)';
+          if (
+            sector.coordenadas &&
+            sector.coordenadas.lat &&
+            sector.coordenadas.lng
+          ) {
+            const el = document.createElement("div");
+            el.style.width = "28px";
+            el.style.height = "28px";
+            el.style.background =
+              "linear-gradient(135deg, #10b981 0%, #34d399 100%)";
+            el.style.borderRadius = "50%";
+            el.style.border = "3px solid white";
+            el.style.cursor = "pointer";
+            el.style.display = "flex";
+            el.style.alignItems = "center";
+            el.style.justifyContent = "center";
+            el.style.boxShadow = "0 2px 8px rgba(0, 0, 0, 0.15)";
 
-            el.addEventListener('click', () => {
+            el.addEventListener("click", () => {
               setSelectedLocation({
                 nombre: sector.nombre,
                 pronostico: pronostico.nombre,
                 lat: sector.coordenadas!.lat,
                 lng: sector.coordenadas!.lng,
+                sectorData: sector.datos,
               });
             });
 
-            el.addEventListener('mouseenter', () => {
-              el.style.width = '36px';
-              el.style.height = '36px';
-              el.style.boxShadow = '0 4px 16px rgba(16, 185, 129, 0.4)';
+            el.addEventListener("mouseenter", () => {
+              el.style.width = "36px";
+              el.style.height = "36px";
+              el.style.boxShadow = "0 4px 16px rgba(16, 185, 129, 0.4)";
             });
 
-            el.addEventListener('mouseleave', () => {
-              el.style.width = '28px';
-              el.style.height = '28px';
-              el.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.15)';
+            el.addEventListener("mouseleave", () => {
+              el.style.width = "28px";
+              el.style.height = "28px";
+              el.style.boxShadow = "0 2px 8px rgba(0, 0, 0, 0.15)";
             });
 
             new maplibregl.Marker({ element: el })
@@ -146,10 +157,10 @@ const PronosticoCosteroMap: React.FC = () => {
       map.current?.resize();
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
       if (map.current) {
         map.current.remove();
       }
@@ -171,17 +182,27 @@ const PronosticoCosteroMap: React.FC = () => {
   };
 
   return (
-    <IonPage style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <IonHeader style={{ flex: '0 0 auto' }}>
+    <IonPage
+      style={{ height: "100vh", display: "flex", flexDirection: "column" }}
+    >
+      <IonHeader style={{ flex: "0 0 auto" }}>
         <IonToolbar
           color="primary"
-          style={{
-            background: 'linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%)',
-            '--padding-top': '12px',
-            '--padding-bottom': '12px',
-          } as any}
+          style={
+            {
+              background: "linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%)",
+              "--padding-top": "12px",
+              "--padding-bottom": "12px",
+            } as any
+          }
         >
-          <IonTitle style={{ fontWeight: 600, fontSize: '16px', letterSpacing: '0.3px' }}>
+          <IonTitle
+            style={{
+              fontWeight: 600,
+              fontSize: "16px",
+              letterSpacing: "0.3px",
+            }}
+          >
             Mapa Pronóstico Costero
           </IonTitle>
           <IonButton
@@ -198,43 +219,60 @@ const PronosticoCosteroMap: React.FC = () => {
 
       <IonContent
         fullscreen
-        style={{
-          flex: '1 1 auto',
-          '--padding-start': '0',
-          '--padding-end': '0',
-          '--padding-top': '0',
-          '--padding-bottom': '0',
-          position: 'relative',
-        } as any}
+        style={
+          {
+            flex: "1 1 auto",
+            "--padding-start": "0",
+            "--padding-end": "0",
+            "--padding-top": "0",
+            "--padding-bottom": "0",
+            position: "relative",
+          } as any
+        }
       >
         {isLoading && (
           <div
             style={{
-              position: 'absolute',
+              position: "absolute",
               top: 0,
               left: 0,
-              width: '100%',
-              height: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              background: 'rgba(255, 255, 255, 0.95)',
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              background: "rgba(255, 255, 255, 0.95)",
               zIndex: 30,
-              backdropFilter: 'blur(4px)',
+              backdropFilter: "blur(4px)",
             }}
           >
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
-              <IonSpinner name="circular" color="primary" style={{ fontSize: '48px' }} />
-              <span style={{ fontSize: '14px', color: '#0284c7', fontWeight: 500 }}>Cargando mapa...</span>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: "16px",
+              }}
+            >
+              <IonSpinner
+                name="circular"
+                color="primary"
+                style={{ fontSize: "48px" }}
+              />
+              <span
+                style={{ fontSize: "14px", color: "#0284c7", fontWeight: 500 }}
+              >
+                Cargando mapa...
+              </span>
             </div>
           </div>
         )}
         <div
           ref={mapContainer}
           style={{
-            width: '100%',
-            height: '100%',
-            position: 'absolute',
+            width: "100%",
+            height: "100%",
+            position: "absolute",
             top: 0,
             left: 0,
             zIndex: 1,
@@ -244,35 +282,39 @@ const PronosticoCosteroMap: React.FC = () => {
         {selectedLocation && (
           <div
             style={{
-              position: 'fixed',
-              bottom: '20px',
-              left: '20px',
-              right: '20px',
-              maxWidth: '380px',
-              background: 'white',
-              borderRadius: '12px',
-              boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)',
+              position: "fixed",
+              bottom: "20px",
+              left: "20px",
+              right: "20px",
+              maxWidth: "420px",
+              maxHeight: "80vh",
+              background: "white",
+              borderRadius: "12px",
+              boxShadow: "0 8px 24px rgba(0, 0, 0, 0.12)",
               zIndex: 20,
-              animation: 'slideUp 0.3s ease-out',
+              animation: "slideUp 0.3s ease-out",
+              display: "flex",
+              flexDirection: "column",
+              overflow: "hidden",
             }}
           >
             <div
               style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                padding: '16px',
-                borderBottom: '1px solid #e2e8f0',
-                background: 'linear-gradient(135deg, #f0f9ff 0%, #f0f4f8 100%)',
-                borderRadius: '12px 12px 0 0',
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                padding: "16px",
+                borderBottom: "1px solid #e2e8f0",
+                background: "linear-gradient(135deg, #f0f9ff 0%, #f0f4f8 100%)",
+                flexShrink: 0,
               }}
             >
               <h3
                 style={{
                   margin: 0,
-                  fontSize: '16px',
+                  fontSize: "16px",
                   fontWeight: 600,
-                  color: '#0f172a',
+                  color: "#0f172a",
                   flex: 1,
                 }}
               >
@@ -281,132 +323,415 @@ const PronosticoCosteroMap: React.FC = () => {
               <button
                 onClick={() => setSelectedLocation(null)}
                 style={{
-                  background: 'none',
-                  border: 'none',
-                  fontSize: '28px',
-                  color: '#94a3b8',
-                  cursor: 'pointer',
+                  background: "none",
+                  border: "none",
+                  fontSize: "28px",
+                  color: "#94a3b8",
+                  cursor: "pointer",
                   padding: 0,
-                  width: '32px',
-                  height: '32px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderRadius: '6px',
-                  transition: 'all 0.2s ease',
+                  width: "32px",
+                  height: "32px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: "6px",
+                  transition: "all 0.2s ease",
                 }}
                 onMouseEnter={(e) => {
-                  (e.target as HTMLButtonElement).style.background = 'rgba(15, 23, 42, 0.05)';
-                  (e.target as HTMLButtonElement).style.color = '#0f172a';
+                  (e.target as HTMLButtonElement).style.background =
+                    "rgba(15, 23, 42, 0.05)";
+                  (e.target as HTMLButtonElement).style.color = "#0f172a";
                 }}
                 onMouseLeave={(e) => {
-                  (e.target as HTMLButtonElement).style.background = 'none';
-                  (e.target as HTMLButtonElement).style.color = '#94a3b8';
+                  (e.target as HTMLButtonElement).style.background = "none";
+                  (e.target as HTMLButtonElement).style.color = "#94a3b8";
                 }}
               >
                 ×
               </button>
             </div>
-            <div style={{ padding: '16px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid #f1f5f9' }}>
-                <span style={{ fontSize: '13px', fontWeight: 500, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                  Pronóstico:
-                </span>
-                <span style={{ fontSize: '14px', fontWeight: 600, color: '#0f172a', fontFamily: 'Courier New, monospace' }}>
-                  {selectedLocation.pronostico}
-                </span>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid #f1f5f9' }}>
-                <span style={{ fontSize: '13px', fontWeight: 500, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                  Latitud:
-                </span>
-                <span style={{ fontSize: '14px', fontWeight: 600, color: '#0f172a', fontFamily: 'Courier New, monospace' }}>
-                  {selectedLocation.lat.toFixed(4)}
-                </span>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0' }}>
-                <span style={{ fontSize: '13px', fontWeight: 500, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                  Longitud:
-                </span>
-                <span style={{ fontSize: '14px', fontWeight: 600, color: '#0f172a', fontFamily: 'Courier New, monospace' }}>
-                  {selectedLocation.lng.toFixed(4)}
-                </span>
-              </div>
-              <button
-                onClick={handleLocateClick}
+
+            <div
+              style={{
+                overflowY: "auto",
+                flex: 1,
+                padding: "16px",
+                display: "flex",
+                flexDirection: "column",
+                gap: "16px",
+              }}
+            >
+              {/* Information Grid */}
+              <div
                 style={{
-                  width: '100%',
-                  padding: '10px 16px',
-                  marginTop: '12px',
-                  background: 'linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%)',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '8px',
-                  fontSize: '14px',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '8px',
-                  transition: 'all 0.3s ease',
-                  boxShadow: '0 2px 8px rgba(2, 132, 199, 0.2)',
-                }}
-                onMouseEnter={(e) => {
-                  (e.target as HTMLButtonElement).style.boxShadow = '0 4px 16px rgba(2, 132, 199, 0.4)';
-                  (e.target as HTMLButtonElement).style.transform = 'translateY(-2px)';
-                }}
-                onMouseLeave={(e) => {
-                  (e.target as HTMLButtonElement).style.boxShadow = '0 2px 8px rgba(2, 132, 199, 0.2)';
-                  (e.target as HTMLButtonElement).style.transform = 'translateY(0)';
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: "8px",
                 }}
               >
-                <IonIcon icon={locate} />
-                Centrar mapa
-              </button>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    flexDirection: "column",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: "11px",
+                      fontWeight: 500,
+                      color: "#64748b",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.5px",
+                      marginBottom: "4px",
+                    }}
+                  >
+                    Pronóstico:
+                  </span>
+                  <span
+                    style={{
+                      fontSize: "13px",
+                      fontWeight: 600,
+                      color: "#0f172a",
+                    }}
+                  >
+                    {selectedLocation.pronostico}
+                  </span>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    flexDirection: "column",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: "11px",
+                      fontWeight: 500,
+                      color: "#64748b",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.5px",
+                      marginBottom: "4px",
+                    }}
+                  >
+                    Coordenadas:
+                  </span>
+                  <span
+                    style={{
+                      fontSize: "13px",
+                      fontWeight: 600,
+                      color: "#0f172a",
+                      fontFamily: "Courier New, monospace",
+                    }}
+                  >
+                    {selectedLocation.lat.toFixed(2)},{" "}
+                    {selectedLocation.lng.toFixed(2)}
+                  </span>
+                </div>
+              </div>
+
+              {/* Forecast Images */}
+              {selectedLocation.sectorData && (
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: "8px",
+                  }}
+                >
+                  {selectedLocation.sectorData.categoria && (
+                    <div>
+                      <span
+                        style={{
+                          fontSize: "11px",
+                          fontWeight: 500,
+                          color: "#64748b",
+                          textTransform: "uppercase",
+                          letterSpacing: "0.5px",
+                          display: "block",
+                          marginBottom: "6px",
+                        }}
+                      >
+                        Categoría
+                      </span>
+                      <img
+                        src={
+                          selectedLocation.sectorData.categoria ||
+                          "/placeholder.svg"
+                         || "/placeholder.svg"}
+                        alt="Categoría"
+                        style={{
+                          width: "100%",
+                          borderRadius: "6px",
+                          border: "1px solid #e2e8f0",
+                          maxHeight: "120px",
+                          objectFit: "contain",
+                          background: "#f8fafc",
+                          cursor: "pointer",
+                          transition: "all 0.2s ease",
+                        }}
+                        onClick={() => setExpandedImage(selectedLocation.sectorData.categoria)}
+                        onMouseEnter={(e) => {
+                          (e.target as HTMLImageElement).style.opacity = "0.8";
+                        }}
+                        onMouseLeave={(e) => {
+                          (e.target as HTMLImageElement).style.opacity = "1";
+                        }}
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).style.display = "none";
+                        }}
+                      />
+                    </div>
+                  )}
+                  {selectedLocation.sectorData.altura && (
+                    <div>
+                      <span
+                        style={{
+                          fontSize: "11px",
+                          fontWeight: 500,
+                          color: "#64748b",
+                          textTransform: "uppercase",
+                          letterSpacing: "0.5px",
+                          display: "block",
+                          marginBottom: "6px",
+                        }}
+                      >
+                        Altura
+                      </span>
+                      <img
+                        src={
+                          selectedLocation.sectorData.altura ||
+                          "/placeholder.svg"
+                         || "/placeholder.svg"}
+                        alt="Altura"
+                        style={{
+                          width: "100%",
+                          borderRadius: "6px",
+                          border: "1px solid #e2e8f0",
+                          maxHeight: "120px",
+                          objectFit: "contain",
+                          background: "#f8fafc",
+                          cursor: "pointer",
+                          transition: "all 0.2s ease",
+                        }}
+                        onClick={() => setExpandedImage(selectedLocation.sectorData.altura)}
+                        onMouseEnter={(e) => {
+                          (e.target as HTMLImageElement).style.opacity = "0.8";
+                        }}
+                        onMouseLeave={(e) => {
+                          (e.target as HTMLImageElement).style.opacity = "1";
+                        }}
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).style.display = "none";
+                        }}
+                      />
+                    </div>
+                  )}
+                  {selectedLocation.sectorData.periodo && (
+                    <div>
+                      <span
+                        style={{
+                          fontSize: "11px",
+                          fontWeight: 500,
+                          color: "#64748b",
+                          textTransform: "uppercase",
+                          letterSpacing: "0.5px",
+                          display: "block",
+                          marginBottom: "6px",
+                        }}
+                      >
+                        Período
+                      </span>
+                      <img
+                        src={
+                          selectedLocation.sectorData.periodo ||
+                          "/placeholder.svg"
+                         || "/placeholder.svg"}
+                        alt="Período"
+                        style={{
+                          width: "100%",
+                          borderRadius: "6px",
+                          border: "1px solid #e2e8f0",
+                          maxHeight: "120px",
+                          objectFit: "contain",
+                          background: "#f8fafc",
+                          cursor: "pointer",
+                          transition: "all 0.2s ease",
+                        }}
+                        onClick={() => setExpandedImage(selectedLocation.sectorData.periodo)}
+                        onMouseEnter={(e) => {
+                          (e.target as HTMLImageElement).style.opacity = "0.8";
+                        }}
+                        onMouseLeave={(e) => {
+                          (e.target as HTMLImageElement).style.opacity = "1";
+                        }}
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).style.display = "none";
+                        }}
+                      />
+                    </div>
+                  )}
+                  {selectedLocation.sectorData.direccion && (
+                    <div>
+                      <span
+                        style={{
+                          fontSize: "11px",
+                          fontWeight: 500,
+                          color: "#64748b",
+                          textTransform: "uppercase",
+                          letterSpacing: "0.5px",
+                          display: "block",
+                          marginBottom: "6px",
+                        }}
+                      >
+                        Dirección
+                      </span>
+                      <img
+                        src={
+                          selectedLocation.sectorData.direccion ||
+                          "/placeholder.svg"
+                         || "/placeholder.svg"}
+                        alt="Dirección"
+                        style={{
+                          width: "100%",
+                          borderRadius: "6px",
+                          border: "1px solid #e2e8f0",
+                          maxHeight: "120px",
+                          objectFit: "contain",
+                          background: "#f8fafc",
+                          cursor: "pointer",
+                          transition: "all 0.2s ease",
+                        }}
+                        onClick={() => setExpandedImage(selectedLocation.sectorData.direccion)}
+                        onMouseEnter={(e) => {
+                          (e.target as HTMLImageElement).style.opacity = "0.8";
+                        }}
+                        onMouseLeave={(e) => {
+                          (e.target as HTMLImageElement).style.opacity = "1";
+                        }}
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).style.display = "none";
+                        }}
+                      />
+                    </div>
+                  )}
+                  {selectedLocation.sectorData.marea && (
+                    <div style={{ gridColumn: "1 / -1" }}>
+                      <span
+                        style={{
+                          fontSize: "11px",
+                          fontWeight: 500,
+                          color: "#64748b",
+                          textTransform: "uppercase",
+                          letterSpacing: "0.5px",
+                          display: "block",
+                          marginBottom: "6px",
+                        }}
+                      >
+                        Mareas
+                      </span>
+                      <img
+                        src={
+                          selectedLocation.sectorData.marea ||
+                          "/placeholder.svg"
+                         || "/placeholder.svg"}
+                        alt="Mareas"
+                        style={{
+                          width: "100%",
+                          borderRadius: "6px",
+                          border: "1px solid #e2e8f0",
+                          maxHeight: "120px",
+                          objectFit: "contain",
+                          background: "#f8fafc",
+                          cursor: "pointer",
+                          transition: "all 0.2s ease",
+                        }}
+                        onClick={() => setExpandedImage(selectedLocation.sectorData.marea)}
+                        onMouseEnter={(e) => {
+                          (e.target as HTMLImageElement).style.opacity = "0.8";
+                        }}
+                        onMouseLeave={(e) => {
+                          (e.target as HTMLImageElement).style.opacity = "1";
+                        }}
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).style.display = "none";
+                        }}
+                      />
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         )}
 
         <div
           style={{
-            position: 'fixed',
-            top: '70px',
-            right: '12px',
-            background: 'rgba(255, 255, 255, 0.95)',
-            borderRadius: '8px',
-            padding: '10px 12px',
-            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.12)',
+            position: "fixed",
+            top: "70px",
+            right: "12px",
+            background: "rgba(255, 255, 255, 0.95)",
+            borderRadius: "8px",
+            padding: "10px 12px",
+            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.12)",
             zIndex: 20,
-            border: '1px solid #e2e8f0',
-            backdropFilter: 'blur(4px)',
+            border: "1px solid #e2e8f0",
+            backdropFilter: "blur(4px)",
           }}
         >
-          <div style={{ fontSize: '11px', fontWeight: 700, color: '#0f172a', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.4px' }}>
+          <div
+            style={{
+              fontSize: "11px",
+              fontWeight: 700,
+              color: "#0f172a",
+              marginBottom: "8px",
+              textTransform: "uppercase",
+              letterSpacing: "0.4px",
+            }}
+          >
             Leyenda
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '5px 0', fontSize: '12px', color: '#475569' }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              padding: "5px 0",
+              fontSize: "12px",
+              color: "#475569",
+            }}
+          >
             <div
               style={{
-                width: '16px',
-                height: '16px',
-                borderRadius: '50%',
-                border: '2px solid white',
-                boxShadow: '0 1px 3px rgba(0, 0, 0, 0.2)',
-                background: 'linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%)',
+                width: "16px",
+                height: "16px",
+                borderRadius: "50%",
+                border: "2px solid white",
+                boxShadow: "0 1px 3px rgba(0, 0, 0, 0.2)",
+                background: "linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%)",
               }}
             />
             <span>Puntos principales</span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '5px 0', fontSize: '12px', color: '#475569' }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              padding: "5px 0",
+              fontSize: "12px",
+              color: "#475569",
+            }}
+          >
             <div
               style={{
-                width: '16px',
-                height: '16px',
-                borderRadius: '50%',
-                border: '2px solid white',
-                boxShadow: '0 1px 3px rgba(0, 0, 0, 0.2)',
-                background: 'linear-gradient(135deg, #10b981 0%, #34d399 100%)',
+                width: "16px",
+                height: "16px",
+                borderRadius: "50%",
+                border: "2px solid white",
+                boxShadow: "0 1px 3px rgba(0, 0, 0, 0.2)",
+                background: "linear-gradient(135deg, #10b981 0%, #34d399 100%)",
               }}
             />
             <span>Sectores</span>
@@ -414,18 +739,144 @@ const PronosticoCosteroMap: React.FC = () => {
         </div>
       </IonContent>
 
-      <style>{`
-        @keyframes slideUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
+        {expandedImage && (
+          <div
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              background: "rgba(0, 0, 0, 0.95)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              zIndex: 50,
+              backdropFilter: "blur(4px)",
+              animation: "fadeIn 0.3s ease-out",
+              overflow: "auto",
+              touchAction: "none",
+            }}
+            onClick={() => {
+              setExpandedImage(null);
+              setImageZoom(1);
+            }}
+            onTouchStart={(e) => {
+              if (e.touches.length === 2) {
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                const distance = Math.hypot(
+                  touch1.clientX - touch2.clientX,
+                  touch1.clientY - touch2.clientY
+                );
+                initialDistanceRef.current = distance;
+                e.preventDefault();
+              }
+            }}
+            onTouchMove={(e) => {
+              if (e.touches.length === 2 && initialDistanceRef.current > 0) {
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                const currentDistance = Math.hypot(
+                  touch1.clientX - touch2.clientX,
+                  touch1.clientY - touch2.clientY
+                );
+                const scale = currentDistance / initialDistanceRef.current;
+                const newZoom = Math.min(3, Math.max(1, imageZoom * scale));
+                setImageZoom(newZoom);
+                initialDistanceRef.current = currentDistance;
+                e.preventDefault();
+              }
+            }}
+            onTouchEnd={() => {
+              initialDistanceRef.current = 0;
+            }}
+          >
+            {/* Close Button - Fixed position */}
+            <button
+              onClick={() => {
+                setExpandedImage(null);
+                setImageZoom(1);
+              }}
+              style={{
+                position: "fixed",
+                top: "20px",
+                right: "20px",
+                background: "rgba(255, 255, 255, 0.2)",
+                color: "white",
+                border: "none",
+                width: "40px",
+                height: "40px",
+                borderRadius: "50%",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "24px",
+                transition: "all 0.2s ease",
+                zIndex: 100,
+              }}
+              onMouseEnter={(e) => {
+                (e.target as HTMLButtonElement).style.background =
+                  "rgba(255, 255, 255, 0.3)";
+              }}
+              onMouseLeave={(e) => {
+                (e.target as HTMLButtonElement).style.background =
+                  "rgba(255, 255, 255, 0.2)";
+              }}
+            >
+              ×
+            </button>
+
+            {/* Image Container */}
+            <div
+              style={{
+                position: "relative",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "40px",
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img
+                src={expandedImage || "/placeholder.svg"}
+                alt="Expanded"
+                style={{
+                  maxWidth: "100%",
+                  maxHeight: "100%",
+                  objectFit: "contain",
+                  borderRadius: "8px",
+                  transform: `scale(${imageZoom})`,
+                  transition: "transform 0.2s ease",
+                  userSelect: "none",
+                }}
+                onTouchStart={(e) => e.preventDefault()}
+              />
+            </div>
+          </div>
+        )}
+
+        <style>{`
+          @keyframes slideUp {
+            from {
+              opacity: 0;
+              transform: translateY(20px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
           }
-          to {
-            opacity: 1;
-            transform: translateY(0);
+          @keyframes fadeIn {
+            from {
+              opacity: 0;
+            }
+            to {
+              opacity: 1;
+            }
           }
-        }
-      `}</style>
+        `}</style>
     </IonPage>
   );
 };
