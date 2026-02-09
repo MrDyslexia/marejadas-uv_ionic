@@ -15,25 +15,12 @@ import {
   IonRow,
   IonCol,
   IonSpinner,
-  IonModal,
-  IonTitle,
-  IonButtons,
   IonImg,
 } from "@ionic/react"
-import {
-  chevronBack,
-  chevronDown,
-  chevronUp,
-  folder,
-  close,
-  chevronForward,
-  chevronBackOutline,
-  documentTextOutline,
-} from "ionicons/icons"
+import { chevronBack, chevronDown, folder, documentTextOutline, expandOutline } from "ionicons/icons"
 import data from "../../data/data.json"
+import ImageViewer from "../ui/ImageViewer"
 import "./FolletosScreen.css"
-
-
 
 type FolletosScreenProps = { onBack: () => void }
 
@@ -48,12 +35,19 @@ interface Folleto {
   }>
 }
 
+interface FolletoImagen {
+  id: string
+  url: string
+  descripcion: string
+}
+
 const FolletosScreen: React.FC<FolletosScreenProps> = ({ onBack }) => {
   const { folletos } = data.categorias as unknown as { folletos: Folleto[] }
   const [loadingImages, setLoadingImages] = useState<{ [key: string]: boolean }>({})
   const [expandedFolders, setExpandedFolders] = useState<{ [key: string]: boolean }>({})
-  const [selectedImage, setSelectedImage] = useState<{ urls: string[]; index: number } | null>(null)
-  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [viewerOpen, setViewerOpen] = useState(false)
+  const [viewerImages, setViewerImages] = useState<string[]>([])
+  const [viewerInitialIndex, setViewerInitialIndex] = useState(0)
 
   const handleImageLoad = (id: string) => {
     setLoadingImages((prev) => ({ ...prev, [id]: false }))
@@ -65,12 +59,13 @@ const FolletosScreen: React.FC<FolletosScreenProps> = ({ onBack }) => {
   }
 
   const expandImage = (folleto: Folleto, selectedImageIndex: number) => {
+    console.log("[v0] expandImage called - folleto:", folleto.nombre, "index:", selectedImageIndex)
     const imageUrls = folleto.imagenes.map((img) => img.url)
-    setSelectedImage({
-      urls: imageUrls,
-      index: selectedImageIndex,
-    })
-    setCurrentImageIndex(selectedImageIndex)
+    console.log("[v0] imageUrls:", imageUrls)
+    setViewerImages(imageUrls)
+    setViewerInitialIndex(selectedImageIndex)
+    setViewerOpen(true)
+    console.log("[v0] viewerOpen set to true")
   }
 
   const toggleFolder = (folletoId: string) => {
@@ -80,19 +75,7 @@ const FolletosScreen: React.FC<FolletosScreenProps> = ({ onBack }) => {
     }))
   }
 
-  const nextImage = () => {
-    if (selectedImage && currentImageIndex < selectedImage.urls.length - 1) {
-      setCurrentImageIndex(currentImageIndex + 1)
-    }
-  }
-
-  const prevImage = () => {
-    if (selectedImage && currentImageIndex > 0) {
-      setCurrentImageIndex(currentImageIndex - 1)
-    }
-  }
-
-  const renderFolderPreview = (imagenes: any[]) => {
+  const renderFolderPreview = (imagenes: FolletoImagen[]) => {
     const previewImages = imagenes.slice(0, 3)
 
     return (
@@ -128,7 +111,7 @@ const FolletosScreen: React.FC<FolletosScreenProps> = ({ onBack }) => {
 
   return (
     <IonPage>
-      <IonHeader className="ion-no-border" style={styles.header}>
+      <IonHeader className="ion-no-border header-animated" translucent={true} mode="ios" style={styles.header}>
         <IonToolbar style={styles.headerToolbar}>
           <div style={styles.headerContent}>
             <IonButton fill="clear" onClick={onBack} style={styles.backButton}>
@@ -147,8 +130,15 @@ const FolletosScreen: React.FC<FolletosScreenProps> = ({ onBack }) => {
 
       <IonContent fullscreen style={styles.content}>
         <div style={styles.contentContainer}>
-          {folletos.map((folleto) => (
-            <IonCard key={folleto.id} style={styles.folderContainer}>
+          {folletos.map((folleto, idx) => (
+            <IonCard
+              key={folleto.id}
+              style={{
+                ...styles.folderContainer,
+                animationDelay: `${idx * 0.1}s`,
+              }}
+              className="folder-card-animated"
+            >
               <IonCardContent style={{ padding: 0 }}>
                 <button style={styles.folderHeader} onClick={() => toggleFolder(folleto.id)} type="button">
                   <div style={styles.folderInfo}>
@@ -161,19 +151,28 @@ const FolletosScreen: React.FC<FolletosScreenProps> = ({ onBack }) => {
                     </div>
                   </div>
 
-                  <div style={styles.expandButton}>
-                    <IonIcon icon={expandedFolders[folleto.id] ? chevronUp : chevronDown} color="medium" size="small" />
+                  <div style={styles.expandButton} className="expand-button-hover">
+                    <IonIcon
+                      icon={chevronDown}
+                      color="medium"
+                      size="small"
+                      className={`chevron-animated ${expandedFolders[folleto.id] ? "chevron-rotated" : ""}`}
+                    />
                   </div>
                 </button>
 
                 {expandedFolders[folleto.id] && (
-                  <div style={styles.expandedContent}>
+                  <div style={styles.expandedContent} className="expanded-content-animated">
                     <IonGrid>
                       <IonRow>
                         {folleto.imagenes.map((img, imageIndex) => (
                           <IonCol size="6" key={img.id}>
                             <div style={styles.imageWrapper}>
-                              <button style={styles.imageContainer} onClick={() => expandImage(folleto, imageIndex)}>
+                              <button
+                                style={styles.imageContainer}
+                                onClick={() => expandImage(folleto, imageIndex)}
+                                className="image-hover-effect"
+                              >
                                 <IonImg
                                   src={img.url}
                                   alt={img.descripcion}
@@ -187,6 +186,9 @@ const FolletosScreen: React.FC<FolletosScreenProps> = ({ onBack }) => {
                                     <IonSpinner color="primary" />
                                   </div>
                                 )}
+                                <div style={styles.expandHint}>
+                                  <IonIcon icon={expandOutline} style={{ color: "#ffffff", fontSize: "16px" }} />
+                                </div>
                               </button>
                               <p style={styles.imageDescription}>{img.descripcion}</p>
                             </div>
@@ -209,77 +211,16 @@ const FolletosScreen: React.FC<FolletosScreenProps> = ({ onBack }) => {
         </div>
       </IonContent>
 
-      <IonModal
-        isOpen={!!selectedImage}
-        onDidDismiss={() => {
-          setSelectedImage(null)
-          setCurrentImageIndex(0)
-        }}
-        style={{ "--width": "100%", "--height": "100%", "--border-radius": "0" } as React.CSSProperties}
-      >
-        <IonHeader>
-          <IonToolbar>
-            <IonTitle>{selectedImage && `Imagen ${currentImageIndex + 1} de ${selectedImage.urls.length}`}</IonTitle>
-            <IonButtons slot="end">
-              <IonButton onClick={() => setSelectedImage(null)}>
-                <IonIcon icon={close} />
-              </IonButton>
-            </IonButtons>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent style={styles.imageModalContent}>
-          {selectedImage && (
-            <div style={styles.imageViewer}>
-              <IonButton
-                style={{
-                  ...styles.navButton,
-                  ...(currentImageIndex === 0 ? styles.navButtonDisabled : {}),
-                }}
-                fill="clear"
-                color="light"
-                onClick={prevImage}
-                disabled={currentImageIndex === 0}
-              >
-                <IonIcon icon={chevronBackOutline} />
-              </IonButton>
-
-              <div style={styles.imageContainerModal}>
-                <IonImg
-                  src={selectedImage.urls[currentImageIndex]}
-                  alt={`Imagen ${currentImageIndex + 1}`}
-                  style={styles.expandedImage}
-                  onIonImgWillLoad={() =>
-                    setLoadingImages((prev) => ({ ...prev, [`modal-${currentImageIndex}`]: true }))
-                  }
-                  onIonImgDidLoad={() => handleImageLoad(`modal-${currentImageIndex}`)}
-                  onIonError={() => handleImageError(`modal-${currentImageIndex}`)}
-                />
-                {loadingImages[`modal-${currentImageIndex}`] && (
-                  <div style={styles.modalLoadingOverlay}>
-                    <IonSpinner color="primary" />
-                  </div>
-                )}
-              </div>
-
-              <IonButton
-                style={{
-                  ...styles.navButton,
-                  ...(currentImageIndex === selectedImage.urls.length - 1 ? styles.navButtonDisabled : {}),
-                }}
-                fill="clear"
-                color="light"
-                onClick={nextImage}
-                disabled={currentImageIndex === selectedImage.urls.length - 1}
-              >
-                <IonIcon icon={chevronForward} />
-              </IonButton>
-            </div>
-          )}
-        </IonContent>
-      </IonModal>
+      <ImageViewer
+        isOpen={viewerOpen}
+        images={viewerImages}
+        initialIndex={viewerInitialIndex}
+        onClose={() => setViewerOpen(false)}
+      />
     </IonPage>
   )
 }
+
 const styles = {
   header: {
     background: "transparent",
@@ -513,60 +454,18 @@ const styles = {
     color: "#94a3b8",
     margin: 0,
   },
-  // Modal styles
-  imageModalContent: {
-    "--background": "#000",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    position: "relative" as const,
-  } as React.CSSProperties,
-  imageViewer: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-    height: "100%",
-    position: "relative" as const,
-    padding: "0 20px",
-  },
-  imageContainerModal: {
-    flex: 1,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "100%",
-    maxWidth: "calc(100% - 120px)",
-    position: "relative" as const,
-  },
-  expandedImage: {
-    maxWidth: "100%",
-    maxHeight: "100%",
-    objectFit: "contain" as const,
-  },
-  navButton: {
-    "--background": "rgba(255, 255, 255, 0.2)",
-    "--background-hover": "rgba(255, 255, 255, 0.4)",
-    "--background-activated": "rgba(255, 255, 255, 0.3)",
-    "--border-radius": "50%",
-    width: "50px",
-    height: "50px",
-    margin: "0 1rem",
-  } as React.CSSProperties,
-  navButtonDisabled: {
-    "--background": "rgba(255, 255, 255, 0.1)",
-    opacity: 0.5,
-  } as React.CSSProperties,
-  modalLoadingOverlay: {
+  expandHint: {
     position: "absolute" as const,
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    background: "rgba(0, 0, 0, 0.7)",
+    bottom: "8px",
+    right: "8px",
+    width: "28px",
+    height: "28px",
+    borderRadius: "14px",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
   },
 }
+
 export default FolletosScreen

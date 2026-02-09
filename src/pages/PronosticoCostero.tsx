@@ -21,7 +21,6 @@ import {
 import { chevronForward, location, navigate } from "ionicons/icons"
 import { useHistory } from "react-router-dom"
 import data from "../data/data.json"
-import InteractiveMapModal from "../components/pc/InteractiveMapModal"
 import type { Pronostico } from "../types/type"
 import "./PronosticoCostero.css"
 import { MapIcon, Pin } from "lucide-react"
@@ -36,7 +35,7 @@ const datosEjemplo = {
 const PronosticoCosteroScreen: React.FC = () => {
   const [pronosticos, setPronosticos] = useState<Pronostico[]>([])
   const [cargando, setCargando] = useState(true)
-  const [modalVisible, setModalVisible] = useState(false)
+
   const history = useHistory()
 
   useEffect(() => {
@@ -48,12 +47,12 @@ const PronosticoCosteroScreen: React.FC = () => {
 
   const navegarADetalle = (pronostico: Pronostico) => {
     console.log('🔍 Navegando a PdModal con datos:', pronostico)
-    
+
     // ✅ Usar el objeto de location con state
     history.push({
       pathname: '/pdmodal',
-      state: { 
-        pronosticoData: pronostico 
+      state: {
+        pronosticoData: pronostico
       }
     })
   }
@@ -63,8 +62,8 @@ const PronosticoCosteroScreen: React.FC = () => {
     return sectoresConCoordenadas.length
   }
 
-  const closeMapModal = () => {
-    setModalVisible(false)
+  const navigateToMap = () => {
+    history.push('/pronostico-costero-map')
   }
 
   if (cargando) {
@@ -86,15 +85,13 @@ const PronosticoCosteroScreen: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar color="primary">
-          <IonTitle>
-            <div className="header-content">
-              <IonText color="light">
-                <h1 className="header-title">Pronóstico costero</h1>
-              </IonText>
-              <IonText color="light">
-                <p className="header-subtitle">Selecciona un pronóstico para ver detalles</p>
-              </IonText>
-            </div>
+          <IonTitle style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", padding: "12px", margin: 12 }}>
+            <IonText color="light">
+              <h1 className="header-title">Pronóstico costero</h1>
+            </IonText>
+            <IonText color="light">
+              <p className="header-subtitle">Selecciona un pronóstico para ver detalles</p>
+            </IonText>
           </IonTitle>
 
           <IonButton
@@ -102,9 +99,9 @@ const PronosticoCosteroScreen: React.FC = () => {
             fill="clear"
             color="light"
             className="map-button"
-            onClick={() => setModalVisible(true)}
+            onClick={() => navigateToMap()}
           >
-            <MapIcon size={32}/>
+            <MapIcon size={32} />
           </IonButton>
         </IonToolbar>
       </IonHeader>
@@ -123,7 +120,7 @@ const PronosticoCosteroScreen: React.FC = () => {
                 <div className="card-header">
                   <div className="title-row">
                     <div className="icon-badge">
-                      <Pin size={32} color="white"/>
+                      <Pin size={32} color="white" />
                     </div>
                     <div className="title-content">
                       <h2 className="tarjeta-titulo">{item.nombre}</h2>
@@ -192,8 +189,6 @@ const PronosticoCosteroScreen: React.FC = () => {
           ))}
         </div>
       </IonContent>
-
-      <InteractiveMapModal isOpen={modalVisible} onClose={closeMapModal} />
     </IonPage>
   )
 }

@@ -29,6 +29,10 @@ export type Region = {
   datosPronostico: DatosPronostico
 }
 export type Sector = {
+  coordenadas: {
+    lat: number
+    lng: number
+  } | null
   id: string
   nombre: string
   datos: DatosSector

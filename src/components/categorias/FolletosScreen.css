@@ -1,397 +1,84 @@
-.folletos-content {
-  /* Fondo gris claro como en la referencia */
-  --background: #f1f5f9;
+/* Animaciones para FolletosScreen */
+
+/* Animación fade-in para el header */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* Header con gradiente azul claro de la referencia */
-.header-toolbar {
-  --background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 50%, #38bdf8 100%);
-  --color: #ffffff;
-  padding-bottom: 14px;
-  border-bottom-left-radius: 24px;
-  border-bottom-right-radius: 24px;
+/* Animación para el contenido expandido de las carpetas */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    max-height: 1000px;
+    transform: translateY(0);
+  }
 }
 
-/* Contenedor flex para el header */
-.header-content {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 12px 20px;
-  gap: 12px;
+/* Animación para las tarjetas de carpetas */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* Botón circular de retroceso */
-.back-button {
-  --color: #ffffff;
-  --background: rgba(255, 255, 255, 0.2);
-  --background-hover: rgba(255, 255, 255, 0.3);
-  --background-activated: rgba(255, 255, 255, 0.25);
-  --border-radius: 50%;
-  --padding-start: 0;
-  --padding-end: 0;
-  width: 40px;
-  height: 40px;
-  min-width: 40px;
-  margin: 0;
+/* Clase para aplicar animación fade-in al header */
+.header-animated {
+  animation: fadeIn 0.4s ease-out forwards;
 }
 
-.back-button ion-icon {
-  font-size: 24px;
-}
-
-/* Grupo de título alineado a la izquierda */
-.header-info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.header-title {
-  font-size: 22px;
-  font-weight: 700;
-  margin: 12px 0 2px 0;
-  color: #ffffff;
-}
-
-.header-subtitle {
-  font-size: 14px;
-  margin: 0;
-  color: rgba(255, 255, 255, 0.85);
-  font-weight: 400;
-}
-
-/* Fin de estilos del header */
-
-.content-container {
-  padding: 16px;
-  padding-bottom: 40px;
-}
-
-/* Tarjetas de carpeta con estilo de la referencia */
-.folder-container {
-  margin-bottom: 12px;
-  border-radius: 16px;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+/* Clase para aplicar animación al contenido expandido */
+.expanded-content-animated {
+  animation: slideDown 0.3s ease-out forwards;
   overflow: hidden;
 }
 
-.folder-header {
-  display: flex;
-  align-items: center;
-  padding: 16px;
-  cursor: pointer;
-  background: transparent;
-  border: none;
-  width: 100%;
+/* Clase para aplicar animación a las tarjetas de carpetas */
+.folder-card-animated {
+  animation: fadeInUp 0.4s ease-out forwards;
 }
 
-.folder-info {
-  flex: 1;
-  display: flex;
-  align-items: center;
+/* Efecto hover para las imágenes */
+.image-hover-effect {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.folder-preview {
-  width: 80px;
-  height: 60px;
-  margin-right: 16px;
-  position: relative;
-}
-
-.preview-image-container {
-  position: absolute;
-  width: 50px;
-  height: 40px;
-  border-radius: 8px;
-  background-color: #f1f5f9;
-  border: 2px solid #fff;
-  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.1);
-  overflow: hidden;
-}
-
-.preview-image {
-  width: 100%;
-  height: 100%;
-  border-radius: 6px;
-  object-fit: cover;
-}
-
-.preview-loading-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(241, 245, 249, 0.8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 6px;
-}
-
-/* Icono de carpeta con fondo celeste claro */
-.folder-icon {
-  position: absolute;
-  top: -6px;
-  right: 8px;
-  background-color: #e0f2fe;
-  border-radius: 8px;
-  padding: 4px;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.1);
-  z-index: 12;
-}
-
-.folder-icon ion-icon {
-  color: #0284c7;
-  font-size: 20px;
-}
-
-/* Contador con color primario */
-.image-counter {
-  position: absolute;
-  bottom: -2px;
-  right: 8px;
-  background-color: #0284c7;
-  border-radius: 10px;
-  min-width: 20px;
-  height: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 6px;
-  z-index: 100;
-}
-
-.image-counter-text {
-  font-size: 12px;
-  font-weight: 600;
-  color: #ffffff;
-}
-
-.folder-details {
-  flex: 1;
-}
-
-/* Nombre de carpeta con color oscuro */
-.folder-name {
-  font-size: 16px;
-  font-weight: 600;
-  margin: 0 0 4px 0;
-  color: #0f172a;
-}
-
-/* Subtítulo con color gris */
-.folder-subtitle {
-  font-size: 13px;
-  margin: 0;
-  color: #64748b;
-}
-
-/* Botón expandir circular con fondo gris */
-.expand-button {
-  width: 36px;
-  height: 36px;
-  border-radius: 18px;
-  background-color: #f1f5f9;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  cursor: pointer;
-}
-
-.expand-button ion-icon {
-  color: #64748b;
-}
-
-/* Contenido expandido con borde superior */
-.expanded-content {
-  padding: 0 16px 16px 16px;
-  border-top: 1px solid #e2e8f0;
-}
-
-.image-wrapper {
-  margin-bottom: 12px;
-}
-
-.image-container {
-  border-radius: 12px;
-  overflow: hidden;
-  background-color: #f1f5f9;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-  height: 140px;
-  position: relative;
-}
-
-.image-container:hover {
+.image-hover-effect:hover {
   transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
 }
 
-.image {
-  width: 100%;
-  height: 100%;
-  border-radius: 12px;
-  object-fit: cover;
+/* Efecto hover para el botón de expandir */
+.expand-button-hover {
+  transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
-.loading-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(241, 245, 249, 0.8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.expand-button-hover:hover {
+  background-color: #e2e8f0;
+  transform: scale(1.05);
 }
 
-/* Descripción con color y espaciado de la referencia */
-.image-description {
-  font-size: 12px;
-  text-align: center;
-  margin-top: 8px;
-  line-height: 16px;
-  color: #64748b;
+/* Rotación suave del icono de chevron */
+.chevron-animated {
+  transition: transform 0.3s ease;
 }
 
-/* Estado vacío centrado */
-.empty-state {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 60px 0;
-}
-
-.empty-state ion-icon {
-  font-size: 48px;
-  color: #cbd5e1;
-  margin-bottom: 12px;
-}
-
-.empty-state-text {
-  font-size: 15px;
-  color: #94a3b8;
-  margin: 0;
-}
-
-/* Estilos para el modal de imágenes */
-.image-modal {
-  --width: 100%;
-  --height: 100%;
-  --border-radius: 0;
-}
-
-.image-modal-content {
-  --background: #000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-}
-
-.image-viewer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  position: relative;
-  padding: 0 20px;
-}
-
-.image-container-modal {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  max-width: calc(100% - 120px);
-  position: relative;
-}
-
-.expanded-image {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-}
-
-.nav-button {
-  --background: rgba(255, 255, 255, 0.2);
-  --background-hover: rgba(255, 255, 255, 0.4);
-  --background-activated: rgba(255, 255, 255, 0.3);
-  --border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  margin: 0 1rem;
-}
-
-.nav-button:disabled {
-  --background: rgba(255, 255, 255, 0.1);
-  opacity: 0.5;
-}
-
-.modal-loading-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .content-container {
-    padding: 16px;
-  }
-
-  .folder-header {
-    padding: 8px;
-    background-color: transparent;
-    width: 100%;
-  }
-
-  .folder-preview {
-    width: 70px;
-    height: 50px;
-    margin-right: 12px;
-  }
-
-  .nav-button {
-    width: 40px;
-    height: 40px;
-    margin: 0 0.5rem;
-  }
-
-  .image-container-modal {
-    max-width: calc(100% - 100px);
-  }
-
-  .image-viewer {
-    padding: 0 10px;
-  }
-}
-
-/* Mejorar la experiencia táctil en móviles */
-@media (max-width: 480px) {
-  .folder-info {
-    flex-direction: row;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .folder-preview {
-    margin-right: 0;
-    margin-bottom: 12px;
-  }
+.chevron-rotated {
+  transform: rotate(180deg);
 }

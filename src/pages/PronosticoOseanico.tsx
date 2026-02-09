@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from "react";
 import {
   IonContent,
@@ -8,11 +10,11 @@ import {
   IonButton,
   IonText,
 } from "@ionic/react";
+import { useHistory } from "react-router-dom";
 import { Map } from "lucide-react";
 import AnimatedMap from "../components/po/AnimatedMap";
 import RegionDetailModal from "../components/po/RegionDetailModal";
 import RegionList from "../components/po/RegionList";
-import InteractiveMapModal from "../components/po/InteractiveMapModal";
 import type { Region } from "../types/type";
 import "./PronosticoOseanico.css";
 
@@ -23,7 +25,7 @@ interface PronosticoOseanicoProps {
 const PronosticoOseanico: React.FC<PronosticoOseanicoProps> = ({ regions }) => {
   const [selectedRegion, setSelectedRegion] = useState<Region | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const [mapVisible, setMapVisible] = useState(false);
+  const history = useHistory();
 
   const handleRegionSelect = (region: Region) => {
     setSelectedRegion(region);
@@ -35,8 +37,8 @@ const PronosticoOseanico: React.FC<PronosticoOseanicoProps> = ({ regions }) => {
     setModalVisible(false);
   };
 
-  const closeMapModal = () => {
-    setMapVisible(false);
+  const navigateToMap = () => {
+    history.push('/pronostico-oceanico-map')
   };
 
   return (
@@ -61,7 +63,7 @@ const PronosticoOseanico: React.FC<PronosticoOseanicoProps> = ({ regions }) => {
             fill="clear"
             color="light"
             className="map-button"
-            onClick={() => setMapVisible(true)}
+            onClick={() => navigateToMap()}
           >
             <Map size={24} color="white" />
             <span className="header-button-text">Ver mapa oceánico</span>
@@ -77,13 +79,6 @@ const PronosticoOseanico: React.FC<PronosticoOseanicoProps> = ({ regions }) => {
           isOpen={modalVisible}
           region={selectedRegion}
           onClose={closeModal}
-        />
-        
-        <InteractiveMapModal
-          isOpen={mapVisible}
-          regions={regions}
-          onRegionSelect={handleRegionSelect}
-          onClose={closeMapModal}
         />
       </IonContent>
     </IonPage>

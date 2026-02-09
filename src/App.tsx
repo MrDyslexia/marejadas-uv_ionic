@@ -8,11 +8,13 @@ import {
   IonTabs,
   setupIonicReact,
 } from "@ionic/react";
-import { FolderOpen, HomeIcon, TrendingUpDown, Waves } from "lucide-react";
+import { FolderOpen, HomeIcon, TrendingDown as TrendingUpDown, Waves } from "lucide-react";
 import { IonReactRouter } from "@ionic/react-router";
 import Home from "./pages/Home";
 import PronosticoCostero from "./pages/PronosticoCostero";
 import PronosticoOseanico from "./pages/PronosticoOseanico";
+import PronosticoCosteroMap from "./pages/PronosticoCosteroMap";
+import PronosticoOseanicoMap from "./pages/PronosticoOseanicoMap";
 import CategoriesView from "./pages/CategoriesView";
 import PdModal from "./pages/PdModal";
 import type { Region } from "./types/type";
@@ -68,9 +70,15 @@ const App: React.FC = () => {
           </IonTabBar>
         </IonTabs>
 
-        {/* ✅ Rutas que NO deben mostrar el tab bar */}
+        {/* Rutas que NO deben mostrar el tab bar */}
         <Route exact path="/pdmodal">
           <PdModal />
+        </Route>
+        <Route exact path="/pronostico-costero-map">
+          <PronosticoCosteroMap />
+        </Route>
+        <Route exact path="/pronostico-oceanico-map">
+          <PronosticoOseanicoMap />
         </Route>
       </IonReactRouter>
     </IonApp>
