@@ -51,6 +51,7 @@ export type Pronostico = {
   mosaico_pronostico: string
   markers: Marker[]
   sectores: Sector[]
+  
 }
 export type Acc = {
   id: string

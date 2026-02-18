@@ -26,7 +26,7 @@ import "./PronosticoCostero.css"
 import { MapIcon, Pin } from "lucide-react"
 
 const datosEjemplo = {
-  pronosticos: data.pronosticos.map((p: any) => ({
+  pronosticos: data.pc.map((p: any) => ({
     ...p,
     markers: p.markers ?? [],
   })),
@@ -46,9 +46,6 @@ const PronosticoCosteroScreen: React.FC = () => {
   }, [])
 
   const navegarADetalle = (pronostico: Pronostico) => {
-    console.log('🔍 Navegando a PdModal con datos:', pronostico)
-
-    // ✅ Usar el objeto de location con state
     history.push({
       pathname: '/pdmodal',
       state: {
@@ -178,7 +175,7 @@ const PronosticoCosteroScreen: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="card-footer" style={{flexDirection:'row'}}>
+                <div className="card-footer" style={{flexDirection:'row', justifyContent:'space-between', alignItems:'center'}}>
                   <span className="card-footer-text">Ver detalles completos</span>
                   <div className="card-footer-icon">
                     <IonIcon icon={chevronForward} />

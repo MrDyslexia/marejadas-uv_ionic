@@ -24,10 +24,11 @@ import {
   IonCol,
   IonText,
 } from "@ionic/react"
-import { closeOutline, expandOutline, locationOutline, waterOutline } from "ionicons/icons"
+import { closeOutline, locationOutline, waterOutline } from "ionicons/icons"
 import { useHistory, useLocation } from "react-router-dom"
 import "./PdModal.css"
-import { ChevronLeft } from "lucide-react"
+import { ChevronLeft, Maximize2, Gauge, Waves, Compass, Droplets, Grid3x3 } from "lucide-react"
+import ImageViewer from "../components/ui/ImageViewer"
 
 interface Sector {
   id: string
@@ -69,6 +70,9 @@ const PdModal: React.FC = () => {
   const [selectedSector, setSelectedSector] = useState<Sector | null>(null)
   const [selectedTab, setSelectedTab] = useState("categoria")
   const [loading, setLoading] = useState(false)
+  const [imageViewerOpen, setImageViewerOpen] = useState(false)
+  const [currentImages, setCurrentImages] = useState<string[]>([])
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
   useEffect(() => {
     if (pronosticoData?.sectores?.length > 0) {
@@ -76,13 +80,22 @@ const PdModal: React.FC = () => {
     }
   }, [pronosticoData])
 
+  // Cleanup cuando el componente se desmonta o cuando el usuario navega
+  useEffect(() => {
+    return () => {
+      setImageViewerOpen(false)
+      setCurrentImages([])
+      setCurrentImageIndex(0)
+    }
+  }, [])
+
   const tabConfig = useMemo(
     () => [
-      { key: "categoria", label: "Categoría", icon: "📊" },
-      { key: "altura", label: "Altura", icon: "📏" },
-      { key: "periodo", label: "Período", icon: "⏱️" },
-      { key: "direccion", label: "Dirección", icon: "🧭" },
-      { key: "marea", label: "Marea", icon: "🌊" },
+      { key: "categoria", label: "Categoría", icon: Grid3x3, color: "#06b6d4" },
+      { key: "altura", label: "Altura", icon: Gauge, color: "#0891b2" },
+      { key: "periodo", label: "Período", icon: Waves, color: "#06b6d4" },
+      { key: "direccion", label: "Dirección", icon: Compass, color: "#0891b2" },
+      { key: "marea", label: "Marea", icon: Droplets, color: "#06b6d4" },
     ],
     [],
   )
@@ -102,7 +115,18 @@ const PdModal: React.FC = () => {
   }
 
   const expandImage = (url: string) => {
-    history.push("/img-expand", { expandedImage: url })
+    setCurrentImages([url])
+    setCurrentImageIndex(0)
+    setImageViewerOpen(true)
+  }
+
+  const closeImageViewer = () => {
+    setImageViewerOpen(false)
+    // Limpiar datos de la imagen después de que se cierre
+    setTimeout(() => {
+      setCurrentImages([])
+      setCurrentImageIndex(0)
+    }, 100)
   }
 
   const renderTabContent = () => {
@@ -151,9 +175,14 @@ const PdModal: React.FC = () => {
 
     return (
       <div className="image-container enhanced">
-        <IonButton fill="clear" className="expand-button-enhanced" onClick={() => expandImage(imageUrl)}>
-          <IonIcon icon={expandOutline} slot="icon-only" />
-        </IonButton>
+        <button
+          className="expand-button-enhanced-lucide"
+          onClick={() => expandImage(imageUrl)}
+          type="button"
+          aria-label="Expandir imagen"
+        >
+          <Maximize2 size={20} color="white" />
+        </button>
         <img src={imageUrl || "/placeholder.svg"} alt={`Datos de ${selectedTab}`} className="data-image" />
       </div>
     )
@@ -194,9 +223,6 @@ const PdModal: React.FC = () => {
           </IonButtons>
           <IonTitle>{pronosticoData.nombre}</IonTitle>
         </IonToolbar>
-        <IonToolbar color="primary" className="subtitle-toolbar">
-          <IonTitle size="small">Pronóstico Marítimo Detallado</IonTitle>
-        </IonToolbar>
       </IonHeader>
 
       <IonContent scrollY={true} fullscreen={false} className="modal-content">
@@ -212,13 +238,14 @@ const PdModal: React.FC = () => {
           </IonCardHeader>
           <IonCardContent>
             <div className="image-container enhanced">
-              <IonButton
-                fill="clear"
-                className="expand-button-enhanced"
+              <button
+                className="expand-button-enhanced-lucide"
                 onClick={() => expandImage(pronosticoData.mapa_pronostico)}
+                type="button"
+                aria-label="Expandir mapa"
               >
-                <IonIcon icon={expandOutline} slot="icon-only" />
-              </IonButton>
+                <Maximize2 size={20} color="white" />
+              </button>
               <img
                 src={pronosticoData.mapa_pronostico || "/placeholder.svg"}
                 alt="Mapa de pronóstico"
@@ -240,13 +267,14 @@ const PdModal: React.FC = () => {
           </IonCardHeader>
           <IonCardContent>
             <div className="image-container enhanced">
-              <IonButton
-                fill="clear"
-                className="expand-button-enhanced"
+              <button
+                className="expand-button-enhanced-lucide"
                 onClick={() => expandImage(pronosticoData.mosaico_pronostico)}
+                type="button"
+                aria-label="Expandir mosaico"
               >
-                <IonIcon icon={expandOutline} slot="icon-only" />
-              </IonButton>
+                <Maximize2 size={20} color="white" />
+              </button>
               <img
                 src={pronosticoData.mosaico_pronostico || "/placeholder.svg"}
                 alt="Mosaico de pronóstico"
@@ -256,7 +284,7 @@ const PdModal: React.FC = () => {
           </IonCardContent>
         </IonCard>
 
-        {/* Ubicaciones */}
+        {/* Ubicaciones 
         <IonCard className="forecast-card">
           <IonCardHeader>
             <IonCardTitle className="card-title-enhanced">
@@ -294,8 +322,7 @@ const PdModal: React.FC = () => {
               </IonRow>
             </IonGrid>
           </IonCardContent>
-        </IonCard>
-
+        </IonCard> */}
         {/* Análisis por Sectores */}
         <IonCard className="forecast-card">
           <IonCardHeader>
@@ -340,7 +367,7 @@ const PdModal: React.FC = () => {
                   <IonSegmentButton key={tab.key} value={tab.key} className="segment-button-enhanced">
                     <IonLabel>
                       <div className="tab-content-enhanced">
-                        <span className="tab-emoji">{tab.icon}</span>
+                        <tab.icon size={18} color={selectedTab === tab.key ? tab.color : "#94a3b8"} />
                         <span className="tab-label">{tab.label}</span>
                       </div>
                     </IonLabel>
@@ -354,6 +381,13 @@ const PdModal: React.FC = () => {
           </IonCardContent>
         </IonCard>
       </IonContent>
+
+      <ImageViewer
+        isOpen={imageViewerOpen}
+        images={currentImages}
+        initialIndex={currentImageIndex}
+        onClose={closeImageViewer}
+      />
     </>
   )
 }

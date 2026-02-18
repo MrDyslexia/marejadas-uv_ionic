@@ -9,6 +9,9 @@ import {
   IonSegment,
   IonSegmentButton,
   IonLabel,
+  IonModal,
+  IonPage,
+  IonContent,
 } from "@ionic/react";
 import {
   play,
@@ -16,8 +19,11 @@ import {
   playForward,
   playBack,
   expandOutline,
+  close,
+  chevronBack,
+  chevronForward,
 } from "ionicons/icons";
-import { useHistory } from "react-router-dom";
+import { Waves } from "lucide-react";
 import "./AnimatedMap.css";
 
 const AnimatedMap: React.FC = () => {
@@ -28,11 +34,15 @@ const AnimatedMap: React.FC = () => {
   const [preloadedFrames, setPreloadedFrames] = useState<
     Record<number, string>
   >({});
-  const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [frameRate, setFrameRate] = useState<number>(200);
+  const [isFullscreenOpen, setIsFullscreenOpen] = useState(false);
+  const [fullscreenIsPlaying, setFullscreenIsPlaying] = useState(false);
+  const [fullscreenShowHud, setFullscreenShowHud] = useState(true);
   const totalFrames = 61;
   const animationRef = useRef<NodeJS.Timeout | null>(null);
-  const history = useHistory();
+  const fullscreenAnimationRef = useRef<NodeJS.Timeout | null>(null);
+  const fullscreenHudTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const fullscreenContainerRef = useRef<HTMLDivElement>(null);
 
   // Función para generar la URL de la imagen
   const getImageUrl = (frame: number) => {
@@ -101,9 +111,7 @@ const AnimatedMap: React.FC = () => {
     if (isPlaying && !isInitialLoading) {
       animationRef.current = setInterval(() => {
         setCurrentFrame((prev) => {
-          const nextFrame = prev === totalFrames ? 1 : prev + 1;
-          setActiveImageIndex((current) => (current === 0 ? 1 : 0));
-          return nextFrame;
+          return prev === totalFrames ? 1 : prev + 1;
         });
       }, frameRate);
     } else if (animationRef.current) {
@@ -124,18 +132,14 @@ const AnimatedMap: React.FC = () => {
   const goToNextFrame = () => {
     if (isPlaying) setIsPlaying(false);
     setCurrentFrame((prev) => {
-      const nextFrame = prev === totalFrames ? 1 : prev + 1;
-      setActiveImageIndex((current) => (current === 0 ? 1 : 0));
-      return nextFrame;
+      return prev === totalFrames ? 1 : prev + 1;
     });
   };
 
   const goToPrevFrame = () => {
     if (isPlaying) setIsPlaying(false);
     setCurrentFrame((prev) => {
-      const nextFrame = prev === 1 ? totalFrames : prev - 1;
-      setActiveImageIndex((current) => (current === 0 ? 1 : 0));
-      return nextFrame;
+      return prev === 1 ? totalFrames : prev - 1;
     });
   };
 
@@ -143,25 +147,79 @@ const AnimatedMap: React.FC = () => {
     if (!value) return;
     const newFrameRate = typeof value === 'string' ? Number.parseInt(value) : value;
     setFrameRate(newFrameRate);
-    
+
     if (isPlaying) {
       if (animationRef.current) {
         clearInterval(animationRef.current);
       }
-      
+
       animationRef.current = setInterval(() => {
         setCurrentFrame((prev) => {
-          const nextFrame = prev === totalFrames ? 1 : prev + 1;
-          setActiveImageIndex((current) => (current === 0 ? 1 : 0));
-          return nextFrame;
+          return prev === totalFrames ? 1 : prev + 1;
         });
       }, newFrameRate);
     }
   };
 
-  const expandImage = (url: string) => {
-    history.push("/img-expand", { expandedImage: url });
+  const expandImage = () => {
+    setIsFullscreenOpen(true);
+    setFullscreenIsPlaying(false);
+    setFullscreenShowHud(true);
+    showFullscreenHudTemporarily();
   };
+
+  const closeFullscreen = () => {
+    setIsFullscreenOpen(false);
+    if (fullscreenAnimationRef.current) {
+      clearInterval(fullscreenAnimationRef.current);
+    }
+    if (fullscreenHudTimeoutRef.current) {
+      clearTimeout(fullscreenHudTimeoutRef.current);
+    }
+    setFullscreenIsPlaying(false);
+  };
+
+  const showFullscreenHudTemporarily = () => {
+    setFullscreenShowHud(true);
+    if (fullscreenHudTimeoutRef.current) {
+      clearTimeout(fullscreenHudTimeoutRef.current);
+    }
+    fullscreenHudTimeoutRef.current = setTimeout(() => {
+      setFullscreenShowHud(false);
+    }, 3000);
+  };
+
+  const toggleFullscreenHud = () => {
+    if (fullscreenShowHud) {
+      setFullscreenShowHud(false);
+      if (fullscreenHudTimeoutRef.current) {
+        clearTimeout(fullscreenHudTimeoutRef.current);
+      }
+    } else {
+      showFullscreenHudTemporarily();
+    }
+  };
+
+  // Control de animación fullscreen
+  useEffect(() => {
+    if (!isFullscreenOpen) return;
+
+    if (fullscreenIsPlaying) {
+      fullscreenAnimationRef.current = setInterval(() => {
+        setCurrentFrame((prev) => {
+          return prev === totalFrames ? 1 : prev + 1;
+        });
+      }, frameRate);
+    } else if (fullscreenAnimationRef.current) {
+      clearInterval(fullscreenAnimationRef.current);
+    }
+
+    return () => {
+      if (fullscreenAnimationRef.current) {
+        clearInterval(fullscreenAnimationRef.current);
+      }
+    };
+  }, [fullscreenIsPlaying, isFullscreenOpen, frameRate]);
 
   const currentImageUrl = preloadedFrames[currentFrame] || getImageUrl(currentFrame);
 
@@ -169,9 +227,12 @@ const AnimatedMap: React.FC = () => {
     return (
       <IonCard className="animated-map-container">
         <IonCardContent>
-          <IonText>
-            <h2 className="section-title">Mapa Animado</h2>
-          </IonText>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
+            <Waves size={22} color="#0284c7" />
+            <IonText>
+              <h2 className="section-title" style={{ margin: "0" }}>Mapa Animado</h2>
+            </IonText>
+          </div>
           <div className="loader-container">
             <IonSpinner color="primary" />
             <IonText color="medium">
@@ -190,82 +251,432 @@ const AnimatedMap: React.FC = () => {
   }
 
   return (
-    <IonCard className="animated-map-container">
-      <IonCardContent>
-        <IonText>
-          <h2 className="section-title">Mapa Animado</h2>
-        </IonText>
-        
-        <div className="map-frame-container">
-          <div className="image-container">
-            <IonButton
-              fill="clear"
-              className="expand-button"
-              onClick={() => expandImage(currentImageUrl)}
-            >
-              <IonIcon icon={expandOutline} slot="icon-only" />
-            </IonButton>
-            <img
-              src={currentImageUrl}
-              alt={`Frame ${currentFrame}`}
-              className="map-frame"
+    <>
+      <IonCard className="animated-map-container">
+        <IonCardContent>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
+            <Waves size={22} color="#0284c7" />
+            <IonText>
+              <h2 className="section-title" style={{ margin: "0" }}>Mapa Animado</h2>
+            </IonText>
+          </div>
+          
+          <div className="map-frame-container">
+            <div className="image-container">
+              <IonButton
+                fill="clear"
+                className="expand-button"
+                onClick={expandImage}
+              >
+                <IonIcon icon={expandOutline} slot="icon-only" />
+              </IonButton>
+              <img
+                src={currentImageUrl}
+                alt={`Frame ${currentFrame}`}
+                className="map-frame"
+              />
+            </div>
+            <div className="frame-counter">
+              Frame: {currentFrame}/{totalFrames}
+            </div>
+          </div>
+
+          <div className="slider-track">
+            <div
+              className="slider-fill"
+              style={{ width: `${((currentFrame - 1) / (totalFrames - 1)) * 100}%` }}
             />
           </div>
-          <div className="frame-counter">
-            Frame: {currentFrame}/{totalFrames}
+
+          <div className="controls-container">
+            <IonButton
+              fill="clear"
+              className="control-button"
+              onClick={goToPrevFrame}
+            >
+              <IonIcon icon={playBack} slot="icon-only" />
+            </IonButton>
+
+            <IonButton
+              className="play-pause-button"
+              onClick={() => setIsPlaying(!isPlaying)}
+            >
+              <IonIcon icon={isPlaying ? pause : play} slot="icon-only" />
+            </IonButton>
+
+            <IonButton
+              fill="clear"
+              className="control-button"
+              onClick={goToNextFrame}
+            >
+              <IonIcon icon={playForward} slot="icon-only" />
+            </IonButton>
           </div>
-        </div>
 
-        <div className="slider-track">
-          <div
-            className="slider-fill"
-            style={{ width: `${((currentFrame - 1) / (totalFrames - 1)) * 100}%` }}
-          />
-        </div>
+          <div className="speed-control-container">
+            <IonSegment
+              value={frameRate.toString()}
+              onIonChange={(e) => {
+                const value = e.detail.value;
+                if (value !== undefined) {
+                  updateFrameRate(value);
+                }
+              }}
+            >
+              <IonSegmentButton value="500">
+                <IonLabel>0.5x</IonLabel>
+              </IonSegmentButton>
+              <IonSegmentButton value="200">
+                <IonLabel>1x</IonLabel>
+              </IonSegmentButton>
+              <IonSegmentButton value="100">
+                <IonLabel>2x</IonLabel>
+              </IonSegmentButton>
+            </IonSegment>
+          </div>
+        </IonCardContent>
+      </IonCard>
 
-        <div className="controls-container">
-          <IonButton
-            fill="clear"
-            className="control-button"
-            onClick={goToPrevFrame}
-          >
-            <IonIcon icon={playBack} slot="icon-only" />
-          </IonButton>
+      {/* Fullscreen Modal */}
+      <IonModal
+        isOpen={isFullscreenOpen}
+        onDidDismiss={closeFullscreen}
+        backdropDismiss={true}
+        showBackdrop={true}
+      >
+        <IonPage>
+          <IonContent scrollY={false} fullscreen style={{ "--background": "#000000" } as React.CSSProperties}>
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundColor: "#000000",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              {/* Header */}
+              <div
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  padding: "16px 20px",
+                  paddingTop: "calc(16px + var(--ion-safe-area-top, 0px))",
+                  background: "linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, transparent 100%)",
+                  zIndex: 100,
+                  opacity: fullscreenShowHud ? 1 : 0,
+                  transform: fullscreenShowHud ? "translateY(0)" : "translateY(-20px)",
+                  transition: "opacity 0.3s ease, transform 0.3s ease",
+                  pointerEvents: fullscreenShowHud ? "auto" : "none",
+                }}
+              >
+                <button
+                  onClick={closeFullscreen}
+                  type="button"
+                  style={{
+                    width: "44px",
+                    height: "44px",
+                    borderRadius: "22px",
+                    background: "rgba(255, 255, 255, 0.2)",
+                    border: "none",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    color: "#ffffff",
+                    fontSize: "24px",
+                    cursor: "pointer",
+                    WebkitTapHighlightColor: "transparent",
+                  }}
+                  aria-label="Cerrar"
+                >
+                  <IonIcon icon={close} />
+                </button>
+                <div
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: 600,
+                    color: "#ffffff",
+                    textShadow: "0 2px 4px rgba(0, 0, 0, 0.5)",
+                  }}
+                >
+                  Frame: {currentFrame}/{totalFrames}
+                </div>
+                <div style={{ width: "44px" }} />
+              </div>
 
-          <IonButton
-            className="play-pause-button"
-            onClick={togglePlayPause}
-          >
-            <IonIcon icon={isPlaying ? pause : play} slot="icon-only" />
-          </IonButton>
+              {/* Image Container */}
+              <div
+                ref={fullscreenContainerRef}
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  overflow: "hidden",
+                  touchAction: "none",
+                }}
+                onClick={toggleFullscreenHud}
+              >
+                <img
+                  src={preloadedFrames[currentFrame] || getImageUrl(currentFrame)}
+                  alt={`Frame ${currentFrame}`}
+                  style={{
+                    maxWidth: "100vw",
+                    maxHeight: "100vh",
+                    objectFit: "contain",
+                    userSelect: "none",
+                    pointerEvents: "none",
+                  }}
+                />
+              </div>
 
-          <IonButton
-            fill="clear"
-            className="control-button"
-            onClick={goToNextFrame}
-          >
-            <IonIcon icon={playForward} slot="icon-only" />
-          </IonButton>
-        </div>
+              {/* Navigation Arrows */}
+              <div
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  left: 0,
+                  right: 0,
+                  transform: "translateY(-50%)",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  padding: "0 16px",
+                  pointerEvents: "none",
+                  zIndex: 100,
+                  opacity: fullscreenShowHud ? 1 : 0,
+                  transition: "opacity 0.3s ease",
+                }}
+              >
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (currentFrame > 1) {
+                      setCurrentFrame(currentFrame - 1);
+                      showFullscreenHudTemporarily();
+                    }
+                  }}
+                  disabled={currentFrame === 1}
+                  type="button"
+                  style={{
+                    width: "48px",
+                    height: "48px",
+                    borderRadius: "24px",
+                    background: "rgba(0, 0, 0, 0.5)",
+                    border: "1px solid rgba(255, 255, 255, 0.2)",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    color: "#ffffff",
+                    fontSize: "28px",
+                    cursor: currentFrame === 1 ? "not-allowed" : "pointer",
+                    pointerEvents: fullscreenShowHud ? "auto" : "none",
+                    opacity: currentFrame === 1 ? 0.3 : 1,
+                  }}
+                  aria-label="Frame anterior"
+                >
+                  <IonIcon icon={chevronBack} />
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (currentFrame < totalFrames) {
+                      setCurrentFrame(currentFrame + 1);
+                      showFullscreenHudTemporarily();
+                    }
+                  }}
+                  disabled={currentFrame === totalFrames}
+                  type="button"
+                  style={{
+                    width: "48px",
+                    height: "48px",
+                    borderRadius: "24px",
+                    background: "rgba(0, 0, 0, 0.5)",
+                    border: "1px solid rgba(255, 255, 255, 0.2)",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    color: "#ffffff",
+                    fontSize: "28px",
+                    cursor: currentFrame === totalFrames ? "not-allowed" : "pointer",
+                    pointerEvents: fullscreenShowHud ? "auto" : "none",
+                    opacity: currentFrame === totalFrames ? 0.3 : 1,
+                  }}
+                  aria-label="Siguiente frame"
+                >
+                  <IonIcon icon={chevronForward} />
+                </button>
+              </div>
 
-        <div className="speed-control-container">
-          <IonSegment
-            value={frameRate.toString()}
-            onIonChange={(e) => updateFrameRate(e.detail.value!)}
-          >
-            <IonSegmentButton value="500">
-              <IonLabel>0.5x</IonLabel>
-            </IonSegmentButton>
-            <IonSegmentButton value="200">
-              <IonLabel>1x</IonLabel>
-            </IonSegmentButton>
-            <IonSegmentButton value="100">
-              <IonLabel>2x</IonLabel>
-            </IonSegmentButton>
-          </IonSegment>
-        </div>
-      </IonCardContent>
-    </IonCard>
+              {/* Footer Controls */}
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  padding: "16px",
+                  paddingBottom: "calc(16px + var(--ion-safe-area-bottom, 0px))",
+                  background: "linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 100%)",
+                  zIndex: 100,
+                  opacity: fullscreenShowHud ? 1 : 0,
+                  transform: fullscreenShowHud ? "translateY(0)" : "translateY(20px)",
+                  transition: "opacity 0.3s ease, transform 0.3s ease",
+                  pointerEvents: fullscreenShowHud ? "auto" : "none",
+                }}
+              >
+                <div style={{ display: "flex", justifyContent: "center", gap: "16px", marginBottom: "16px" }}>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (currentFrame > 1) {
+                        setCurrentFrame(currentFrame - 1);
+                        showFullscreenHudTemporarily();
+                      }
+                    }}
+                    disabled={currentFrame === 1}
+                    type="button"
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      borderRadius: "20px",
+                      background: "rgba(255, 255, 255, 0.2)",
+                      border: "none",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      color: "#ffffff",
+                      cursor: currentFrame === 1 ? "not-allowed" : "pointer",
+                      opacity: currentFrame === 1 ? 0.3 : 1,
+                    }}
+                  >
+                    <IonIcon icon={playBack} />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setFullscreenIsPlaying(!fullscreenIsPlaying);
+                      showFullscreenHudTemporarily();
+                    }}
+                    type="button"
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      borderRadius: "20px",
+                      background: "#0284c7",
+                      border: "none",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      color: "#ffffff",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <IonIcon icon={fullscreenIsPlaying ? pause : play} />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (currentFrame < totalFrames) {
+                        setCurrentFrame(currentFrame + 1);
+                        showFullscreenHudTemporarily();
+                      }
+                    }}
+                    disabled={currentFrame === totalFrames}
+                    type="button"
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      borderRadius: "20px",
+                      background: "rgba(255, 255, 255, 0.2)",
+                      border: "none",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      color: "#ffffff",
+                      cursor: currentFrame === totalFrames ? "not-allowed" : "pointer",
+                      opacity: currentFrame === totalFrames ? 0.3 : 1,
+                    }}
+                  >
+                    <IonIcon icon={playForward} />
+                  </button>
+                </div>
+                <div style={{ display: "flex", gap: "8px", justifyContent: "center" }}>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      updateFrameRate("500");
+                      showFullscreenHudTemporarily();
+                    }}
+                    type="button"
+                    style={{
+                      padding: "6px 12px",
+                      borderRadius: "8px",
+                      background: frameRate === 500 ? "#0284c7" : "rgba(255, 255, 255, 0.1)",
+                      border: "1px solid rgba(255, 255, 255, 0.2)",
+                      color: "#ffffff",
+                      fontSize: "12px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    0.5x
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      updateFrameRate("200");
+                      showFullscreenHudTemporarily();
+                    }}
+                    type="button"
+                    style={{
+                      padding: "6px 12px",
+                      borderRadius: "8px",
+                      background: frameRate === 200 ? "#0284c7" : "rgba(255, 255, 255, 0.1)",
+                      border: "1px solid rgba(255, 255, 255, 0.2)",
+                      color: "#ffffff",
+                      fontSize: "12px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    1x
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      updateFrameRate("100");
+                      showFullscreenHudTemporarily();
+                    }}
+                    type="button"
+                    style={{
+                      padding: "6px 12px",
+                      borderRadius: "8px",
+                      background: frameRate === 100 ? "#0284c7" : "rgba(255, 255, 255, 0.1)",
+                      border: "1px solid rgba(255, 255, 255, 0.2)",
+                      color: "#ffffff",
+                      fontSize: "12px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    2x
+                  </button>
+                </div>
+              </div>
+            </div>
+          </IonContent>
+        </IonPage>
+      </IonModal>
+    </>
   );
 };
 

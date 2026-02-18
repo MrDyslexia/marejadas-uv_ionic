@@ -1,8 +1,8 @@
 {
-  "pronosticos": [
+  "pc": [
     {
       "id": "cl03iq",
-      "nombre": "Pronósticos Bahía de Iquique",
+      "nombre": "PRONÓSTICOS BAHÍA DE IQUIQUE",
       "mapa_pronostico": "https://marejadas.uv.cl/images/SAM/dominios/CL03IQG.gif",
       "mosaico_pronostico": "https://marejadas.uv.cl/images/SAM/mosaicos/CL03IQMO.png",
       "sectores": [
@@ -84,7 +84,7 @@
     },
     {
       "id": "cl04to",
-      "nombre": "Pronóstico Tocopilla",
+      "nombre": "PRONÓSTICO TOCOPILLA",
       "mapa_pronostico": "https://marejadas.uv.cl/images/SAM/dominios/CL04TOG.gif",
       "mosaico_pronostico": "https://marejadas.uv.cl/images/SAM/mosaicos/CL04TOMO.png",
       "markers": [
@@ -152,7 +152,7 @@
     },
     {
       "id": "cl06mj",
-      "nombre": "Pronóstico Bahía de Mejillones",
+      "nombre": "PRONÓSTICO BAHÍA DE MEJILLONES",
       "mapa_pronostico": "https://marejadas.uv.cl/images/SAM/dominios/CL06MJG.gif",
       "mosaico_pronostico": "https://marejadas.uv.cl/images/SAM/mosaicos/CL06MJMO.png",
       "markers": [
@@ -1051,7 +1051,7 @@
             "altura": "https://marejadas.uv.cl/images/SAM/alturas/CL15QTN01H.png",
             "periodo": "https://marejadas.uv.cl/images/SAM/periodos/CL15QTN01T.png",
             "direccion": "https://marejadas.uv.cl/images/SAM/direcciones/CL15QTN01D.png",
-            "marea": "https://marejadas.uv.cl/images/SAM/mareas/CL15QTM.png"
+            "marea": "http://marejadas.uv.cl/images/SAM/mareas/CL15VAM.png"
           },
           "coordenadas": {
             "lng": -71.49747331931395,
@@ -1067,7 +1067,7 @@
             "altura": "https://marejadas.uv.cl/images/SAM/alturas/CL15QTN02H.png",
             "periodo": "https://marejadas.uv.cl/images/SAM/periodos/CL15QTN02T.png",
             "direccion": "https://marejadas.uv.cl/images/SAM/direcciones/CL15QTN02D.png",
-            "marea": "https://marejadas.uv.cl/images/SAM/mareas/CL15QTM.png"
+            "marea": "http://marejadas.uv.cl/images/SAM/mareas/CL15VAM.png"
           },
           "coordenadas": {
             "lng": -71.51203717502538,
@@ -1083,7 +1083,7 @@
             "altura": "https://marejadas.uv.cl/images/SAM/alturas/CL15QTN03H.png",
             "periodo": "https://marejadas.uv.cl/images/SAM/periodos/CL15QTN03T.png",
             "direccion": "https://marejadas.uv.cl/images/SAM/direcciones/CL15QTN03D.png",
-            "marea": "https://marejadas.uv.cl/images/SAM/mareas/CL15QTM.png"
+            "marea": "http://marejadas.uv.cl/images/SAM/mareas/CL15VAM.png"
           },
           "coordenadas": {
             "lng": -71.49711764227523,
@@ -1099,7 +1099,7 @@
             "altura": "https://marejadas.uv.cl/images/SAM/alturas/CL15QTN04H.png",
             "periodo": "https://marejadas.uv.cl/images/SAM/periodos/CL15QTN04T.png",
             "direccion": "https://marejadas.uv.cl/images/SAM/direcciones/CL15QTN04D.png",
-            "marea": "https://marejadas.uv.cl/images/SAM/mareas/CL15QTM.png"
+            "marea": "http://marejadas.uv.cl/images/SAM/mareas/CL15VAM.png"
           },
           "coordenadas": {
             "lng": -71.50635195382199,
@@ -1115,7 +1115,7 @@
             "altura": "https://marejadas.uv.cl/images/SAM/alturas/CL15QTN05H.png",
             "periodo": "https://marejadas.uv.cl/images/SAM/periodos/CL15QTN05T.png",
             "direccion": "https://marejadas.uv.cl/images/SAM/direcciones/CL15QTN05D.png",
-            "marea": "https://marejadas.uv.cl/images/SAM/mareas/CL15QTM.png"
+            "marea": "http://marejadas.uv.cl/images/SAM/mareas/CL15VAM.png"
           },
           "coordenadas": {
             "lng": -71.51418036249595,
@@ -1131,7 +1131,7 @@
             "altura": "https://marejadas.uv.cl/images/SAM/alturas/CL15QTN06H.png",
             "periodo": "https://marejadas.uv.cl/images/SAM/periodos/CL15QTN06T.png",
             "direccion": "https://marejadas.uv.cl/images/SAM/direcciones/CL15QTN06D.png",
-            "marea": "https://marejadas.uv.cl/images/SAM/mareas/CL15QTM.png"
+            "marea": "http://marejadas.uv.cl/images/SAM/mareas/CL15VAM.png"
           }
         },
         {
@@ -1142,7 +1142,7 @@
             "altura": "https://marejadas.uv.cl/images/SAM/alturas/CL15QTN07H.png",
             "periodo": "https://marejadas.uv.cl/images/SAM/periodos/CL15QTN07T.png",
             "direccion": "https://marejadas.uv.cl/images/SAM/direcciones/CL15QTN07D.png",
-            "marea": "https://marejadas.uv.cl/images/SAM/mareas/CL15QTM.png"
+            "marea": "http://marejadas.uv.cl/images/SAM/mareas/CL15VAM.png"
           },
           "coordenadas": {
             "lng": -71.52141237256218,
@@ -1158,7 +1158,7 @@
             "altura": "https://marejadas.uv.cl/images/SAM/alturas/CL15QTN08H.png",
             "periodo": "https://marejadas.uv.cl/images/SAM/periodos/CL15QTN08T.png",
             "direccion": "https://marejadas.uv.cl/images/SAM/direcciones/CL15QTN08D.png",
-            "marea": "https://marejadas.uv.cl/images/SAM/mareas/CL15QTM.png"
+            "marea": "http://marejadas.uv.cl/images/SAM/mareas/CL15VAM.png"
           },
           "coordenadas": {
             "lng": -71.52583126601293,
@@ -1174,7 +1174,7 @@
             "altura": "https://marejadas.uv.cl/images/SAM/alturas/CL15QTN09H.png",
             "periodo": "https://marejadas.uv.cl/images/SAM/periodos/CL15QTN09T.png",
             "direccion": "https://marejadas.uv.cl/images/SAM/direcciones/CL15QTN09D.png",
-            "marea": "https://marejadas.uv.cl/images/SAM/mareas/CL15QTM.png"
+            "marea": "http://marejadas.uv.cl/images/SAM/mareas/CL15VAM.png"
           },
           "coordenadas": {
             "lng": -71.53240210406113,
@@ -1190,7 +1190,7 @@
             "altura": "https://marejadas.uv.cl/images/SAM/alturas/CL15QTN10H.png",
             "periodo": "https://marejadas.uv.cl/images/SAM/periodos/CL15QTN10T.png",
             "direccion": "https://marejadas.uv.cl/images/SAM/direcciones/CL15QTN10D.png",
-            "marea": "https://marejadas.uv.cl/images/SAM/mareas/CL15QTM.png"
+            "marea": "http://marejadas.uv.cl/images/SAM/mareas/CL15VAM.png"
           },
           "coordenadas": {
             "lng": -71.54400545330466,
@@ -1206,7 +1206,7 @@
             "altura": "https://marejadas.uv.cl/images/SAM/alturas/CL15QTN11H.png",
             "periodo": "https://marejadas.uv.cl/images/SAM/periodos/CL15QTN11T.png",
             "direccion": "https://marejadas.uv.cl/images/SAM/direcciones/CL15QTN11D.png",
-            "marea": "https://marejadas.uv.cl/images/SAM/mareas/CL15QTM.png"
+            "marea": "http://marejadas.uv.cl/images/SAM/mareas/CL15VAM.png"
           },
           "coordenadas": {
             "lng": -71.51739332477788,
@@ -1221,18 +1221,6 @@
       "nombre": "BAHÍA DE CONCÓN",
       "mapa_pronostico": "https://marejadas.uv.cl/images/SAM/dominios/CL15CCG.gif",
       "mosaico_pronostico": "https://marejadas.uv.cl/images/SAM/mosaicos/CL15CCMO.png",
-      "markers": [
-        {
-          "lat": 0,
-          "lng": 0,
-          "nombre": ""
-        },
-        {
-          "lat": 0,
-          "lng": 0,
-          "nombre": ""
-        }
-      ],
       "sectores": [
         {
           "id": "CL15CCN01",
@@ -1242,7 +1230,7 @@
             "altura": "https://marejadas.uv.cl/images/SAM/alturas/CL15CCN01H.png",
             "periodo": "https://marejadas.uv.cl/images/SAM/periodos/CL15CCN01T.png",
             "direccion": "https://marejadas.uv.cl/images/SAM/direcciones/CL15CCN01D.png",
-            "marea": "https://marejadas.uv.cl/images/SAM/mareas/CL15CCM.png"
+            "marea": "http://marejadas.uv.cl/images/SAM/mareas/CL15VAM.png"
           },
           "coordenadas": {
             "lng": -71.54649968256612,
@@ -1258,7 +1246,7 @@
             "altura": "https://marejadas.uv.cl/images/SAM/alturas/CL15CCN02H.png",
             "periodo": "https://marejadas.uv.cl/images/SAM/periodos/CL15CCN02T.png",
             "direccion": "https://marejadas.uv.cl/images/SAM/direcciones/CL15CCN02D.png",
-            "marea": "https://marejadas.uv.cl/images/SAM/mareas/CL15CCM.png"
+            "marea": "http://marejadas.uv.cl/images/SAM/mareas/CL15VAM.png"
           },
           "coordenadas": {
             "lng": -71.54280269800067,
@@ -1274,7 +1262,7 @@
             "altura": "https://marejadas.uv.cl/images/SAM/alturas/CL15CCN03H.png",
             "periodo": "https://marejadas.uv.cl/images/SAM/periodos/CL15CCN03T.png",
             "direccion": "https://marejadas.uv.cl/images/SAM/direcciones/CL15CCN03D.png",
-            "marea": "https://marejadas.uv.cl/images/SAM/mareas/CL15CCM.png"
+            "marea": "http://marejadas.uv.cl/images/SAM/mareas/CL15VAM.png"
           },
           "coordenadas": {
             "lng": -71.55994872634032,
@@ -1299,7 +1287,7 @@
             "altura": "https://marejadas.uv.cl/images/SAM/alturas/CL15SAN01H.png",
             "periodo": "https://marejadas.uv.cl/images/SAM/periodos/CL15SAN01T.png",
             "direccion": "https://marejadas.uv.cl/images/SAM/direcciones/CL15SAN01D.png",
-            "marea": "https://marejadas.uv.cl/images/SAM/mareas/CL15SAM.png"
+            "marea": "http://marejadas.uv.cl/images/SAM/mareas/CL15VAM.png"
           },
           "coordenadas": {
             "lng": -71.62606701013425,
@@ -1315,7 +1303,7 @@
             "altura": "https://marejadas.uv.cl/images/SAM/alturas/CL15SAN02H.png",
             "periodo": "https://marejadas.uv.cl/images/SAM/periodos/CL15SAN02T.png",
             "direccion": "https://marejadas.uv.cl/images/SAM/direcciones/CL15SAN02D.png",
-            "marea": "https://marejadas.uv.cl/images/SAM/mareas/CL15SAM.png"
+            "marea": "http://marejadas.uv.cl/images/SAM/mareas/CL15VAM.png"
           },
           "coordenadas": {
             "lng": -71.62591395814688,
@@ -1331,7 +1319,7 @@
             "altura": "https://marejadas.uv.cl/images/SAM/alturas/CL15SAN03H.png",
             "periodo": "https://marejadas.uv.cl/images/SAM/periodos/CL15SAN03T.png",
             "direccion": "https://marejadas.uv.cl/images/SAM/direcciones/CL15SAN03D.png",
-            "marea": "https://marejadas.uv.cl/images/SAM/mareas/CL15SAM.png"
+            "marea": "http://marejadas.uv.cl/images/SAM/mareas/CL15VAM.png"
           },
           "coordenadas": {
             "lng": -71.63341336121034,
@@ -1611,16 +1599,224 @@
       }
     },
     {
-      "id": "",
-      "nombre": "",
-      "lat": -22,
+      "id": "CL06",
+      "nombre": "Antofagasta",
+      "lat": -24,
       "lon": -72,
       "datosPronostico": {
-        "categoria": "",
-        "altura": "",
-        "periodo": "",
-        "direccion": "",
-        "espectro": ""
+        "categoria": "https://marejadas.uv.cl/images/SAM/categorias/CL06C.png",
+        "altura": "https://marejadas.uv.cl/images/SAM/alturas/CL06H.png",
+        "periodo": "https://marejadas.uv.cl/images/SAM/periodos/CL06T.png",
+        "direccion": "https://marejadas.uv.cl/images/SAM/direcciones/CL06D.png",
+        "espectro": "https://marejadas.uv.cl/images/SAM/Espectros/NID_040.gif"
+      }
+    },
+    {
+      "id": "CL07",
+      "nombre": "Taltal",
+      "lat": -25,
+      "lon": -72,
+      "datosPronostico": {
+        "categoria": "https://marejadas.uv.cl/images/SAM/categorias/CL07C.png",
+        "altura": "https://marejadas.uv.cl/images/SAM/alturas/CL07H.png",
+        "periodo": "https://marejadas.uv.cl/images/SAM/periodos/CL07T.png",
+        "direccion": "https://marejadas.uv.cl/images/SAM/direcciones/CL07D.png",
+        "espectro": "https://marejadas.uv.cl/images/SAM/Espectros/NID_039.gif"
+      }
+    },
+    {
+      "id": "CL09",
+      "nombre": "Caldera",
+      "lat": -27,
+      "lon": -72,
+      "datosPronostico": {
+        "categoria": "https://marejadas.uv.cl/images/SAM/categorias/CL09C.png",
+        "altura": "https://marejadas.uv.cl/images/SAM/alturas/CL09H.png",
+        "periodo": "https://marejadas.uv.cl/images/SAM/periodos/CL09T.png",
+        "direccion": "https://marejadas.uv.cl/images/SAM/direcciones/CL09D.png",
+        "espectro": "https://marejadas.uv.cl/images/SAM/Espectros/NID_037.gif"
+      }
+    },
+    {
+      "id": "CL011",
+      "nombre": "Huasco",
+      "lat": -29,
+      "lon": -73,
+      "datosPronostico": {
+        "categoria": "https://marejadas.uv.cl/images/SAM/categorias/CL11C.png",
+        "altura": "https://marejadas.uv.cl/images/SAM/alturas/CL11H.png",
+        "periodo": "https://marejadas.uv.cl/images/SAM/periodos/CL11T.png",
+        "direccion": "https://marejadas.uv.cl/images/SAM/direcciones/CL11D.png",
+        "espectro": "https://marejadas.uv.cl/images/SAM/Espectros/NID_035.gif"
+      }
+    },
+    {
+      "id": "CL12",
+      "nombre": "Coquimbo",
+      "lat": -30,
+      "lon": -72,
+      "datosPronostico": {
+        "categoria": "https://marejadas.uv.cl/images/SAM/categorias/CL12C.png",
+        "altura": "https://marejadas.uv.cl/images/SAM/alturas/CL12H.png",
+        "periodo": "https://marejadas.uv.cl/images/SAM/periodos/CL12T.png",
+        "direccion": "https://marejadas.uv.cl/images/SAM/direcciones/CL12D.png",
+        "espectro": "https://marejadas.uv.cl/images/SAM/Espectros/NID_034.gif"
+      }
+    },
+    {
+      "id": "CL14",
+      "nombre": "Los Vilos",
+      "lat": -32,
+      "lon": -73,
+      "datosPronostico": {
+        "categoria": "https://marejadas.uv.cl/images/SAM/categorias/CL14C.png",
+        "altura": "https://marejadas.uv.cl/images/SAM/alturas/CL14H.png",
+        "periodo": "https://marejadas.uv.cl/images/SAM/periodos/CL14T.png",
+        "direccion": "https://marejadas.uv.cl/images/SAM/direcciones/CL14D.png",
+        "espectro": "https://marejadas.uv.cl/images/SAM/Espectros/NID_032.gif"
+      }
+    },
+    {
+      "id": "CL15",
+      "nombre": "Valparaíso",
+      "lat": -33,
+      "lon": -73,
+      "datosPronostico": {
+        "categoria": "https://marejadas.uv.cl/images/SAM/categorias/CL15C.png",
+        "altura": "https://marejadas.uv.cl/images/SAM/alturas/CL15H.png",
+        "periodo": "https://marejadas.uv.cl/images/SAM/periodos/CL15T.png",
+        "direccion": "https://marejadas.uv.cl/images/SAM/direcciones/CL15D.png",
+        "espectro": "https://marejadas.uv.cl/images/SAM/Espectros/NID_031.gif"
+      }
+    },
+    {
+      "id": "CL18",
+      "nombre": "Constitución",
+      "lat": -36,
+      "lon": -73,
+      "datosPronostico": {
+        "categoria": "https://marejadas.uv.cl/images/SAM/categorias/CL18C.png",
+        "altura": "https://marejadas.uv.cl/images/SAM/alturas/CL18H.png",
+        "periodo": "https://marejadas.uv.cl/images/SAM/periodos/CL18T.png",
+        "direccion": "https://marejadas.uv.cl/images/SAM/direcciones/CL18D.png",
+        "espectro": "https://marejadas.uv.cl/images/SAM/Espectros/NID_028.gif"
+      }
+    },
+    {
+      "id": "CL19",
+      "nombre": "Talcahuano",
+      "lat": -37,
+      "lon": -75,
+      "datosPronostico": {
+        "categoria": "https://marejadas.uv.cl/images/SAM/categorias/CL19C.png",
+        "altura": "https://marejadas.uv.cl/images/SAM/alturas/CL19H.png",
+        "periodo": "https://marejadas.uv.cl/images/SAM/periodos/CL19T.png",
+        "direccion": "https://marejadas.uv.cl/images/SAM/direcciones/CL19D.png",
+        "espectro": "https://marejadas.uv.cl/images/SAM/Espectros/NID_027.gif"
+      }
+    },
+    {
+      "id": "CL21",
+      "nombre": "Puerto Saavedra",
+      "lat": -39,
+      "lon": -75,
+      "datosPronostico": {
+        "categoria": "https://marejadas.uv.cl/images/SAM/categorias/CL21C.png",
+        "altura": "https://marejadas.uv.cl/images/SAM/alturas/CL21H.png",
+        "periodo": "https://marejadas.uv.cl/images/SAM/periodos/CL21T.png",
+        "direccion": "https://marejadas.uv.cl/images/SAM/direcciones/CL21D.png",
+        "espectro": "https://marejadas.uv.cl/images/SAM/Espectros/NID_025.gif"
+      }
+    },
+    {
+      "id": "CL22",
+      "nombre": "Corral",
+      "lat": -40,
+      "lon": -75,
+      "datosPronostico": {
+        "categoria": "https://marejadas.uv.cl/images/SAM/categorias/CL22C.png",
+        "altura": "https://marejadas.uv.cl/images/SAM/alturas/CL22H.png",
+        "periodo": "https://marejadas.uv.cl/images/SAM/periodos/CL22T.png",
+        "direccion": "https://marejadas.uv.cl/images/SAM/direcciones/CL22D.png",
+        "espectro": "https://marejadas.uv.cl/images/SAM/Espectros/NID_024.gif"
+      }
+    },
+    {
+      "id": "CL24",
+      "nombre": "Ancud",
+      "lat": -42,
+      "lon": -76,
+      "datosPronostico": {
+        "categoria": "https://marejadas.uv.cl/images/SAM/categorias/CL24C.png",
+        "altura": "https://marejadas.uv.cl/images/SAM/alturas/CL24H.png",
+        "periodo": "https://marejadas.uv.cl/images/SAM/periodos/CL24T.png",
+        "direccion": "https://marejadas.uv.cl/images/SAM/direcciones/CL24D.png",
+        "espectro": "https://marejadas.uv.cl/images/SAM/Espectros/NID_022.gif"
+      }
+    },
+    {
+      "id": "CL29",
+      "nombre": "Golfo de Penas",
+      "lat": -48,
+      "lon": -77,
+      "datosPronostico": {
+        "categoria": "https://marejadas.uv.cl/images/SAM/categorias/CL29C.png",
+        "altura": "https://marejadas.uv.cl/images/SAM/alturas/CL29H.png",
+        "periodo": "https://marejadas.uv.cl/images/SAM/periodos/CL29T.png",
+        "direccion": "https://marejadas.uv.cl/images/SAM/direcciones/CL29D.png",
+        "espectro": "https://marejadas.uv.cl/images/SAM/Espectros/NID_017.gif"
+      }
+    },
+    {
+      "id": "CL37",
+      "nombre": "Isla Noir",
+      "lat": -54,
+      "lon": -75,
+      "datosPronostico": {
+        "categoria": "https://marejadas.uv.cl/images/SAM/categorias/CL37C.png",
+        "altura": "https://marejadas.uv.cl/images/SAM/alturas/CL37H.png",
+        "periodo": "https://marejadas.uv.cl/images/SAM/periodos/CL37T.png",
+        "direccion": "https://marejadas.uv.cl/images/SAM/direcciones/CL37D.png",
+        "espectro": "https://marejadas.uv.cl/images/SAM/Espectros/NID_009.gif"
+      }
+    },
+    {
+      "id": "CL39",
+      "nombre": "Cabo de Hornos",
+      "lat": -57,
+      "lon": -68,
+      "datosPronostico": {
+        "categoria": "https://marejadas.uv.cl/images/SAM/categorias/CL39C.png",
+        "altura": "https://marejadas.uv.cl/images/SAM/alturas/CL39H.png",
+        "periodo": "https://marejadas.uv.cl/images/SAM/periodos/CL39T.png",
+        "direccion": "https://marejadas.uv.cl/images/SAM/direcciones/CL39D.png",
+        "espectro": "https://marejadas.uv.cl/images/SAM/Espectros/NID_007.gif"
+      }
+    },
+    {
+      "id": "CL56",
+      "nombre": "A. Juan Fernández",
+      "lat": -34,
+      "lon": -82,
+      "datosPronostico": {
+        "categoria": "https://marejadas.uv.cl/images/SAM/categorias/CL56C.png",
+        "altura": "https://marejadas.uv.cl/images/SAM/alturas/CL56H.png",
+        "periodo": "https://marejadas.uv.cl/images/SAM/periodos/CL56T.png",
+        "direccion": "https://marejadas.uv.cl/images/SAM/direcciones/CL56D.png",
+        "espectro": "https://marejadas.uv.cl/images/SAM/Espectros/NID_047.gif"
+      }
+    },
+    {
+      "id": "CL46",
+      "nombre": "Rapa Nui",
+      "lat": -27,
+      "lon": -111,
+      "datosPronostico": {
+        "categoria": "https://marejadas.uv.cl/images/SAM/categorias/CL46C.png",
+        "altura": "https://marejadas.uv.cl/images/SAM/alturas/CL46H.png",
+        "periodo": "https://marejadas.uv.cl/images/SAM/periodos/CL46T.png",
+        "direccion": "https://marejadas.uv.cl/images/SAM/direcciones/CL46D.png",
+        "espectro": "https://marejadas.uv.cl/images/SAM/Espectros/NID_053.gif"
       }
     }
   ],

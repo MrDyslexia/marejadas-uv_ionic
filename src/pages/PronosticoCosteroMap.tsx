@@ -40,7 +40,7 @@ const PronosticoCosteroMap: React.FC = () => {
     map.current = new maplibregl.Map({
       container: mapContainer.current,
       style: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
-      center: [-71.5, -30.0],
+      center: [-71.5, -30],
       zoom: 4,
       pitch: 0,
       bearing: 0,
@@ -57,7 +57,7 @@ const PronosticoCosteroMap: React.FC = () => {
       }, 100);
     });
 
-    const pronosticos = data.pronosticos || [];
+    const pronosticos = data.pc || [];
 
     pronosticos.forEach((pronostico: any) => {
       if (pronostico.markers && Array.isArray(pronostico.markers)) {
@@ -104,11 +104,7 @@ const PronosticoCosteroMap: React.FC = () => {
 
       if (pronostico.sectores && Array.isArray(pronostico.sectores)) {
         pronostico.sectores.forEach((sector: Sector) => {
-          if (
-            sector.coordenadas &&
-            sector.coordenadas.lat &&
-            sector.coordenadas.lng
-          ) {
+          if (sector.coordenadas?.lat && sector.coordenadas?.lng) {
             const el = document.createElement("div");
             el.style.width = "28px";
             el.style.height = "28px";
@@ -169,16 +165,6 @@ const PronosticoCosteroMap: React.FC = () => {
 
   const handleClose = () => {
     history.goBack();
-  };
-
-  const handleLocateClick = () => {
-    if (selectedLocation) {
-      map.current?.flyTo({
-        center: [selectedLocation.lng, selectedLocation.lat],
-        zoom: 8,
-        duration: 1000,
-      });
-    }
   };
 
   return (
@@ -455,33 +441,44 @@ const PronosticoCosteroMap: React.FC = () => {
                       >
                         Categoría
                       </span>
-                      <img
-                        src={
-                          selectedLocation.sectorData.categoria ||
-                          "/placeholder.svg"
-                         || "/placeholder.svg"}
-                        alt="Categoría"
+                      <button
+                        onClick={() => setExpandedImage(selectedLocation.sectorData.categoria)}
                         style={{
-                          width: "100%",
-                          borderRadius: "6px",
-                          border: "1px solid #e2e8f0",
-                          maxHeight: "120px",
-                          objectFit: "contain",
-                          background: "#f8fafc",
+                          background: "none",
+                          border: "none",
+                          padding: 0,
                           cursor: "pointer",
+                          width: "100%",
                           transition: "all 0.2s ease",
                         }}
-                        onClick={() => setExpandedImage(selectedLocation.sectorData.categoria)}
                         onMouseEnter={(e) => {
-                          (e.target as HTMLImageElement).style.opacity = "0.8";
+                          const img = (e.target as HTMLButtonElement).querySelector("img");
+                          if (img) img.style.opacity = "0.8";
                         }}
                         onMouseLeave={(e) => {
-                          (e.target as HTMLImageElement).style.opacity = "1";
+                          const img = (e.target as HTMLButtonElement).querySelector("img");
+                          if (img) img.style.opacity = "1";
                         }}
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).style.display = "none";
-                        }}
-                      />
+                      >
+                        <img
+                          src={
+                            selectedLocation.sectorData.categoria ||
+                            "/placeholder.svg"}
+                          alt="Categoría"
+                          style={{
+                            width: "100%",
+                            borderRadius: "6px",
+                            border: "1px solid #e2e8f0",
+                            maxHeight: "120px",
+                            objectFit: "contain",
+                            background: "#f8fafc",
+                            transition: "all 0.2s ease",
+                          }}
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).style.display = "none";
+                          }}
+                        />
+                      </button>
                     </div>
                   )}
                   {selectedLocation.sectorData.altura && (
@@ -499,33 +496,42 @@ const PronosticoCosteroMap: React.FC = () => {
                       >
                         Altura
                       </span>
-                      <img
-                        src={
-                          selectedLocation.sectorData.altura ||
-                          "/placeholder.svg"
-                         || "/placeholder.svg"}
-                        alt="Altura"
+                      <button
+                        onClick={() => setExpandedImage(selectedLocation.sectorData.altura)}
                         style={{
-                          width: "100%",
-                          borderRadius: "6px",
-                          border: "1px solid #e2e8f0",
-                          maxHeight: "120px",
-                          objectFit: "contain",
-                          background: "#f8fafc",
+                          background: "none",
+                          border: "none",
+                          padding: 0,
                           cursor: "pointer",
+                          width: "100%",
                           transition: "all 0.2s ease",
                         }}
-                        onClick={() => setExpandedImage(selectedLocation.sectorData.altura)}
                         onMouseEnter={(e) => {
-                          (e.target as HTMLImageElement).style.opacity = "0.8";
+                          const img = (e.target as HTMLButtonElement).querySelector("img");
+                          if (img) img.style.opacity = "0.8";
                         }}
                         onMouseLeave={(e) => {
-                          (e.target as HTMLImageElement).style.opacity = "1";
+                          const img = (e.target as HTMLButtonElement).querySelector("img");
+                          if (img) img.style.opacity = "1";
                         }}
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).style.display = "none";
-                        }}
-                      />
+                      >
+                        <img
+                          src={selectedLocation.sectorData.altura || "/placeholder.svg"}
+                          alt="Altura"
+                          style={{
+                            width: "100%",
+                            borderRadius: "6px",
+                            border: "1px solid #e2e8f0",
+                            maxHeight: "120px",
+                            objectFit: "contain",
+                            background: "#f8fafc",
+                            transition: "all 0.2s ease",
+                          }}
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).style.display = "none";
+                          }}
+                        />
+                      </button>
                     </div>
                   )}
                   {selectedLocation.sectorData.periodo && (
@@ -543,33 +549,48 @@ const PronosticoCosteroMap: React.FC = () => {
                       >
                         Período
                       </span>
-                      <img
-                        src={
-                          selectedLocation.sectorData.periodo ||
-                          "/placeholder.svg"
-                         || "/placeholder.svg"}
-                        alt="Período"
+                      <button
+                        onClick={() => setExpandedImage(selectedLocation.sectorData.periodo)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            setExpandedImage(selectedLocation.sectorData.periodo);
+                            e.preventDefault();
+                          }
+                        }}
                         style={{
-                          width: "100%",
-                          borderRadius: "6px",
-                          border: "1px solid #e2e8f0",
-                          maxHeight: "120px",
-                          objectFit: "contain",
-                          background: "#f8fafc",
+                          background: "none",
+                          border: "none",
+                          padding: 0,
                           cursor: "pointer",
+                          width: "100%",
                           transition: "all 0.2s ease",
                         }}
-                        onClick={() => setExpandedImage(selectedLocation.sectorData.periodo)}
                         onMouseEnter={(e) => {
-                          (e.target as HTMLImageElement).style.opacity = "0.8";
+                          const img = (e.target as HTMLButtonElement).querySelector("img");
+                          if (img) img.style.opacity = "0.8";
                         }}
                         onMouseLeave={(e) => {
-                          (e.target as HTMLImageElement).style.opacity = "1";
+                          const img = (e.target as HTMLButtonElement).querySelector("img");
+                          if (img) img.style.opacity = "1";
                         }}
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).style.display = "none";
-                        }}
-                      />
+                      >
+                        <img
+                          src={selectedLocation.sectorData.periodo || "/placeholder.svg"}
+                          alt="Período"
+                          style={{
+                            width: "100%",
+                            borderRadius: "6px",
+                            border: "1px solid #e2e8f0",
+                            maxHeight: "120px",
+                            objectFit: "contain",
+                            background: "#f8fafc",
+                            transition: "all 0.2s ease",
+                          }}
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).style.display = "none";
+                          }}
+                        />
+                      </button>
                     </div>
                   )}
                   {selectedLocation.sectorData.direccion && (
@@ -587,33 +608,48 @@ const PronosticoCosteroMap: React.FC = () => {
                       >
                         Dirección
                       </span>
-                      <img
-                        src={
-                          selectedLocation.sectorData.direccion ||
-                          "/placeholder.svg"
-                         || "/placeholder.svg"}
-                        alt="Dirección"
+                      <button
+                        onClick={() => setExpandedImage(selectedLocation.sectorData.direccion)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            setExpandedImage(selectedLocation.sectorData.direccion);
+                            e.preventDefault();
+                          }
+                        }}
                         style={{
-                          width: "100%",
-                          borderRadius: "6px",
-                          border: "1px solid #e2e8f0",
-                          maxHeight: "120px",
-                          objectFit: "contain",
-                          background: "#f8fafc",
+                          background: "none",
+                          border: "none",
+                          padding: 0,
                           cursor: "pointer",
+                          width: "100%",
                           transition: "all 0.2s ease",
                         }}
-                        onClick={() => setExpandedImage(selectedLocation.sectorData.direccion)}
                         onMouseEnter={(e) => {
-                          (e.target as HTMLImageElement).style.opacity = "0.8";
+                          const img = (e.target as HTMLButtonElement).querySelector("img");
+                          if (img) img.style.opacity = "0.8";
                         }}
                         onMouseLeave={(e) => {
-                          (e.target as HTMLImageElement).style.opacity = "1";
+                          const img = (e.target as HTMLButtonElement).querySelector("img");
+                          if (img) img.style.opacity = "1";
                         }}
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).style.display = "none";
-                        }}
-                      />
+                      >
+                        <img
+                          src={selectedLocation.sectorData.direccion || "/placeholder.svg"}
+                          alt="Dirección"
+                          style={{
+                            width: "100%",
+                            borderRadius: "6px",
+                            border: "1px solid #e2e8f0",
+                            maxHeight: "120px",
+                            objectFit: "contain",
+                            background: "#f8fafc",
+                            transition: "all 0.2s ease",
+                          }}
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).style.display = "none";
+                          }}
+                        />
+                      </button>
                     </div>
                   )}
                   {selectedLocation.sectorData.marea && (
@@ -631,33 +667,48 @@ const PronosticoCosteroMap: React.FC = () => {
                       >
                         Mareas
                       </span>
-                      <img
-                        src={
-                          selectedLocation.sectorData.marea ||
-                          "/placeholder.svg"
-                         || "/placeholder.svg"}
-                        alt="Mareas"
+                      <button
+                        onClick={() => setExpandedImage(selectedLocation.sectorData.marea)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            setExpandedImage(selectedLocation.sectorData.marea);
+                            e.preventDefault();
+                          }
+                        }}
                         style={{
-                          width: "100%",
-                          borderRadius: "6px",
-                          border: "1px solid #e2e8f0",
-                          maxHeight: "120px",
-                          objectFit: "contain",
-                          background: "#f8fafc",
+                          background: "none",
+                          border: "none",
+                          padding: 0,
                           cursor: "pointer",
+                          width: "100%",
                           transition: "all 0.2s ease",
                         }}
-                        onClick={() => setExpandedImage(selectedLocation.sectorData.marea)}
                         onMouseEnter={(e) => {
-                          (e.target as HTMLImageElement).style.opacity = "0.8";
+                          const img = (e.target as HTMLButtonElement).querySelector("img");
+                          if (img) img.style.opacity = "0.8";
                         }}
                         onMouseLeave={(e) => {
-                          (e.target as HTMLImageElement).style.opacity = "1";
+                          const img = (e.target as HTMLButtonElement).querySelector("img");
+                          if (img) img.style.opacity = "1";
                         }}
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).style.display = "none";
-                        }}
-                      />
+                      >
+                        <img
+                          src={selectedLocation.sectorData.marea || "/placeholder.svg"}
+                          alt="Mareas"
+                          style={{
+                            width: "100%",
+                            borderRadius: "6px",
+                            border: "1px solid #e2e8f0",
+                            maxHeight: "120px",
+                            objectFit: "contain",
+                            background: "#f8fafc",
+                            transition: "all 0.2s ease",
+                          }}
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).style.display = "none";
+                          }}
+                        />
+                      </button>
                     </div>
                   )}
                 </div>
@@ -741,6 +792,8 @@ const PronosticoCosteroMap: React.FC = () => {
 
         {expandedImage && (
           <div
+            role="dialog"
+            aria-label="Expanded image viewer"
             style={{
               position: "fixed",
               top: 0,
@@ -756,12 +809,17 @@ const PronosticoCosteroMap: React.FC = () => {
               animation: "fadeIn 0.3s ease-out",
               overflow: "auto",
               touchAction: "none",
+              border: "none",
+              padding: 0,
+              margin: 0,
+            } as any}
+            onKeyDown={(e: any) => {
+              if (e.key === "Escape") {
+                setExpandedImage(null);
+                setImageZoom(1);
+              }
             }}
-            onClick={() => {
-              setExpandedImage(null);
-              setImageZoom(1);
-            }}
-            onTouchStart={(e) => {
+            onTouchStart={(e: any) => {
               if (e.touches.length === 2) {
                 const touch1 = e.touches[0];
                 const touch2 = e.touches[1];
@@ -773,7 +831,7 @@ const PronosticoCosteroMap: React.FC = () => {
                 e.preventDefault();
               }
             }}
-            onTouchMove={(e) => {
+            onTouchMove={(e: any) => {
               if (e.touches.length === 2 && initialDistanceRef.current > 0) {
                 const touch1 = e.touches[0];
                 const touch2 = e.touches[1];
@@ -791,6 +849,7 @@ const PronosticoCosteroMap: React.FC = () => {
             onTouchEnd={() => {
               initialDistanceRef.current = 0;
             }}
+            tabIndex={0}
           >
             {/* Close Button - Fixed position */}
             <button
@@ -829,15 +888,24 @@ const PronosticoCosteroMap: React.FC = () => {
             </button>
 
             {/* Image Container */}
-            <div
+            <button
               style={{
                 position: "relative",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 padding: "40px",
+                outline: "none",
+                background: "none",
+                border: "none",
+                cursor: "pointer",
               }}
-              onClick={(e) => e.stopPropagation()}
+              onClick={(e) => {
+                e.stopPropagation();
+                setExpandedImage(null);
+                setImageZoom(1);
+              }}
+              aria-label="Close image viewer"
             >
               <img
                 src={expandedImage || "/placeholder.svg"}
@@ -853,7 +921,7 @@ const PronosticoCosteroMap: React.FC = () => {
                 }}
                 onTouchStart={(e) => e.preventDefault()}
               />
-            </div>
+            </button>
           </div>
         )}
 
