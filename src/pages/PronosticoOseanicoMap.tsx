@@ -17,6 +17,7 @@ import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import type { Region } from "../types/type";
 import data from "../data/data.json";
+import { X } from "lucide-react";
 
 const PronosticoOseanicoMap: React.FC = () => {
   const history = useHistory();
@@ -290,7 +291,7 @@ const PronosticoOseanicoMap: React.FC = () => {
                   (e.target as HTMLButtonElement).style.color = "#94a3b8";
                 }}
               >
-                ×
+                <X size={20} color="#0f172a"/>
               </button>
             </div>
 

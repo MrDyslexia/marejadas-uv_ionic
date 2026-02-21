@@ -126,6 +126,9 @@ const RegionDetailModal: React.FC<RegionDetailModalProps> = ({
                 {(Object.keys(attributeNames) as AttributeKey[]).map((key) => (
                   <IonCol size="12" size-md="6" key={key} style={{ padding: "8px" }}>
                     <div
+                      role="group"
+                      tabIndex={0}
+                      aria-label={`Datos de ${attributeNames[key]}`}
                       style={{
                         background: "white",
                         borderRadius: "16px",
@@ -143,6 +146,13 @@ const RegionDetailModal: React.FC<RegionDetailModalProps> = ({
                         const el = e.currentTarget as HTMLElement;
                         el.style.transform = "translateY(0)";
                         el.style.boxShadow = "0 2px 8px rgba(0, 0, 0, 0.08)";
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          const button = (e.currentTarget as HTMLElement).querySelector("button");
+                          button?.click();
+                        }
                       }}
                     >
                       <IonText>
