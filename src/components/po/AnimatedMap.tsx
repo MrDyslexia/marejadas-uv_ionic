@@ -7,7 +7,6 @@ import {
   IonSegment,
   IonSegmentButton,
   IonLabel,
-  IonButton,
 } from "@ionic/react";
 import {
   playForward,
@@ -18,7 +17,6 @@ import {
   chevronForward,
 } from "ionicons/icons";
 import { Waves, Pause, Play, Maximize2 } from "lucide-react";
-import "./AnimatedMap.css";
 
 const TOTAL_FRAMES = 61;
 
@@ -477,62 +475,98 @@ const AnimatedMap: React.FC = () => {
 
   if (isInitialLoading) {
     return (
-      <div style={{padding:12}}>
-        <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 10,
-              marginBottom: 16,
-            }}
-          >
-            <Waves size={22} color="#0284c7" />
-            <IonText>
-              <h2 className="section-title" style={{ margin: 0 }}>
-                Mapa Animado
-              </h2>
-            </IonText>
+      <div style={{ padding: 12 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
+          <Waves size={22} color="#0284c7" />
+          <IonText>
+            <h2 style={{ fontSize: 20, fontWeight: "bold", color: "var(--ion-color-dark)", margin: 0, textAlign: "center" }}>
+              Mapa Animado
+            </h2>
+          </IonText>
+        </div>
+        <div style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "40px 20px",
+          backgroundColor: "var(--ion-color-light)",
+          borderRadius: 12,
+        }}>
+          <IonSpinner color="primary" />
+          <IonText color="medium">
+            <p style={{ margin: "16px 0 8px 0", color: "var(--ion-color-medium)", fontSize: 14 }}>
+              Precargando frames: {preloadProgress}%
+            </p>
+          </IonText>
+          <div style={{
+            width: "80%",
+            height: 8,
+            backgroundColor: "var(--ion-color-light-shade)",
+            borderRadius: 4,
+            marginTop: 12,
+            overflow: "hidden",
+          }}>
+            <div style={{
+              height: "100%",
+              width: `${preloadProgress}%`,
+              backgroundColor: "var(--ion-color-primary)",
+              borderRadius: 4,
+              transition: "width 0.3s ease",
+            }} />
           </div>
-          <div className="loader-container">
-            <IonSpinner color="primary" />
-            <IonText color="medium">
-              <p>Precargando frames: {preloadProgress}%</p>
-            </IonText>
-            <div className="progress-bar-container">
-              <div
-                className="progress-bar"
-                style={{ width: `${preloadProgress}%` }}
-              />
-            </div>
-          </div>
+        </div>
       </div>
     );
   }
 
   return (
     <>
-      <div className="animated-map-container">
-        <div className="animated-map-inner">
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 10,
-              marginBottom: 16,
-            }}
-          >
+      <div style={{
+        borderRadius: 16,
+        overflow: "hidden",
+        boxShadow: "0 4px 16px rgba(0,0,0,0.1)",
+        background: "var(--ion-card-background, #fff)",
+        animation: "fadeIn 0.5s ease-out",
+      }}>
+        <div style={{ padding: 16 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
             <Waves size={22} color="#0284c7" />
             <IonText>
-              <h2 className="section-title" style={{ margin: 0 }}>
+              <h2 style={{ fontSize: 20, fontWeight: "bold", color: "var(--ion-color-dark)", margin: 0, textAlign: "center" }}>
                 Mapa Animado
               </h2>
             </IonText>
           </div>
 
-          <div className="map-frame-container">
-            <div className="image-container">
+          <div style={{
+            position: "relative",
+            height: 300,
+            backgroundColor: "var(--ion-color-light)",
+            borderRadius: 12,
+            overflow: "hidden",
+            marginBottom: 16,
+          }}>
+            <div style={{ position: "relative", width: "100%", height: "100%" }}>
               <button
-                className="expand-button"
+                style={{
+                  position: "absolute",
+                  top: 16,
+                  right: 16,
+                  zIndex: 1,
+                  background: "rgba(6,182,212,0.95)",
+                  border: "none",
+                  borderRadius: 12,
+                  width: 44,
+                  height: 44,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
+                  transition: "all 0.3s ease",
+                  padding: 12,
+                }}
                 onClick={() => {
                   setIsPlaying(false);
                   setIsFullscreenOpen(true);
@@ -543,48 +577,111 @@ const AnimatedMap: React.FC = () => {
               <img
                 src={currentImageUrl}
                 alt={`Frame ${currentFrame}`}
-                className="map-frame"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "contain",
+                  backgroundColor: "white",
+                  transition: "opacity 0.3s ease",
+                }}
               />
             </div>
-            <div className="frame-counter">
+            <div style={{
+              position: "absolute",
+              bottom: 8,
+              right: 8,
+              backgroundColor: "rgba(0,0,0,0.7)",
+              color: "white",
+              padding: "4px 8px",
+              borderRadius: 4,
+              fontSize: 12,
+              fontWeight: 500,
+            }}>
               Frame: {currentFrame}/{TOTAL_FRAMES}
             </div>
           </div>
 
-          <div className="slider-track">
-            <div
-              className="slider-fill"
-              style={{
-                width: `${((currentFrame - 1) / (TOTAL_FRAMES - 1)) * 100}%`,
-              }}
-            />
+          <div style={{
+            width: "100%",
+            height: 6,
+            backgroundColor: "var(--ion-color-light-shade)",
+            borderRadius: 3,
+            margin: "16px 0",
+            overflow: "hidden",
+          }}>
+            <div style={{
+              height: "100%",
+              width: `${((currentFrame - 1) / (TOTAL_FRAMES - 1)) * 100}%`,
+              backgroundColor: "var(--ion-color-primary)",
+              borderRadius: 3,
+              transition: "width 0.3s ease",
+            }} />
           </div>
 
-          <div className="controls-container">
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 16, margin: "20px 0" }}>
             <button
-              className="card-ctrl-btn"
-              onClick={() =>
-                setCurrentFrame((p) => (p === 1 ? TOTAL_FRAMES : p - 1))
-              }
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                border: "none",
+                cursor: "pointer",
+                background: "transparent",
+                color: "var(--ion-color-primary)",
+                WebkitTapHighlightColor: "transparent",
+                borderRadius: "50%",
+                transition: "background 0.15s ease",
+                width: 48,
+                height: 48,
+                fontSize: 22,
+              }}
+              onClick={() => setCurrentFrame((p) => (p === 1 ? TOTAL_FRAMES : p - 1))}
             >
               <IonIcon icon={playBack} />
             </button>
             <button
-              className="card-play-btn"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                border: "none",
+                cursor: "pointer",
+                WebkitTapHighlightColor: "transparent",
+                width: 56,
+                height: 56,
+                fontSize: 26,
+                background: "var(--ion-color-primary)",
+                color: "#fff",
+                borderRadius: "50%",
+                boxShadow: "0 2px 8px rgba(2,132,199,0.35)",
+              }}
               onClick={() => setIsPlaying((p) => !p)}
             >
               {isPlaying ? <Pause /> : <Play />}
             </button>
             <button
-              className="card-ctrl-btn"
-              onClick={() =>
-                setCurrentFrame((p) => (p === TOTAL_FRAMES ? 1 : p + 1))
-              }
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                border: "none",
+                cursor: "pointer",
+                background: "transparent",
+                color: "var(--ion-color-primary)",
+                WebkitTapHighlightColor: "transparent",
+                borderRadius: "50%",
+                transition: "background 0.15s ease",
+                width: 48,
+                height: 48,
+                fontSize: 22,
+              }}
+              onClick={() => setCurrentFrame((p) => (p === TOTAL_FRAMES ? 1 : p + 1))}
             >
               <IonIcon icon={playForward} />
             </button>
           </div>
-          <div className="speed-control-container">
+
+          <div style={{ marginTop: 16 }}>
             <IonSegment
               key={frameRate}
               value={frameRate.toString()}
