@@ -11,7 +11,6 @@ import {
 import {
   playForward,
   playBack,
-  expandOutline,
   close,
   chevronBack,
   chevronForward,
@@ -229,10 +228,7 @@ const FullscreenPlayer: React.FC<FullscreenProps> = ({
           background:
             "linear-gradient(to bottom, rgba(0,0,0,0.75), transparent)",
         }}
-      >
-        <button onClick={handleClose} style={btnCircle}>
-          <IonIcon icon={close} style={{ fontSize: 22, color: "#fff" }} />
-        </button>
+      ><div style={{ width: 44 }} />
         <span
           style={{
             color: "#fff",
@@ -243,7 +239,10 @@ const FullscreenPlayer: React.FC<FullscreenProps> = ({
         >
           Frame {displayFrame} / {TOTAL_FRAMES}
         </span>
-        <div style={{ width: 44 }} />
+        
+        <button onClick={handleClose} style={btnCircle}>
+          <IonIcon icon={close} style={{ fontSize: 22, color: "#fff" }} />
+        </button>
       </div>
       <div
         style={{

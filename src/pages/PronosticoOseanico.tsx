@@ -311,7 +311,7 @@ const PronosticoOseanico: React.FC<PronosticoOseanicoProps> = ({ regions }) => {
                     tabIndex={0}
                     onClick={() => handleRegionSelect(region)}
                     onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
+                      if (e.key === "Enter" || e.key === " ") {
                         e.preventDefault();
                         handleRegionSelect(region);
                       }
