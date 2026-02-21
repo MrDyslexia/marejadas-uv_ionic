@@ -124,11 +124,6 @@ const AnimatedMap: React.FC = () => {
       }
     };
   }, [isPlaying, isInitialLoading, frameRate]);
-
-  const togglePlayPause = () => {
-    setIsPlaying(!isPlaying);
-  };
-
   const goToNextFrame = () => {
     if (isPlaying) setIsPlaying(false);
     setCurrentFrame((prev) => {
@@ -428,6 +423,14 @@ const AnimatedMap: React.FC = () => {
                   touchAction: "none",
                 }}
                 onClick={toggleFullscreenHud}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    toggleFullscreenHud();
+                  }
+                }}
+                role="button"
+                tabIndex={0}
+                aria-label="Alternar controles"
               >
                 <img
                   src={preloadedFrames[currentFrame] || getImageUrl(currentFrame)}

@@ -268,7 +268,7 @@ const PronosticoOseanico: React.FC<PronosticoOseanicoProps> = ({ regions }) => {
               </div>
               <IonText>
                 <p style={{ fontSize: "13px", color: "#64748b", margin: "0", fontWeight: "500" }}>
-                  {filteredRegions.length} de {regions.length} región{regions.length !== 1 ? 'es' : ''} disponible{regions.length !== 1 ? 's' : ''}
+                  {filteredRegions.length} de {regions.length} región{regions.length === 1 ? '' : 'es'} disponible{regions.length === 1 ? '' : 's'}
                 </p>
               </IonText>
             </div>
@@ -307,7 +307,15 @@ const PronosticoOseanico: React.FC<PronosticoOseanicoProps> = ({ regions }) => {
                 filteredRegions.map((region) => (
                   <div
                     key={region.id}
+                    role="button"
+                    tabIndex={0}
                     onClick={() => handleRegionSelect(region)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        handleRegionSelect(region);
+                      }
+                    }}
                     style={{
                       background: "#f8f9fa",
                       border: "1px solid #e2e8f0",

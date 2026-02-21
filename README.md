@@ -31,7 +31,7 @@ Aplicación móvil desarrollada en **Ionic + React (TypeScript)** con **Capacito
 | Ionic React | 7 | Componentes UI mobile |
 | Capacitor | 7 | Bridge nativo Android/iOS |
 | React Router DOM | 5 | Navegación entre vistas |
-| MapLibre GL | 5 | Mapas interactivos |
+| MapLibre GL | 5 | Mapas interactivos (sin API key) |
 | Leaflet | 1.9 | Mapas alternativos |
 | Lucide React | — | Iconografía |
 
@@ -152,7 +152,7 @@ Home
 
 **PdModal** — Vista de detalle de una zona costera. Recibe los datos mediante `history.push({ state: { pronosticoData } })`. Muestra imágenes de pronóstico por sector (categoría, altura, periodo, dirección, marea) usando el componente `ImageViewer`.
 
-**PronosticoCosteroMap** — Mapa con **MapLibre GL** usando tiles de OpenStreetMap. Coloca markers en las coordenadas de cada sector. Al tocar un marker, muestra un panel inferior con el pronóstico de ese sector.
+**PronosticoCosteroMap** — Mapa interactivo con **MapLibre GL** usando tiles de OpenStreetMap (sin API key). Coloca markers en las coordenadas de cada sector. Al tocar un marker, muestra un panel inferior con el pronóstico de ese sector.
 
 **PronosticoOseanico** — Lista las 20 regiones oceánicas con buscador. Incluye el componente `AnimatedMap` (mapa animado de 61 frames del Pacífico). Al tocar una región se abre `RegionDetailModal`.
 
@@ -313,15 +313,16 @@ ion-tab-bar {
 
 ## Variables de entorno
 
-El proyecto usa un archivo `.env` en la raíz:
+El proyecto usa un archivo `.env` en la raíz. Actualmente **no requiere ninguna API key** ya que todos los mapas usan MapLibre GL con tiles públicos de OpenStreetMap/CARTO.
 
 ```
-GOOGLE_MAPS_API_KEY=tu_api_key_aqui
+# .env — actualmente sin variables requeridas
+# Los mapas usan MapLibre GL (sin API key)
 ```
 
-> ⚠️ **No subas el `.env` al repositorio.** Está en `.gitignore`. La API key expuesta en el repo puede ser revocada por Google automáticamente.
+Si en el futuro se necesita integrar algún servicio externo, agregar las variables aquí y acceder a ellas vía `process.env.NOMBRE_VARIABLE`.
 
-La key se usa en `capacitor.config.ts` para el plugin `@capacitor/google-maps`. Actualmente los mapas principales usan **MapLibre GL** (sin key), por lo que la dependencia de Google Maps es mínima.
+> ⚠️ **Nunca subas el `.env` al repositorio.** Está en `.gitignore`.
 
 ---
 
@@ -340,10 +341,7 @@ La key se usa en `capacitor.config.ts` para el plugin `@capacitor/google-maps`. 
 # 1. Instalar dependencias
 npm install
 
-# 2. Crear el archivo de entorno
-echo "GOOGLE_MAPS_API_KEY=tu_key_aqui" > .env
-
-# 3. Correr en el navegador (desarrollo web)
+# 2. Correr en el navegador (desarrollo web)
 npm start
 ```
 

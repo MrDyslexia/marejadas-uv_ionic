@@ -5,9 +5,6 @@ const config: CapacitorConfig = {
   appName: "MarejadasUV",
   webDir: "build",
   plugins: {
-    GoogleMaps: {
-    apiKey: process.env.GOOGLE_MAPS_API_KEY
-  },
     StatusBar: {
       style: "DARK",
       overlaysWebView: true,
