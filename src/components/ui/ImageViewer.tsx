@@ -1,174 +1,256 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { useState, useRef, useEffect, useCallback } from "react"
-import { IonIcon } from "@ionic/react"
-import { close, chevronBack, chevronForward } from "ionicons/icons"
-import "./ImageViewer.css"
+import type React from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
+import { createPortal } from "react-dom";
+import { IonIcon } from "@ionic/react";
+import { close, chevronBack, chevronForward } from "ionicons/icons";
+import "./ImageViewer.css";
 
 interface ImageViewerProps {
-  isOpen: boolean
-  images: string[]
-  initialIndex: number
-  onClose: () => void
+  isOpen: boolean;
+  images: string[];
+  initialIndex: number;
+  onClose: () => void;
 }
 
-const ImageViewer: React.FC<ImageViewerProps> = ({ isOpen, images, initialIndex, onClose }) => {
-  const [currentIndex, setCurrentIndex] = useState(initialIndex)
-  const [scale, setScale] = useState(1)
-  const [position, setPosition] = useState({ x: 0, y: 0 })
-  const [isLoading, setIsLoading] = useState(true)
-  const [showHud, setShowHud] = useState(true)
+const ImageViewer: React.FC<ImageViewerProps> = ({
+  isOpen,
+  images,
+  initialIndex,
+  onClose,
+}) => {
+  const [currentIndex, setCurrentIndex] = useState(initialIndex);
+  const [scale, setScale] = useState(1);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isLoading, setIsLoading] = useState(true);
+  const [showHud, setShowHud] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
 
-  const containerRef = useRef<HTMLDivElement>(null)
-  const imageRef = useRef<HTMLImageElement>(null)
-  const hudTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const containerRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
+  const hudTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const initialPinchDistance = useRef<number | null>(null)
-  const initialScale = useRef(1)
-  const lastPosition = useRef({ x: 0, y: 0 })
-  const isPinching = useRef(false)
-  const isPanning = useRef(false)
-  const startTouch = useRef({ x: 0, y: 0 })
-  const lastTap = useRef(0)
+  const initialPinchDistance = useRef<number | null>(null);
+  const initialScale = useRef(1);
+  const lastPosition = useRef({ x: 0, y: 0 });
+  const isPinching = useRef(false);
+  const isPanning = useRef(false);
+  const startTouch = useRef({ x: 0, y: 0 });
+  const lastTap = useRef(0);
 
   const resetZoom = useCallback(() => {
-    setScale(1)
-    setPosition({ x: 0, y: 0 })
-  }, [])
+    setScale(1);
+    setPosition({ x: 0, y: 0 });
+    lastPosition.current = { x: 0, y: 0 };
+  }, []);
 
   const showHudTemporarily = useCallback(() => {
-    setShowHud(true)
+    setShowHud(true);
     if (hudTimeoutRef.current) {
-      clearTimeout(hudTimeoutRef.current)
+      clearTimeout(hudTimeoutRef.current);
     }
-    hudTimeoutRef.current = setTimeout(() => setShowHud(false), 3000)
-  }, [])
+    hudTimeoutRef.current = setTimeout(() => setShowHud(false), 3000);
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
-      setCurrentIndex(initialIndex)
-      resetZoom()
-      setIsLoading(true)
-      showHudTemporarily()
+      setCurrentIndex(initialIndex);
+      resetZoom();
+      setIsLoading(true);
+      setIsVisible(true);
+      showHudTemporarily();
+    } else {
+      setIsVisible(false);
     }
-  }, [isOpen, initialIndex, resetZoom, showHudTemporarily])
+  }, [isOpen, initialIndex, resetZoom, showHudTemporarily]);
 
   useEffect(() => {
-    if (!isOpen || !containerRef.current) return
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+      const handleBackButton = (e: Event) => {
+        e.preventDefault();
+        e.stopPropagation();
+        onClose();
+      };
+      document.addEventListener("ionBackButton", handleBackButton, {
+        capture: true,
+      });
 
-    const container = containerRef.current
+      return () => {
+        document.body.style.overflow = "";
+        document.removeEventListener("ionBackButton", handleBackButton, {
+          capture: true,
+        });
+      };
+    }
+  }, [isOpen, onClose]);
+
+  useEffect(() => {
+    if (!isOpen || !containerRef.current) return;
+
+    const container = containerRef.current;
 
     const getDistance = (touches: TouchList): number => {
-      return Math.hypot(touches[1].clientX - touches[0].clientX, touches[1].clientY - touches[0].clientY)
-    }
+      return Math.hypot(
+        touches[1].clientX - touches[0].clientX,
+        touches[1].clientY - touches[0].clientY,
+      );
+    };
 
     const handleTouchStart = (e: TouchEvent) => {
-      if (e.touches.length === 2) {
-        isPinching.current = true
-        initialPinchDistance.current = getDistance(e.touches)
-        initialScale.current = scale
-      } else if (e.touches.length === 1) {
-        startTouch.current = { x: e.touches[0].clientX, y: e.touches[0].clientY }
+      e.stopPropagation();
 
-        const now = Date.now()
+      if (e.touches.length === 2) {
+        e.preventDefault();
+        isPinching.current = true;
+        initialPinchDistance.current = getDistance(e.touches);
+        initialScale.current = scale;
+      } else if (e.touches.length === 1) {
+        startTouch.current = {
+          x: e.touches[0].clientX,
+          y: e.touches[0].clientY,
+        };
+        lastPosition.current = { ...position };
+
+        const now = Date.now();
         if (now - lastTap.current < 300) {
-          // Double tap
+          e.preventDefault();
           if (scale === 1) {
-            setScale(2)
-            showHudTemporarily()
+            setScale(2);
+            showHudTemporarily();
           } else {
-            resetZoom()
+            resetZoom();
           }
         }
-        lastTap.current = now
+        lastTap.current = now;
       }
-    }
+    };
 
     const handleTouchMove = (e: TouchEvent) => {
-      if (isPinching.current && e.touches.length === 2 && initialPinchDistance.current) {
-        const currentDistance = getDistance(e.touches)
-        const scaleFactor = currentDistance / initialPinchDistance.current
-        setScale(Math.max(1, Math.min(initialScale.current * scaleFactor, 4)))
-      } else if (scale > 1 && e.touches.length === 1) {
-        isPanning.current = true
-        const deltaX = e.touches[0].clientX - startTouch.current.x
-        const deltaY = e.touches[0].clientY - startTouch.current.y
+      e.stopPropagation();
+      e.preventDefault();
 
-        const maxX = (scale - 1) * (imageRef.current?.width || 0) * 0.5
-        const maxY = (scale - 1) * (imageRef.current?.height || 0) * 0.5
+      if (
+        isPinching.current &&
+        e.touches.length === 2 &&
+        initialPinchDistance.current
+      ) {
+        const currentDistance = getDistance(e.touches);
+        const scaleFactor = currentDistance / initialPinchDistance.current;
+        setScale(Math.max(1, Math.min(initialScale.current * scaleFactor, 4)));
+      } else if (scale > 1 && e.touches.length === 1) {
+        isPanning.current = true;
+        const deltaX = e.touches[0].clientX - startTouch.current.x;
+        const deltaY = e.touches[0].clientY - startTouch.current.y;
+
+        const maxX = (scale - 1) * (imageRef.current?.width || 0) * 0.5;
+        const maxY = (scale - 1) * (imageRef.current?.height || 0) * 0.5;
 
         setPosition({
           x: Math.max(-maxX, Math.min(maxX, lastPosition.current.x + deltaX)),
           y: Math.max(-maxY, Math.min(maxY, lastPosition.current.y + deltaY)),
-        })
+        });
       }
-    }
+    };
 
     const handleTouchEnd = (e: TouchEvent) => {
+      e.stopPropagation();
+
       if (isPinching.current && e.touches.length < 2) {
-        isPinching.current = false
-        initialPinchDistance.current = null
+        isPinching.current = false;
+        initialPinchDistance.current = null;
       }
       if (e.touches.length === 0) {
-        isPanning.current = false
-        lastPosition.current = position
+        isPanning.current = false;
+        lastPosition.current = position;
       }
-    }
+    };
 
-    const handleClick = (e: React.MouseEvent) => {
-      if (e.target === container) {
-        handleClose()
-      }
-    }
-
-    container.addEventListener("touchstart", handleTouchStart as EventListener)
-    container.addEventListener("touchmove", handleTouchMove as EventListener)
-    container.addEventListener("touchend", handleTouchEnd as EventListener)
+    container.addEventListener("touchstart", handleTouchStart, {
+      passive: false,
+      capture: true,
+    });
+    container.addEventListener("touchmove", handleTouchMove, {
+      passive: false,
+      capture: true,
+    });
+    container.addEventListener("touchend", handleTouchEnd, { capture: true });
 
     return () => {
-      container.removeEventListener("touchstart", handleTouchStart as EventListener)
-      container.removeEventListener("touchmove", handleTouchMove as EventListener)
-      container.removeEventListener("touchend", handleTouchEnd as EventListener)
-    }
-  }, [isOpen, scale, position, resetZoom, showHudTemporarily])
+      container.removeEventListener("touchstart", handleTouchStart, {
+        capture: true,
+      });
+      container.removeEventListener("touchmove", handleTouchMove, {
+        capture: true,
+      });
+      container.removeEventListener("touchend", handleTouchEnd, {
+        capture: true,
+      });
+    };
+  }, [isOpen, scale, position, resetZoom, showHudTemporarily]);
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.stopPropagation();
+        e.preventDefault();
+        handleClose();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown, { capture: true });
+    return () =>
+      document.removeEventListener("keydown", handleKeyDown, { capture: true });
+  }, [isOpen]);
 
   const handleClose = useCallback(() => {
-    console.log("[v0] ImageViewer handleClose triggered")
-    resetZoom()
-    onClose()
-  }, [onClose, resetZoom])
+    resetZoom();
+    onClose();
+  }, [onClose, resetZoom]);
 
   const goToPrevious = () => {
     if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1)
-      resetZoom()
-      setIsLoading(true)
-      showHudTemporarily()
+      setCurrentIndex(currentIndex - 1);
+      resetZoom();
+      setIsLoading(true);
+      showHudTemporarily();
     }
-  }
+  };
 
   const goToNext = () => {
     if (currentIndex < images.length - 1) {
-      setCurrentIndex(currentIndex + 1)
-      resetZoom()
-      setIsLoading(true)
-      showHudTemporarily()
+      setCurrentIndex(currentIndex + 1);
+      resetZoom();
+      setIsLoading(true);
+      showHudTemporarily();
     }
-  }
+  };
 
   if (!isOpen) {
-    return null
+    return null;
   }
 
-  const currentImage = images[currentIndex] || ""
-
-  return (
+  const currentImage = images[currentIndex] || "";
+  const viewer = (
     <div
       ref={containerRef}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Image Viewer"
       onClick={(e) => {
+        e.stopPropagation();
         if (e.target === containerRef.current) {
-          handleClose()
+          handleClose();
+        }
+      }}
+      onMouseDown={(e) => e.stopPropagation()}
+      onKeyDown={(e) => {
+        if (e.key === "Escape") {
+          e.stopPropagation();
+          e.preventDefault();
+          handleClose();
         }
       }}
       style={{
@@ -180,8 +262,10 @@ const ImageViewer: React.FC<ImageViewerProps> = ({ isOpen, images, initialIndex,
         backgroundColor: "#000000",
         display: "flex",
         flexDirection: "column",
-        zIndex: 9999,
+        zIndex: 99999,
         userSelect: "none",
+        opacity: isVisible ? 1 : 0,
+        transition: "opacity 0.2s ease",
       }}
     >
       {/* Header */}
@@ -195,8 +279,9 @@ const ImageViewer: React.FC<ImageViewerProps> = ({ isOpen, images, initialIndex,
           justifyContent: "space-between",
           alignItems: "center",
           padding: "16px 20px",
-          paddingTop: `calc(16px + ${getComputedStyle(document.documentElement).getPropertyValue("--ion-safe-area-top") || "0px"})`,
-          background: "linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, transparent 100%)",
+          paddingTop: `calc(16px + env(safe-area-inset-top, 0px))`,
+          background:
+            "linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, transparent 100%)",
           zIndex: 100,
           opacity: showHud ? 1 : 0,
           transform: showHud ? "translateY(0)" : "translateY(-20px)",
@@ -205,7 +290,10 @@ const ImageViewer: React.FC<ImageViewerProps> = ({ isOpen, images, initialIndex,
         }}
       >
         <button
-          onClick={handleClose}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleClose();
+          }}
           type="button"
           style={{
             width: "44px",
@@ -253,7 +341,9 @@ const ImageViewer: React.FC<ImageViewerProps> = ({ isOpen, images, initialIndex,
         }}
       >
         {isLoading && (
-          <div style={{ color: "#ffffff", fontSize: "20px" }}>
+          <div
+            style={{ position: "absolute", color: "#ffffff", fontSize: "20px" }}
+          >
             Cargando...
           </div>
         )}
@@ -262,20 +352,32 @@ const ImageViewer: React.FC<ImageViewerProps> = ({ isOpen, images, initialIndex,
           src={currentImage}
           alt={`Imagen ${currentIndex + 1}`}
           onLoad={() => setIsLoading(false)}
-          onClick={showHudTemporarily}
-          style={{
-            maxWidth: "100%",
-            maxHeight: "100%",
-            objectFit: "contain",
-            transform: `scale(${scale}) translate(${position.x}px, ${position.y}px)`,
-            transition: isLoading ? "none" : "transform 0.1s ease-out",
-            cursor: scale > 1 ? "grab" : "zoom-in",
-            userSelect: "none",
+          onClick={(e) => {
+            e.stopPropagation();
+            showHudTemporarily();
           }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.stopPropagation();
+              showHudTemporarily();
+            }
+          }}
+          draggable={false}
+          style={
+            {
+              maxWidth: "100%",
+              maxHeight: "100%",
+              objectFit: "contain",
+              transform: `scale(${scale}) translate(${position.x / scale}px, ${position.y / scale}px)`,
+              transition: isLoading ? "none" : "transform 0.1s ease-out",
+              cursor: scale > 1 ? "grab" : "zoom-in",
+              userSelect: "none",
+            } as React.CSSProperties
+          }
         />
       </div>
 
-      {/* Navigation Arrows - Solo mostrar si hay múltiples imágenes */}
+      {/* Navigation Arrows */}
       {images.length > 1 && (
         <div
           style={{
@@ -295,8 +397,8 @@ const ImageViewer: React.FC<ImageViewerProps> = ({ isOpen, images, initialIndex,
         >
           <button
             onClick={(e) => {
-              e.stopPropagation()
-              goToPrevious()
+              e.stopPropagation();
+              goToPrevious();
             }}
             disabled={currentIndex === 0}
             type="button"
@@ -321,8 +423,8 @@ const ImageViewer: React.FC<ImageViewerProps> = ({ isOpen, images, initialIndex,
           </button>
           <button
             onClick={(e) => {
-              e.stopPropagation()
-              goToNext()
+              e.stopPropagation();
+              goToNext();
             }}
             disabled={currentIndex === images.length - 1}
             type="button"
@@ -337,7 +439,8 @@ const ImageViewer: React.FC<ImageViewerProps> = ({ isOpen, images, initialIndex,
               alignItems: "center",
               color: "#ffffff",
               fontSize: "28px",
-              cursor: currentIndex === images.length - 1 ? "not-allowed" : "pointer",
+              cursor:
+                currentIndex === images.length - 1 ? "not-allowed" : "pointer",
               pointerEvents: showHud ? "auto" : "none",
               opacity: currentIndex === images.length - 1 ? 0.3 : 1,
             }}
@@ -348,7 +451,7 @@ const ImageViewer: React.FC<ImageViewerProps> = ({ isOpen, images, initialIndex,
         </div>
       )}
 
-      {/* Dots Indicator - Solo mostrar si hay múltiples imágenes */}
+      {/* Dots Indicator */}
       {images.length > 1 && (
         <div
           style={{
@@ -367,22 +470,25 @@ const ImageViewer: React.FC<ImageViewerProps> = ({ isOpen, images, initialIndex,
             pointerEvents: showHud ? "auto" : "none",
           }}
         >
-          {images.map((_, index) => (
+          {images.map((image, index) => (
             <button
-              key={index}
+              key={`${image}-${index}`}
               onClick={(e) => {
-                e.stopPropagation()
-                setCurrentIndex(index)
-                resetZoom()
-                setIsLoading(true)
-                showHudTemporarily()
+                e.stopPropagation();
+                setCurrentIndex(index);
+                resetZoom();
+                setIsLoading(true);
+                showHudTemporarily();
               }}
               type="button"
               style={{
                 width: index === currentIndex ? "24px" : "8px",
                 height: "8px",
                 borderRadius: "4px",
-                background: index === currentIndex ? "#ffffff" : "rgba(255, 255, 255, 0.4)",
+                background:
+                  index === currentIndex
+                    ? "#ffffff"
+                    : "rgba(255, 255, 255, 0.4)",
                 border: "none",
                 cursor: "pointer",
                 padding: 0,
@@ -394,7 +500,8 @@ const ImageViewer: React.FC<ImageViewerProps> = ({ isOpen, images, initialIndex,
         </div>
       )}
     </div>
-  )
-}
+  );
+  return createPortal(viewer, document.body);
+};
 
-export default ImageViewer
+export default ImageViewer;
