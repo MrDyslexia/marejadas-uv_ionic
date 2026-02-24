@@ -266,36 +266,86 @@
   letter-spacing: 0.5px;
 }
 
-/* Enhanced Segment/Tabs */
-.segment-enhanced {
+/* ============================================
+   Custom Tabs (reemplaza IonSegment)
+   ============================================ */
+.custom-tabs-container {
   margin-bottom: 20px;
   background: #f0f9ff;
   border-radius: 12px;
   padding: 4px;
 }
 
-.segment-button-enhanced {
-  --indicator-color: #06b6d4;
-  --indicator-height: 3px;
-  transition: all 0.3s ease;
+.custom-tabs-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 2px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-.tab-content-enhanced {
+.custom-tabs-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.custom-tab-button {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  padding: 8px 0;
+  padding: 10px 8px 14px 8px;
+  min-width: 64px;
+  flex: 1;
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.tab-emoji {
-  font-size: 20px;
-  margin-bottom: 2px;
+.custom-tab-button:active {
+  background-color: rgba(6, 182, 212, 0.08);
 }
 
-.tab-label {
+/* Label por defecto */
+.custom-tab-button .custom-tab-label {
   font-size: 13px;
   font-weight: 500;
+  color: #94a3b8;
+  transition: color 0.2s ease, font-weight 0.2s ease;
+  white-space: nowrap;
+}
+
+/* Label activo */
+.custom-tab-button.custom-tab-active .custom-tab-label {
+  color: #06b6d4;
+  font-weight: 600;
+}
+
+/* Indicador inferior (solo visible en tab activo) */
+.custom-tab-indicator {
+  position: absolute;
+  bottom: 2px;
+  left: 20%;
+  right: 20%;
+  height: 3px;
+  background: #06b6d4;
+  border-radius: 2px;
+  animation: tabIndicatorIn 0.25s ease-out;
+}
+
+@keyframes tabIndicatorIn {
+  from {
+    opacity: 0;
+    transform: scaleX(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
 }
 
 /* Tab Content Container */
@@ -323,7 +373,7 @@
     font-size: 16px;
   }
 
-  .tab-label {
+  .custom-tab-button .custom-tab-label {
     font-size: 11px;
   }
 }

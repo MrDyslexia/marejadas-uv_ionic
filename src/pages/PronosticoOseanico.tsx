@@ -59,8 +59,6 @@ const PronosticoOseanico: React.FC<PronosticoOseanicoProps> = ({ regions }) => {
           paddingBottom: "24px",
           paddingLeft: "20px",
           paddingRight: "20px",
-          borderBottomLeftRadius: "24px",
-          borderBottomRightRadius: "24px",
           boxShadow: "0 4px 12px rgba(2, 132, 199, 0.15)",
         }}
       >

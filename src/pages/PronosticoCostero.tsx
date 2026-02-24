@@ -1,5 +1,3 @@
-"use client";
-
 import type React from "react";
 import { useState, useEffect } from "react";
 import {
@@ -96,8 +94,6 @@ const PronosticoCosteroScreen: React.FC = () => {
           paddingBottom: "24px",
           paddingLeft: "20px",
           paddingRight: "20px",
-          borderBottomLeftRadius: "24px",
-          borderBottomRightRadius: "24px",
           boxShadow: "0 4px 12px rgba(2, 132, 199, 0.15)",
         }}
       >
@@ -389,13 +385,13 @@ const PronosticoCosteroScreen: React.FC = () => {
                         <div className="info-icon-wrapper info-icon-warning">
                           <IonIcon icon={navigate} />
                         </div>
-                        <p className="info-label">Coordenadas</p>
+                        <p className="info-label">Puntos</p>
                         <p className="info-value">
                           {calcularCoordenadasDisponibles(item.sectores) > 0
                             ? `${calcularCoordenadasDisponibles(item.sectores)}/${item.sectores.length}`
                             : "Próx."}
                         </p>
-                        <p className="info-sublabel">geo-referenciadas</p>
+                        <p className="info-sublabel">geo-ref</p>
                       </div>
                     </IonCol>
                   </IonRow>

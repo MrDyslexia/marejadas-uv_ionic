@@ -291,30 +291,29 @@
 }
 
 .info-label {
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: 0.5rem;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.02em;
   margin: 0 0 8px 0;
   color: #64748b;
 }
 
 .info-value {
-  font-size: 1.75rem;
-  font-weight: 700;
+  font-size: 1.6rem;
+  font-weight: 600;
   margin: 0;
   color: #0c4a6e;
   line-height: 1;
 }
 
 .info-sublabel {
-  font-size: 0.6875rem;
+  font-size: 0.63rem;
   margin: 4px 0 0 0;
   color: #94a3b8;
-  font-weight: 500;
+  font-weight: 450;
 }
 
-/* Sección de sectores completamente rediseñada */
 .sectores-preview {
   padding: 24px;
   background: #ffffff;

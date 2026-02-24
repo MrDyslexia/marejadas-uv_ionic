@@ -19,11 +19,7 @@ import {
   logoInstagram,
   logoYoutube,
 } from "ionicons/icons";
-import {
-  Waves,
-  FolderOpen,
-  ChartSpline,
-} from "lucide-react";
+import { Waves, FolderOpen, ChartSpline } from "lucide-react";
 import { useHistory } from "react-router-dom";
 import FeatureCard from "../components/ui/FeatureCard";
 import "./Home.css";
@@ -54,34 +50,35 @@ const Home: React.FC = () => {
       <IonHeader className="home-header">
         <IonToolbar className="gradient-toolbar">
           <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          position: "relative",
-          width: "100%",
-        }}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              position: "relative",
+              width: "100%",
+            }}
           >
-        <div style={{
-          position: "absolute",
-          left: 0,
-        }}>
-          <IonImg
-            src="/assets/images/icon.png"
-            alt="Marejadas UV"
-            className="logo-image"
-          />
-        </div>
-        <div style={{ textAlign: "center" }}>
-          <h1 className="header-title">Marejadas UV</h1>
-          <p className="header-subtitle">Información oceánica de Chile</p>
-        </div>
+            <div
+              style={{
+                position: "absolute",
+                left: 0,
+              }}
+            >
+              <IonImg
+                src="/assets/images/icon.png"
+                alt="Marejadas UV"
+                className="logo-image"
+              />
+            </div>
+            <div style={{ textAlign: "center" }}>
+              <h1 className="header-title">Marejadas UV</h1>
+              <p className="header-subtitle">Información oceánica de Chile</p>
+            </div>
           </div>
         </IonToolbar>
       </IonHeader>
 
       <IonContent fullscreen className="home-content">
-        {/* Banner de login - eliminado temporalmente para coincidir con el diseño de referencia */}
 
         <div className="featured-section">
           <div className="section-header">
@@ -129,7 +126,14 @@ const Home: React.FC = () => {
           <div className="info-items-wrapper">
             <div
               className="info-item-custom"
+              role="button"
+              tabIndex={0}
               onClick={() => window.open("https://marejadas.uv.cl/", "_blank")}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  window.open("https://marejadas.uv.cl/", "_blank");
+                }
+              }}
             >
               <div className="info-icon-container">
                 <IonIcon
@@ -148,9 +152,16 @@ const Home: React.FC = () => {
 
             <div
               className="info-item-custom"
+              role="button"
+              tabIndex={0}
               onClick={() =>
                 window.open("https://www.instagram.com/marejadasuv/", "_blank")
               }
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  window.open("https://www.instagram.com/marejadasuv/", "_blank");
+                }
+              }}
             >
               <div className="info-icon-container">
                 <IonIcon icon={logoInstagram} className="info-icon-custom" />
@@ -166,9 +177,16 @@ const Home: React.FC = () => {
 
             <div
               className="info-item-custom"
+              role="button"
+              tabIndex={0}
               onClick={() =>
                 window.open("https://www.youtube.com/@MarejadasUV", "_blank")
               }
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  window.open("https://www.youtube.com/@MarejadasUV", "_blank");
+                }
+              }}
             >
               <div className="info-icon-container">
                 <IonIcon icon={logoYoutube} className="info-icon-custom" />
@@ -184,7 +202,14 @@ const Home: React.FC = () => {
 
             <div
               className="info-item-custom last-item"
+              role="button"
+              tabIndex={0}
               onClick={() => window.open("mailto:marejadas@uv.cl", "_blank")}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  window.open("mailto:marejadas@uv.cl", "_blank");
+                }
+              }}
             >
               <div className="info-icon-container">
                 <IonIcon icon={mailOutline} className="info-icon-custom" />
