@@ -18,6 +18,7 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import type { Region } from "../types/type";
 import data from "../data/data.json";
 import { X } from "lucide-react";
+import ImageViewer from "../components/ui/ImageViewer";
 
 const PronosticoOseanicoMap: React.FC = () => {
   const history = useHistory();
@@ -30,9 +31,8 @@ const PronosticoOseanicoMap: React.FC = () => {
     regionData: Region["datosPronostico"];
   } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [expandedImage, setExpandedImage] = useState<string | null>(null);
-  const [imageZoom, setImageZoom] = useState(1);
-  const initialDistanceRef = useRef<number>(0);
+  const [imageViewerOpen, setImageViewerOpen] = useState(false);
+  const [currentImages, setCurrentImages] = useState<string[]>([]);
 
   useEffect(() => {
     if (!mapContainer.current) return;
@@ -123,6 +123,18 @@ const PronosticoOseanicoMap: React.FC = () => {
 
   const handleClose = () => {
     history.goBack();
+  };
+
+  const openImageViewer = (imageUrl: string) => {
+    setCurrentImages([imageUrl]);
+    setImageViewerOpen(true);
+  };
+
+  const closeImageViewer = () => {
+    setImageViewerOpen(false);
+    setTimeout(() => {
+      setCurrentImages([]);
+    }, 100);
   };
 
   return (
@@ -342,7 +354,7 @@ const PronosticoOseanicoMap: React.FC = () => {
                         {label}
                       </span>
                       <button
-                        onClick={() => setExpandedImage(src)}
+                        onClick={() => openImageViewer(src)}
                         style={{ background: "none", border: "none", padding: 0, cursor: "pointer", width: "100%", transition: "all 0.2s ease" }}
                         onMouseEnter={(e) => {
                           const img = (e.target as HTMLButtonElement).querySelector("img");
@@ -372,7 +384,7 @@ const PronosticoOseanicoMap: React.FC = () => {
           style={{
             position: "fixed",
             top: "70px",
-            right: "12px",
+            left: "12px",
             background: "rgba(255, 255, 255, 0.95)",
             borderRadius: "8px",
             padding: "10px 12px",
@@ -419,161 +431,25 @@ const PronosticoOseanicoMap: React.FC = () => {
         </div>
       </IonContent>
 
-        {expandedImage && (
-          <div
-            role="dialog"
-            aria-label="Expanded image viewer"
-            style={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              background: "rgba(0, 0, 0, 0.95)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              zIndex: 50,
-              backdropFilter: "blur(4px)",
-              animation: "fadeIn 0.3s ease-out",
-              overflow: "auto",
-              touchAction: "none",
-              border: "none",
-              padding: 0,
-              margin: 0,
-            } as any}
-            onKeyDown={(e: any) => {
-              if (e.key === "Escape") {
-                setExpandedImage(null);
-                setImageZoom(1);
-              }
-            }}
-            onTouchStart={(e: any) => {
-              if (e.touches.length === 2) {
-                const touch1 = e.touches[0];
-                const touch2 = e.touches[1];
-                const distance = Math.hypot(
-                  touch1.clientX - touch2.clientX,
-                  touch1.clientY - touch2.clientY
-                );
-                initialDistanceRef.current = distance;
-                e.preventDefault();
-              }
-            }}
-            onTouchMove={(e: any) => {
-              if (e.touches.length === 2 && initialDistanceRef.current > 0) {
-                const touch1 = e.touches[0];
-                const touch2 = e.touches[1];
-                const currentDistance = Math.hypot(
-                  touch1.clientX - touch2.clientX,
-                  touch1.clientY - touch2.clientY
-                );
-                const scale = currentDistance / initialDistanceRef.current;
-                const newZoom = Math.min(3, Math.max(1, imageZoom * scale));
-                setImageZoom(newZoom);
-                initialDistanceRef.current = currentDistance;
-                e.preventDefault();
-              }
-            }}
-            onTouchEnd={() => {
-              initialDistanceRef.current = 0;
-            }}
-            tabIndex={0}
-          >
-            {/* Close Button - Fixed position */}
-            <button
-              onClick={() => {
-                setExpandedImage(null);
-                setImageZoom(1);
-              }}
-              style={{
-                position: "fixed",
-                top: "20px",
-                right: "20px",
-                background: "rgba(255, 255, 255, 0.2)",
-                color: "white",
-                border: "none",
-                width: "40px",
-                height: "40px",
-                borderRadius: "50%",
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: "24px",
-                transition: "all 0.2s ease",
-                zIndex: 100,
-              }}
-              onMouseEnter={(e) => {
-                (e.target as HTMLButtonElement).style.background =
-                  "rgba(255, 255, 255, 0.3)";
-              }}
-              onMouseLeave={(e) => {
-                (e.target as HTMLButtonElement).style.background =
-                  "rgba(255, 255, 255, 0.2)";
-              }}
-            >
-              ×
-            </button>
+      <ImageViewer
+        isOpen={imageViewerOpen}
+        images={currentImages}
+        initialIndex={0}
+        onClose={closeImageViewer}
+      />
 
-            {/* Image Container */}
-            <button
-              style={{
-                position: "relative",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                padding: "40px",
-                outline: "none",
-                background: "none",
-                border: "none",
-                cursor: "pointer",
-              }}
-              onClick={(e) => {
-                e.stopPropagation();
-                setExpandedImage(null);
-                setImageZoom(1);
-              }}
-              aria-label="Close image viewer"
-            >
-              <img
-                src={expandedImage || "/placeholder.svg"}
-                alt="Expanded"
-                style={{
-                  maxWidth: "100%",
-                  maxHeight: "100%",
-                  objectFit: "contain",
-                  borderRadius: "8px",
-                  transform: `scale(${imageZoom})`,
-                  transition: "transform 0.2s ease",
-                  userSelect: "none",
-                }}
-                onTouchStart={(e) => e.preventDefault()}
-              />
-            </button>
-          </div>
-        )}
-
-        <style>{`
-          @keyframes slideUp {
-            from {
-              opacity: 0;
-              transform: translateY(20px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
+      <style>{`
+        @keyframes slideUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
           }
-          @keyframes fadeIn {
-            from {
-              opacity: 0;
-            }
-            to {
-              opacity: 1;
-            }
+          to {
+            opacity: 1;
+            transform: translateY(0);
           }
-        `}</style>
+        }
+      `}</style>
     </IonPage>
   );
 };

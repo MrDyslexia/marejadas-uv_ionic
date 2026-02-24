@@ -5,7 +5,6 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { IonIcon } from "@ionic/react";
 import { close, chevronBack, chevronForward } from "ionicons/icons";
-import "./ImageViewer.css";
 
 interface ImageViewerProps {
   isOpen: boolean;
@@ -336,7 +335,6 @@ const ImageViewer: React.FC<ImageViewerProps> = ({
           justifyContent: "center",
           alignItems: "center",
           overflow: "hidden",
-          marginTop: "64px",
           marginBottom: images.length > 1 ? "64px" : "0",
         }}
       >
